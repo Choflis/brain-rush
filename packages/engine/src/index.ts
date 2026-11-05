@@ -8,3 +8,5 @@ export * from "./feedback.ts";
 export * from "./escena.ts";
 export * from "./tienda.ts";
 export * from "./carrera.ts";
+
+export { createTienda } from "./tiendita-controller.ts";

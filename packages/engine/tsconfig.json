@@ -4,8 +4,16 @@
     "strict": true,
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
-    "noEmit": true
+    "noEmit": true,
+    "types": [
+      "node"
+    ]
   },
-  "include": ["src"],
-  "exclude": ["src/**/*.test.ts"]
+  "include": [
+    "src",
+    "tests"
+  ],
+  "exclude": [
+    "src/**/*.test.ts"
+  ]
 }
