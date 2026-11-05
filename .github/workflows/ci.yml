@@ -1,0 +1,35 @@
+name: CI · Verificación de Calidad
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  verificacion:
+    name: Typecheck, Tests y Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Clonar repositorio
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: "npm"
+
+      - name: Instalar dependencias
+        run: npm ci
+
+      - name: Verificación de tipos TypeScript
+        run: npm run typecheck
+
+      - name: Ejecutar pruebas unitarias
+        run: npm test
+
+      - name: Compilar aplicación web y paquetes
+        run: npm run build

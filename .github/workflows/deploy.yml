@@ -1,0 +1,106 @@
+name: Deploy a Cloudflare Workers (API & Web)
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-cloudflare-production
+  cancel-in-progress: false
+
+jobs:
+  # -------------------------------------------------------------
+  # 1. Despliegue de la API (Cloudflare Worker + D1 + R2)
+  # -------------------------------------------------------------
+  deploy-api:
+    name: Desplegar API en Cloudflare Workers
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clonar repositorio
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: "npm"
+
+      - name: Instalar dependencias del monorepo
+        run: npm ci
+
+      - name: Configurar Database ID de Cloudflare D1
+        shell: bash
+        run: |
+          D1_ID="${{ secrets.CLOUDFLARE_D1_DATABASE_ID || vars.CLOUDFLARE_D1_DATABASE_ID }}"
+          if [ -n "$D1_ID" ] && [ "$D1_ID" != "pendiente" ]; then
+            echo "Configurando D1 database_id a: $D1_ID"
+            sed -i "s/database_id = \"pendiente\"/database_id = \"$D1_ID\"/" apps/api/wrangler.toml
+          else
+            echo "D1 database_id no configurado o pendiente en secretos. Usando configuración actual de wrangler.toml."
+          fi
+
+      - name: Aplicar migraciones remotas de D1
+        shell: bash
+        working-directory: apps/api
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID || vars.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          if [ -z "$CLOUDFLARE_API_TOKEN" ]; then
+            echo "⚠️ CLOUDFLARE_API_TOKEN no configurado en secretos. Saltando migraciones remotas."
+            exit 0
+          fi
+          if grep -q 'database_id = "pendiente"' wrangler.toml; then
+            echo "⚠️ database_id es 'pendiente'. Saltando migraciones remotas hasta que la BD D1 sea creada."
+          else
+            echo "🚀 Aplicando migraciones remotas en Cloudflare D1..."
+            npx wrangler d1 migrations apply brain-rush --remote
+          fi
+
+      - name: Desplegar Worker API con Wrangler
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID || vars.CLOUDFLARE_ACCOUNT_ID }}
+          workingDirectory: apps/api
+          command: deploy
+
+  # -------------------------------------------------------------
+  # 2. Despliegue del Frontend Web (Cloudflare Workers Static Assets)
+  # -------------------------------------------------------------
+  deploy-web:
+    name: Desplegar Frontend en Cloudflare Workers
+    needs: [deploy-api]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clonar repositorio
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: "npm"
+
+      - name: Instalar dependencias del monorepo
+        run: npm ci
+
+      - name: Compilar aplicación web con VITE_API_URL
+        shell: bash
+        env:
+          VITE_API_URL: ${{ vars.VITE_API_URL || secrets.VITE_API_URL }}
+        run: |
+          echo "Compilando paquetes base..."
+          npm run build --workspaces --if-present
+          echo "Compilando web para producción..."
+          npm run build -w apps/web
+
+      - name: Desplegar Frontend Worker en Cloudflare Workers
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID || vars.CLOUDFLARE_ACCOUNT_ID }}
+          workingDirectory: apps/web
+          command: deploy
