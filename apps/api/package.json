@@ -6,10 +6,17 @@
   "scripts": {
     "dev": "wrangler dev",
     "deploy": "wrangler deploy",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "semilla": "node scripts/semilla.mjs"
   },
   "dependencies": {
     "@brain-rush/gamespec": "*",
-    "@brain-rush/prompts": "*"
+    "@brain-rush/prompts": "*",
+    "hono": "^4.13.16",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^5.20261104.1",
+    "wrangler": "^4.157.0"
   }
 }

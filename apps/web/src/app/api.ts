@@ -114,13 +114,15 @@ export type LoteResultado = {
 
 export type Progreso = { actual: number; objetivo: number };
 
+export type MetaSala = { tipo: "camion"; objetivo: number };
+
 export type SesionSala = {
   alumnoId: string;
   token: string;
   salaId: string;
   estado: EstadoSalaNombre;
   participantes: number;
-  meta?: Progreso;
+  meta: MetaSala | null;
 };
 
 export type EstadoSalaNombre = "esperando" | "jugando" | "pausada" | "terminada";
@@ -281,7 +283,7 @@ export const api = {
       estado: EstadoSalaNombre;
       juegoId: string;
       versionId: string;
-      meta?: Progreso;
+      meta: MetaSala | null;
       creadaEn: string;
     }>("/api/salas", { metodo: "POST", cuerpo: { juegoId, maxAlumnos }, token }),
 

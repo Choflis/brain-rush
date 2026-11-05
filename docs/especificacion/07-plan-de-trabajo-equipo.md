@@ -75,7 +75,7 @@ Cada ruta tiene un único dueño. Si alguien necesita cambiar un archivo ajeno, 
 
 | ID | Tarea | Horas | Prioridad | Depende de |
 |---|---|---|---|---|
-| C1 | Base de Phaser: escena genérica, tutorial corto sin texto, retroalimentación y eventos | 1.5 | H1 | GameSpec congelado |
+| C1 | Base de Phaser: escena genérica, tutorial corto sin texto, retroalimentación y eventos | 1.5 | H1 | ✅ Hecho (portado) |
 | C2 | Mecánica tienda: arrastrar a estantería, pedido en bolsa, barra del camión (meta colectiva) | 3 | H1 | C1 |
 | C3 | Mecánica carrera: Reglita, botones ×10 y ÷10, escalera animada, arrastrar el resultado | 3 | H1 | C1 |
 | C4 | Juego de complemento: `/j/:codigo`, ingreso del alumno, progreso en IndexedDB, envío al reconectar | 2 | H1 | U1, C1 |

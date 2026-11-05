@@ -61,7 +61,7 @@ const ItemCarrera = z.object({
   retro: Retro,
 });
 
-const Nivel = (items: z.ZodType) =>
+const Nivel = <T extends z.ZodTypeAny>(items: T) =>
   z.object({
     dificultad: z.enum(DIFICULTADES),
     items: z.array(items).min(3),
