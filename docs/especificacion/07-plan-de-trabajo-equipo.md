@@ -78,8 +78,8 @@ Cada ruta tiene un único dueño. Si alguien necesita cambiar un archivo ajeno, 
 | C1 | Base de Phaser: escena genérica, tutorial corto sin texto, retroalimentación y eventos | 1.5 | H1 | ✅ Hecho (portado) |
 | C2 | Mecánica tienda: arrastrar a estantería, pedido en bolsa, barra del camión (meta colectiva) | 3 | H1 | C1 |
 | C3 | Mecánica carrera: Reglita, botones ×10 y ÷10, escalera animada, arrastrar el resultado | 3 | H1 | C1 |
-| C4 | Juego de complemento: `/j/:codigo`, ingreso del alumno, progreso en IndexedDB, envío al reconectar | 2 | H1 | U1, C1 |
-| C5 | Sala de activación en el celular del alumno y vista de proyección sin datos personales | 2 | H2 | U1, U6, C1 |
+| C4 | Juego de complemento: `/j/:codigo`, ingreso del alumno, progreso en IndexedDB, envío al reconectar | 2 | H1 | ✅ Hecho (portado) |
+| C5 | Sala de activación en el celular del alumno y vista de proyección sin datos personales | 2 | H2 | ✅ Hecho (portado) |
 | C6 | Hoja imprimible de la carrera (A4, QR, casillas, marcas de registro) | 2 | H2 | C3 |
 | C7 | Escaneo con cámara, lectura de QR y confirmación manual | 2 | H2 | C6, U4 |
 

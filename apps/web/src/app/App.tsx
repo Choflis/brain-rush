@@ -3,7 +3,9 @@ import { useSesion } from "./sesion";
 import { Inicio } from "./paginas/Inicio";
 import { Login } from "./paginas/Login";
 import { Panel } from "./paginas/Panel";
-import { Pendiente } from "./paginas/Pendiente";
+import { Juego } from "./paginas/Juego";
+import { Sala } from "./paginas/Sala";
+import { Proyeccion } from "./paginas/Proyeccion";
 import { NoEncontrada } from "./paginas/NoEncontrada";
 
 function Cabecera() {
@@ -56,18 +58,9 @@ export function App() {
           <Route path="/" element={<Inicio />} />
           <Route path="/docente/login" element={<Login destino="/docente" />} />
           <Route path="/docente" element={<RutaDocente />} />
-          <Route
-            path="/j/:codigo"
-            element={<Pendiente tarea="C4" detalle="Reproductor del juego de complemento" />}
-          />
-          <Route
-            path="/s/:codigo"
-            element={<Pendiente tarea="C5" detalle="Sala de activación en el celular del alumno" />}
-          />
-          <Route
-            path="/proyectar/:codigo"
-            element={<Pendiente tarea="C5" detalle="Vista de proyección de la sala" />}
-          />
+          <Route path="/j/:codigo" element={<Juego />} />
+          <Route path="/s/:codigo" element={<Sala />} />
+          <Route path="/proyectar/:codigo" element={<Proyeccion />} />
           <Route path="*" element={<NoEncontrada />} />
         </Routes>
       </main>

@@ -299,7 +299,6 @@ export class MecanicaCarrera extends EscenaBase {
 
       return true;
     } else {
-      const feedbackError = item.retro.error; // "pista"
       this.feedback.mostrarError(
         `Pista: de ${item.desde} a ${item.hasta}, observa la escalera.`
       );
