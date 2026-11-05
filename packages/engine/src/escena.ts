@@ -86,6 +86,15 @@ export class EscenaBase extends Phaser.Scene {
   }
 
   /**
+   * Precarga la mascota de tiendita para usarla como guía en todos los juegos.
+   */
+  preload(): void {
+    if (this.load && typeof this.load.image === "function") {
+      this.load.image("mascota-tiendita", "/juego/tiendita/mascota.png");
+    }
+  }
+
+  /**
    * Ciclo de inicialización de Phaser Scene.
    */
   create(): void {
@@ -107,22 +116,33 @@ export class EscenaBase extends Phaser.Scene {
     const colorFondo = colorHexANumero(visualEscenario.color);
 
     const bg = this.add.graphics();
-    bg.fillStyle(colorFondo, 0.25);
+    bg.fillStyle(0xfbfbef, 1);
+    bg.fillRect(0, 0, ancho, alto);
+    bg.fillStyle(colorFondo, 0.15);
     bg.fillRect(0, 0, ancho, alto);
 
     // Barra superior con título y personaje
     const barra = this.add.graphics();
-    barra.fillStyle(0xffffff, 0.9);
+    barra.fillStyle(0xfffcf6, 0.95);
     barra.fillRoundedRect(16, 12, ancho - 32, 50, 10);
+    barra.lineStyle(2, 0xe4dccd, 1);
+    barra.strokeRoundedRect(16, 12, ancho - 32, 50, 10);
 
-    const visualPersonaje = resolverVisual(this.spec.personaje.id);
-    this.add
-      .text(32, 37, `${visualPersonaje.emoji} ${this.spec.personaje.nombre}`, {
-        fontSize: "18px",
-        color: "#4a5c59",
-        fontStyle: "bold"
-      })
-      .setOrigin(0, 0.5);
+    // Mascota de tiendita como guía visual
+    if (this.textures && this.textures.exists("mascota-tiendita")) {
+      const mascota = this.add.image(46, 37, "mascota-tiendita");
+      mascota.setDisplaySize(40, 40);
+      mascota.setOrigin(0.5);
+    } else {
+      const visualPersonaje = resolverVisual(this.spec.personaje.id);
+      this.add
+        .text(32, 37, `${visualPersonaje.emoji} ${this.spec.personaje.nombre}`, {
+          fontSize: "18px",
+          color: "#4a5c59",
+          fontStyle: "bold"
+        })
+        .setOrigin(0, 0.5);
+    }
 
     this.add
       .text(ancho / 2, 37, this.spec.titulo, {
