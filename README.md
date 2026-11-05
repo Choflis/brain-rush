@@ -16,7 +16,8 @@ Los juegos son de dos tipos:
 | [03 · Arquitectura técnica](docs/especificacion/03-arquitectura-tecnica.md) | Stack de despliegue, formato del juego, generación con IA, impresión y escaneo. |
 | [04 · MVP para hack4edu 2026](docs/especificacion/04-mvp-hack4edu.md) | Alcance del MVP, rúbrica del concurso, plan de entrega y decisiones pendientes. |
 | [05 · Plan de implementación del MVP](docs/especificacion/05-plan-implementacion-mvp.md) | Tres juegos (uno por nivel), conexión con Mistral, paquetes de trabajo y calendario. |
-| [06 · Diseño de los juegos](docs/especificacion/06-diseno-de-juegos.md) | Características de cada juego: dinámicos, interactivos y sin preguntas tipo quiz. Pendiente de confirmación. |
+| [06 · Diseño de los juegos](docs/especificacion/06-diseno-de-juegos.md) | Características de cada juego: dinámicos, interactivos y sin preguntas tipo quiz. Confirmado. |
+| [07 · Plan de trabajo del equipo](docs/especificacion/07-plan-de-trabajo-equipo.md) | Reparto de tareas entre dos personas sin solapamiento, horizontes de entrega y cronograma. |
 | [Dirección de arte](docs/arte-conceptual.md) | Estilo visual basado en la referencia de diseño. |
 | [Retos de hack4edu 2026](docs/bases/retos-hack4edu-2026.md) | Los 29 retos publicados, con descripciones y distintivo «Reto ProFuturo». |
 | [Cobertura de retos](docs/bases/cobertura-retos.md) | Qué retos cubre el sistema, con qué grado y con qué límites. |
