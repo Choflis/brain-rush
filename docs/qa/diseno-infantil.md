@@ -24,3 +24,11 @@ El mosaico es un recreo opcional fuera de las partidas. Admite pintar con cursor
 Se corrigieron las tarjetas de sesiones que quedaban recortadas en teléfonos, y el mosaico que inicialmente reducía demasiado sus casillas en tablet. Las comprobaciones de tamaño usan las cajas reales de los controles, además del ancho del documento.
 
 Esta revisión usa navegador automatizado y emulación táctil. La comprensión y comodidad del diseño con niños reales y dispositivos físicos queda por observar con el equipo. No se han cambiado API, datos ni reglas educativas. No se realizó push.
+
+## Iteración del acceso de estudiantes
+
+La huella de color ocupa una franja a todo el ancho al final de la bienvenida y del portal. El acceso de alumnos utiliza un cuaderno ilustrado, salones con SVG y tarjetas de animales dibujados en SVG en lugar de emojis. El acceso general abre estudiantes; `/docente/login` conserva el rol docente.
+
+Reglita acompaña la posición del cursor al escribir el nombre. En teléfono aparece una miniatura decorativa junto al campo para conservar esa respuesta visual cuando la cabecera queda fuera de vista. Movimiento reducido centra ambas miradas. La búsqueda reconoce los nombres existentes incluso sin tildes; un invitado conserva el nombre que escribe y el salón seleccionado. El panel docente conserva su diseño.
+
+Se añadieron nueve pruebas de navegador sobre nombres, entrada conocida/invitada, cambio de salón y rol, teclado, escritura y mirada, movimiento reducido, miniatura móvil, ausencia de emojis y franja inferior completa. La suite de interfaz tiene 19 pruebas. La revisión independiente verificó también selección por teclado y entrada «Joaquin» en tercero. No encontró problemas importantes; los salones actuales tienen grados distintos y el selector muestra el grado para distinguirlos.

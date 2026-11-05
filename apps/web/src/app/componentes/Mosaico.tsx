@@ -8,7 +8,7 @@ const colores = [
 ];
 const TOTAL = 60;
 
-export function Mosaico() {
+export function Mosaico({ extendido = false }: { extendido?: boolean }) {
   const [pintura, setPintura] = useState(0);
   const [casillas, setCasillas] = useState<(number | null)[]>(() => Array(TOTAL).fill(null));
   const [activa, setActiva] = useState(0);
@@ -27,7 +27,7 @@ export function Mosaico() {
     botones.current[siguiente]?.focus();
   }
   return (
-    <section className="mosaico" aria-labelledby="mosaico-titulo">
+    <section className={`mosaico ${extendido ? "mosaico-extendido" : ""}`} aria-labelledby="mosaico-titulo">
       <div className="mosaico-cabecera">
         <div><span className="mini-etiqueta">Un recreo creativo</span><h2 id="mosaico-titulo">¡Deja tu huella de color!</h2></div>
         <span className="mosaico-contador" aria-live="off">{pintadas}<span> / {TOTAL}</span></span>

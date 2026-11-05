@@ -44,12 +44,13 @@ export function Inicio() {
         </div>
       </section>
 
-      <div className="recreo-fila"><div className="recreo-invitacion"><span className="recreo-flor" aria-hidden="true">✳</span><p className="mini-etiqueta">Aquí también puedes crear</p><h2>Las buenas ideas<br />empiezan jugando.</h2><p>Haz un corazón, inventa un personaje o pinta un arcoíris. Este rinconcito es tuyo.</p></div><Mosaico /></div>
+
 
       <section className="seccion puente-docente" id="como-funciona">
         <div><p className="mini-etiqueta">Para quienes enseñan</p><h2>Tu clase, una nueva<br />forma de descubrir.</h2><p>Transforma tus sesiones de aprendizaje en experiencias de juego y acompaña el progreso de cada estudiante.</p><Link to="/docente" className="boton boton-secundario">Conocer el aula virtual <span aria-hidden="true">→</span></Link></div>
         <ol className="pasos-visuales"><li><span>01</span><div><h3>Prepara tu sesión</h3><p>Trabaja con tus competencias y criterios de aprendizaje.</p></div></li><li><span>02</span><div><h3>Elige la aventura</h3><p>Activación en equipo o práctica individual a su ritmo.</p></div></li><li><span>03</span><div><h3>Acompaña cada paso</h3><p>Revisa evidencias y encuentra dónde necesitan apoyo.</p></div></li></ol>
       </section>
+      <div className="recreo-fila"><Mosaico extendido /></div>
     </div>
   );
 }

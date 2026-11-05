@@ -1,15 +1,17 @@
 import { useEffect, useId, useRef, useState } from 'react';
 import './reglita-interactiva.css';
 
-type Props = { className?: string; compacta?: boolean };
+type Props = { className?: string; compacta?: boolean; leyendo?: boolean; posicionLectura?: number; interactiva?: boolean };
 
 /** La imagen original se conserva; la mirada se dibuja en su misma coordenada. */
-export function ReglitaInteractiva({ className = '', compacta = false }: Props) {
+export function ReglitaInteractiva({ className = '', compacta = false, leyendo = false, posicionLectura = 0, interactiva = true }: Props) {
   const figura = useRef<HTMLButtonElement>(null);
   const ojos = useRef<SVGGElement>(null);
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [saludo, setSaludo] = useState(false);
   const id = useId();
+  const leyendoRef = useRef(leyendo);
+  leyendoRef.current = leyendo;
 
   useEffect(() => {
     const media = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -22,7 +24,7 @@ export function ReglitaInteractiva({ className = '', compacta = false }: Props) 
       if (figura.current) figura.current.style.transform = '';
     };
     const mover = (event: PointerEvent) => {
-      if (media.matches || event.pointerType === 'touch') return;
+      if (media.matches || leyendoRef.current || event.pointerType === 'touch') return;
       x = event.clientX; y = event.clientY;
       cancelAnimationFrame(frame);
       frame = requestAnimationFrame(() => {
@@ -48,6 +50,13 @@ export function ReglitaInteractiva({ className = '', compacta = false }: Props) 
     };
   }, []);
 
+  useEffect(() => {
+    const reducir = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const dx = -11 + Math.min(1, Math.max(0, posicionLectura / 18)) * 22;
+    ojos.current?.setAttribute('transform', leyendo && !reducir ? `translate(${dx} 12)` : 'translate(0 0)');
+    if (figura.current) figura.current.style.transform = leyendo && !reducir ? 'rotate(-2deg)' : '';
+  }, [leyendo, posicionLectura]);
+
   function saludar() {
     if (timer.current) clearTimeout(timer.current);
     setSaludo(true);
@@ -55,8 +64,8 @@ export function ReglitaInteractiva({ className = '', compacta = false }: Props) 
   }
 
   return (
-    <div className={`reglita-interactiva ${compacta ? 'reglita-compacta' : ''} ${className}`}>
-      <button ref={figura} type="button" className={`reglita-saludo ${saludo ? 'reglita-celebra' : ''}`} onClick={saludar} aria-label="Saludar a Reglita">
+    <div className={`reglita-interactiva ${compacta ? 'reglita-compacta' : ''} ${className}`} data-estado={leyendo ? 'leyendo' : 'esperando'} aria-hidden={!interactiva || undefined}>
+      <button ref={figura} type="button" className={`reglita-saludo ${saludo ? 'reglita-celebra' : ''}`} onClick={saludar} disabled={!interactiva} aria-label="Saludar a Reglita">
         <span className="reglita-figura">
           <img src="/juego/tiendita/mascota.png" alt="Reglita, tu compañera verde de aventuras" draggable={false} />
           <svg viewBox="0 0 1300 1189" className="reglita-mirada" aria-hidden="true">

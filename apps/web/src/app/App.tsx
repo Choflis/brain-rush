@@ -20,7 +20,7 @@ function Cabecera() {
     <header className="cabecera">
       <Link to="/" className="marca" aria-label="BRAIN RUSH, inicio">
         <span className="marca-icono" aria-hidden="true">
-          ⚡
+          <svg viewBox="0 0 32 32" width="25" height="25" fill="none"><path d="M18 3L7 18H15L14 29L26 13H18Z" fill="currentColor" /></svg>
         </span>
         <span>
           BRAIN<span className="marca-fuerte">RUSH</span>

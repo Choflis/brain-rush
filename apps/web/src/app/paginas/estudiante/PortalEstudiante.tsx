@@ -5,6 +5,7 @@ import { useSesion } from "../../sesion";
 import { IconoAnimado } from "../../componentes/IconoAnimado";
 import { Mosaico } from "../../componentes/Mosaico";
 import { ReglitaInteractiva } from "../../componentes/ReglitaInteractiva";
+import { AvatarExplorador, InsigniaSalon } from "../../componentes/IlustracionesInfantiles";
 import { AvatarReglita } from "../../componentes/AvatarReglita";
 
 export function PortalEstudiante() {
@@ -165,7 +166,7 @@ export function PortalEstudiante() {
                   aria-pressed={seleccionada}
                   onClick={() => setClaseSeleccionadaId(clase.id)}
                 >
-                  <span className="tab-icono">{clase.icono}</span>
+                  <InsigniaSalon grado={clase.grado} tamano={40} />
                   <span className="tab-nombre">{nombreCorto}</span>
                 </button>
               );
@@ -185,7 +186,7 @@ export function PortalEstudiante() {
                   className="chip-alumno-boton"
                   onClick={() => handleSeleccionarEstudiante(est)}
                 >
-                  <span>{est.avatar}</span>
+                  <AvatarExplorador semilla={est.id} tamano={38} />
                   <strong>{est.nombre}</strong>
                 </button>
               ))}
@@ -227,8 +228,8 @@ export function PortalEstudiante() {
             </div>
           )}
         </section>
-        <div className="recreo-portal"><Mosaico /></div>
       </main>
+      <div className="recreo-portal"><Mosaico extendido /></div>
 
       <footer className="estudiante-pie">
         <p>BRAIN RUSH · Aprender Jugando</p>

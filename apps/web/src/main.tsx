@@ -6,6 +6,7 @@ import { ProveedorSesion } from "./app/sesion";
 import "@fontsource-variable/nunito";
 import "./app/estilos.css";
 import "./app/aventura.css";
+import "./app/acceso-infantil.css";
 
 const raiz = document.getElementById("root");
 if (!raiz) throw new Error("Falta el contenedor #root en index.html");

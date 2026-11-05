@@ -1,0 +1,168 @@
+/* El acceso infantil es una libreta de aventuras, dentro de la identidad existente. */
+.contenido:has(> .inicio), .contenido:has(.login-alumno) { width: 100%; padding-bottom: 0; }
+.inicio > .bienvenida, .inicio > .seccion { width: min(1180px, calc(100% - 3rem)); margin-inline: auto; }
+.login-alumno { padding: 1.5rem 1.5rem 0; background: #f2eddd; border-top: 1px solid #e7decb; overflow: clip; }
+.acceso-aventura { width: min(1180px, 100%); margin: 0 auto; display: grid; grid-template-columns: .95fr 1.05fr; align-items: center; gap: 3.5rem; padding: 1rem 0 3rem; }
+.acceso-companera { position: relative; min-width: 0; text-align: center; padding: .5rem 0 1rem; }
+.acceso-insignia { display: inline-flex; align-items: center; gap: .5rem; color: #4b653e; font-size: .76rem; font-weight: 850; letter-spacing: .025em; }
+.acceso-insignia svg { width: 25px; height: 25px; color: #c19139; transform: rotate(-10deg); }
+.acceso-companera h1 { font-size: clamp(2.2rem, 3.5vw, 3.4rem); font-weight: 950; letter-spacing: -.045em; line-height: 1.08; margin: .8rem 0 1rem; }
+.acceso-companera h1 span { color: #bf4d2b; }
+.acceso-descripcion { font-size: 1rem; color: #53624c; line-height: 1.65; }
+.acceso-escenario { position: relative; max-width: 410px; margin: 0 auto; padding: .3rem 1rem 0; isolation: isolate; }
+.acceso-escenario-arco { position: absolute; inset: 7% 11% 1%; border-radius: 45% 45% 22px 22px; background-color: #dce6c7; background-image: linear-gradient(#bccba650 1px, transparent 1px), linear-gradient(90deg, #bccba650 1px, transparent 1px); background-size: 28px 28px; border: 1px solid #c7d2b4; z-index: -1; }
+.acceso-escenario .reglita-interactiva { position: relative; z-index: 2; }
+.acceso-sombra { position: absolute; bottom: 1%; left: 15%; width: 70%; height: 10px; background: #9fb88c66; border-radius: 50%; }
+.acceso-nota { position: absolute; z-index: 3; background: #fffbeb; border: 1px solid #ded2b8; box-shadow: 0 3px 0 #dbcfb4; border-radius: 8px; pointer-events: none; }
+.acceso-nota-numeros { top: 25%; left: 0; padding: .55rem .85rem; font-size: 1.6rem; color: #7c6b3e; font-weight: 900; letter-spacing: .05em; transform: rotate(-12deg); }
+.acceso-nota-lapiz { right: 0; bottom: 24%; width: 67px; height: 67px; padding: 6px; transform: rotate(12deg); }
+.login-mensaje-reglita { position: relative; margin: .8rem auto .5rem; padding: .9rem 1.25rem; background: #fffdf6; border: 1px solid #cfdbc3; border-radius: 16px; box-shadow: 0 4px 0 #d8dfca; color: #32583c; font-size: 1rem; font-weight: 850; max-width: 390px; min-height: 60px; display: grid; align-items: center; overflow-wrap: anywhere; }
+.login-mensaje-reglita::before { content: ''; width: 14px; height: 14px; background: #fffdf6; border-left: 1px solid #cfdbc3; border-top: 1px solid #cfdbc3; position: absolute; left: calc(50% - 7px); top: -8px; transform: rotate(45deg); }
+.acceso-pista { font-size: .75rem; color: #617156; }
+.acceso-cuaderno { position: relative; background: #fffdf6; border: 1px solid #dcd2bc; border-radius: 8px 24px 24px 8px; box-shadow: 6px 7px 0 #e3dac4, 0 16px 35px #89744f0d; padding: 2rem 2rem 1.6rem 2.5rem; min-width: 0; }
+.acceso-cuaderno::before { content: ''; position: absolute; inset: 0 auto 0 25px; border-left: 1px solid #e4b4a55c; pointer-events: none; }
+.cuaderno-anillas { position: absolute; left: -13px; top: 7%; bottom: 7%; display: flex; flex-direction: column; justify-content: space-between; pointer-events: none; }
+.cuaderno-anillas i { width: 27px; height: 14px; border: 3px solid #9c9073; background: #e8e1d0; border-radius: 10px; box-shadow: 0 2px 0 #c2b69b; }
+.acceso-roles { display: flex; align-items: center; justify-content: space-between; gap: .5rem; margin-bottom: 1.4rem; padding-bottom: 1rem; border-bottom: 1px dashed #d6cfbc; }
+.acceso-rol-elegido { display: flex; align-items: center; gap: .5rem; font-size: .85rem; color: #315e49; font-weight: 900; }
+.acceso-roles > button { min-height: 44px; background: transparent; border: 0; padding: .5rem; font-size: .8rem; color: #606952; font-weight: 800; cursor: pointer; text-decoration: underline; text-underline-offset: 4px; }
+.acceso-cuaderno > h2 { font-size: clamp(1.9rem, 3vw, 2.55rem); letter-spacing: -.045em; font-weight: 950; margin-bottom: .5rem; }
+.acceso-indicacion { color: #586451; font-size: .95rem; max-width: 35ch; line-height: 1.65; }
+.acceso-salones { margin: 1.5rem 0 1.4rem; border: 0; padding: 0; min-width: 0; }
+.acceso-salones legend, .acceso-nombre > label { display: flex; align-items: center; gap: .55rem; padding: 0; color: #314b38; font-size: .95rem; font-weight: 900; margin-bottom: .85rem; }
+.paso-cuaderno { flex-shrink: 0; width: 25px; height: 25px; display: inline-grid; place-items: center; background: #eee7d6; border: 1px solid #ded2b8; border-radius: 8px; font-size: .8rem; color: #6d6249; transform: rotate(-4deg); }
+.acceso-salones-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .7rem; }
+.acceso-salon { position: relative; display: flex; flex-direction: column; align-items: center; gap: .4rem; min-width: 0; padding: .8rem .35rem; background: #fcf8ec; border: 2px solid #e5ddca; border-radius: 14px; box-shadow: 0 3px 0 #e3d9c3; color: #4e5946; transition: transform 180ms var(--ease-out), background 180ms ease; }
+.acceso-salon strong { font-size: 1.1rem; line-height: 1.2; }
+.acceso-salon strong span { display: block; font-size: .65rem; font-weight: 750; }
+.acceso-salon.seleccionado { border-color: #55816a; background: #eaf0de; box-shadow: 0 3px 0 #a5bea0; color: #28583b; }
+.acceso-salon-check { display: grid; place-items: center; position: absolute; top: -6px; right: -5px; width: 21px; height: 21px; background: #1f7a6a; color: #fffdf5; border-radius: 50%; font-size: .8rem; font-weight: 900; }
+.acceso-salon-check:empty { display: none; }
+.acceso-campo { display: flex; align-items: center; gap: .7rem; border: 2px solid #d8cfb9; background: #fffdf7; border-radius: 14px; padding: .45rem .8rem; transition: border-color 180ms ease, box-shadow 180ms ease; }
+.acceso-campo.campo-leyendo { border-color: #42765c; box-shadow: 0 0 0 4px #e1eacf; }
+.acceso-campo .avatar-explorador { flex-shrink: 0; }
+.acceso-campo input { width: 100%; min-width: 0; height: 44px; padding: .3rem 0; border: 0; background: transparent; color: #244832; font-size: 1rem; font-weight: 800; outline: none; }
+.acceso-campo:has(input:focus-visible) { outline: 3px solid #1f7a6a; outline-offset: 4px; }
+.acceso-campo input::placeholder { color: #7c8270; font-weight: 600; opacity: 1; }
+.acceso-ayuda { display: block; color: #626c58; font-size: .72rem; line-height: 1.5; margin: .65rem 0 .8rem; min-height: 22px; }
+.acceso-tarjetas { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .5rem; margin-bottom: 1.2rem; min-height: 60px; }
+.acceso-tarjeta-alumno { display: flex; align-items: center; gap: .45rem; background: #faf6e9; border: 1px solid #e2d8c1; border-radius: 12px; color: #3b533e; min-height: 52px; padding: .4rem .5rem; text-align: left; font-size: .85rem; font-weight: 850; transition: transform 180ms var(--ease-out), background 180ms ease; }
+.acceso-tarjeta-alumno > span:not(.tarjeta-flechita) { overflow-wrap: anywhere; min-width: 0; }
+.avatar-explorador { flex-shrink: 0; }
+.tarjeta-flechita { margin-left: auto; opacity: 0; color: #1f7a6a; }
+.acceso-nombre-nuevo { grid-column: 1 / -1; display: flex; align-items: center; gap: .7rem; color: #577142; font-size: .85rem; margin: 0; padding: .8rem; border: 1px dashed #bbcca1; border-radius: 12px; background: #f0f4e5; }
+.acceso-nombre-nuevo svg { width: 32px; height: 32px; flex-shrink: 0; color: #ac8736; }
+.acceso-boton-jugar { width: 100%; min-height: 60px; border: 1px solid #bc4723; background: #d94f24; color: #fffdf4; font-size: 1.1rem; font-weight: 900; border-radius: 14px; box-shadow: 0 5px 0 #a6391c; justify-content: center; gap: .75rem; }
+.acceso-boton-jugar > span:last-child { margin-left: auto; font-size: 1.35rem; }
+.acceso-boton-jugar > .icono-lottie { margin-right: auto; }
+.acceso-boton-jugar:disabled { border-color: #cfc9b9; background: #ddd8c8; box-shadow: 0 4px 0 #bfb8a5; color: #626557; }
+.acceso-boton-jugar:disabled .icono-lottie { opacity: .5; }
+.acceso-boton-jugar:not(:disabled):active { transform: translateY(4px); box-shadow: 0 1px 0 #a6391c; }
+.acceso-alternativas { margin-top: 1rem; display: flex; flex-direction: column; align-items: center; gap: .2rem; }
+.acceso-alternativas > * { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: .5rem; color: #586950; font: inherit; font-size: .75rem; font-weight: 750; background: transparent; border: 0; text-decoration: underline; text-underline-offset: 4px; cursor: pointer; }
+.acceso-pie { display: flex; align-items: center; justify-content: center; gap: .7rem; padding: 1.2rem 1rem; border-top: 1px dashed #d6cbb5; color: #687059; font-size: .8rem; }
+.acceso-pie svg { width: 22px; height: 22px; color: #b8964f; }
+/* El recreo pinta toda la franja inferior, fuera de los contenedores de lectura. */
+.recreo-fila, .recreo-portal { display: block; position: relative; isolation: isolate; width: 100%; max-width: none; margin: 3rem 0 0; padding: 3rem 1.5rem 3.5rem; border: 0; border-top: 2px solid #cbd8b8; border-radius: 0; background: #e7edda; }
+.recreo-fila::before, .recreo-portal::before { content: ''; position: absolute; inset: 0; z-index: -1; opacity: .55; background-image: radial-gradient(#a8b892 1px, transparent 1px); background-size: 16px 16px; pointer-events: none; }
+.recreo-fila .mosaico, .recreo-portal .mosaico { width: min(1180px, 100%); max-width: none; margin: 0 auto; padding: 0; border: 0; border-radius: 0; background: transparent; box-shadow: none; }
+.mosaico-extendido .mosaico-cabecera { align-items: center; margin-bottom: .5rem; }
+.mosaico-extendido .mini-etiqueta { font-size: .72rem; letter-spacing: .12em; margin-bottom: .6rem; }
+.mosaico-extendido h2 { font-size: clamp(1.7rem, 3.8vw, 2.8rem); letter-spacing: -.045em; font-weight: 950; }
+.mosaico-extendido > p { font-size: 1rem; max-width: 60ch; margin-bottom: 1.6rem; }
+.mosaico-extendido .mosaico-contador { min-width: 70px; text-align: center; font-size: 1.4rem; background: #fbf9ec; border: 1px solid #c6d2b5; padding: .5rem .8rem; border-radius: 12px; box-shadow: 0 3px 0 #c7d3b6; transform: rotate(3deg); }
+.mosaico-extendido .mosaico-cuadros { gap: 7px; }
+.mosaico-extendido .mosaico-casilla { border: 1px solid #b8c7a5; border-radius: 8px; background: #f6f8ec; box-shadow: 0 3px 0 #becdab; }
+.mosaico-extendido .mosaico-herramientas { padding-top: .6rem; gap: .8rem; }
+.mosaico-extendido .mosaico-paleta { background: #fffdf1; padding: .35rem; border: 1px solid #c9d2b9; border-radius: 50px; gap: .35rem; box-shadow: 0 3px 0 #c7d1b6; }
+.mosaico-extendido .mosaico-color { border-color: #fffdf1; width: 48px; height: 48px; }
+.mosaico-extendido .mosaico-borrar { background: #fffdf1; padding: .7rem 1rem; border: 1px solid #c6d2b5; border-radius: 10px; font-size: .85rem; box-shadow: 0 3px 0 #c7d1b6; text-decoration: none; }
+.chip-alumno-boton .avatar-explorador { transition: transform 180ms var(--ease-out); }
+.portal-estudiante .tab-aula-nino { font-size: .9rem; }
+.avatar-explorador-ojos { transition: transform 180ms ease-out; }
+@media (hover: hover) and (pointer: fine) {
+  .acceso-salon:hover { transform: translateY(-3px) rotate(-1deg); }
+  .acceso-tarjeta-alumno:hover { background: #eaf0df; transform: translateY(-2px); }
+  .acceso-tarjeta-alumno:hover .tarjeta-flechita, .acceso-tarjeta-alumno:focus-visible .tarjeta-flechita { opacity: 1; }
+  .acceso-tarjeta-alumno:hover .avatar-explorador-ojos, .chip-alumno-boton:hover .avatar-explorador-ojos { transform: translateX(2px); }
+  .chip-alumno-boton:hover .avatar-explorador { transform: rotate(-8deg); }
+  .tab-aula-nino:hover .insignia-salon { transform: rotate(-5deg); }
+  .acceso-boton-jugar:not(:disabled):hover { background: #c64a24; }
+}
+@media (max-width: 1000px) {
+  .acceso-aventura { gap: 2rem; }
+  .acceso-cuaderno { padding: 1.5rem 1.25rem 1.3rem 2rem; }
+  .acceso-companera h1 { font-size: 2.5rem; }
+  .acceso-nota-numeros { font-size: 1.2rem; }
+  .acceso-nota-lapiz { width: 52px; height: 52px; }
+}
+@media (max-width: 760px) {
+  .acceso-aventura { grid-template-columns: 1fr; max-width: 540px; gap: 1.4rem; padding-top: .3rem; }
+  .acceso-companera { display: grid; grid-template-columns: 1fr 155px; text-align: left; align-items: center; gap: .3rem .6rem; padding: .4rem 0; }
+  .acceso-insignia { grid-column: 1 / -1; font-size: .7rem; }
+  .acceso-companera h1 { grid-column: 1; font-size: 2rem; margin: .5rem 0; }
+  .acceso-companera h1 br { display: none; }
+  .acceso-descripcion { grid-column: 1; font-size: .85rem; margin-bottom: .5rem; }
+  .acceso-escenario { grid-column: 2; grid-row: 2 / 4; padding: 0; width: 100%; align-self: center; }
+  .acceso-nota-numeros { font-size: .8rem; padding: .3rem .5rem; left: -5%; }
+  .acceso-nota-lapiz { display: none; }
+  .login-mensaje-reglita { grid-column: 1 / -1; width: 100%; max-width: none; margin: .8rem 0 .3rem; min-height: 52px; font-size: .9rem; text-align: center; }
+  .login-mensaje-reglita::before { left: 80%; }
+  .acceso-pista { grid-column: 1 / -1; font-size: .7rem; text-align: center; }
+  .acceso-cuaderno { padding: 1.3rem 1.4rem 1rem 1.8rem; }
+  .acceso-roles { margin-bottom: 1.1rem; padding-bottom: .6rem; }
+  .acceso-tarjetas { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .acceso-tarjeta-alumno { flex-direction: column; text-align: center; padding: .6rem .3rem; }
+  .acceso-tarjeta-alumno .tarjeta-flechita { display: none; }
+  .recreo-fila, .recreo-portal { padding: 2rem 1rem 2.5rem; }
+  .inicio > .bienvenida, .inicio > .seccion { width: calc(100% - 2rem); }
+  .mosaico-extendido .mosaico-contador { min-width: 60px; font-size: 1.1rem; }
+  .mosaico-extendido > p { font-size: .9rem; }
+}
+@media (max-width: 400px) {
+  .login-alumno { padding: .8rem 1rem 0; }
+  .acceso-companera { grid-template-columns: 1fr 110px; gap: .3rem; }
+  .acceso-companera h1 { font-size: 1.8rem; }
+  .acceso-descripcion { font-size: .8rem; }
+  .acceso-insignia { font-size: .65rem; }
+  .acceso-cuaderno { padding: 1.1rem .85rem 1rem 1.3rem; }
+  .acceso-cuaderno::before { left: 13px; }
+  .cuaderno-anillas { left: -9px; }
+  .cuaderno-anillas i { width: 20px; height: 12px; border-width: 2px; }
+  .acceso-cuaderno > h2 { font-size: 1.9rem; }
+  .acceso-indicacion { font-size: .85rem; }
+  .acceso-salones-grid { gap: .4rem; }
+  .acceso-salon { padding-block: .65rem; }
+  .acceso-salon strong span { font-size: .6rem; }
+  .acceso-campo { padding-inline: .5rem; gap: .4rem; }
+  .acceso-campo > .avatar-explorador { width: 32px; height: 32px; }
+  .acceso-campo input { font-size: 1rem; }
+  .acceso-tarjetas { gap: .4rem; }
+  .acceso-tarjeta-alumno { font-size: .75rem; }
+  .acceso-boton-jugar { font-size: 1rem; gap: .4rem; }
+  .acceso-pie { padding-inline: 0; font-size: .7rem; gap: .4rem; }
+  .acceso-pie svg { flex-shrink: 0; width: 17px; height: 17px; }
+  .mosaico-extendido .mosaico-cabecera { flex-wrap: nowrap; }
+  .mosaico-extendido h2 { font-size: 1.6rem; }
+  .mosaico-extendido .mini-etiqueta { font-size: .6rem; }
+  .mosaico-extendido .mosaico-contador { min-width: 48px; padding: .4rem; font-size: 1rem; }
+  .mosaico-extendido .mosaico-color { width: 44px; height: 44px; }
+  .mosaico-extendido .mosaico-borrar { font-size: .8rem; padding-inline: .65rem; }
+  .portal-estudiante .tab-aula-nino { flex-direction: column; }
+  .portal-estudiante .chip-alumno-boton { gap: .5rem; padding: .5rem .7rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .acceso-salon, .acceso-tarjeta-alumno, .avatar-explorador-ojos, .chip-alumno-boton .avatar-explorador { transition: none; }
+  .acceso-salon:hover, .acceso-tarjeta-alumno:hover, .chip-alumno-boton:hover .avatar-explorador, .tab-aula-nino:hover .insignia-salon, .avatar-explorador-ojos { transform: none !important; }
+}
+/* Mantener quieta la posición del campo mientras aparecen coincidencias. */
+.acceso-tarjetas { min-height: 182px; align-content: start; }
+.acceso-campo { position: relative; }
+.acceso-observadora-movil { display: none; pointer-events: none; }
+@media (max-width: 760px) {
+  .acceso-observadora-movil { display: block; position: absolute; right: 0; bottom: calc(100% + 3px); width: 66px; opacity: 0; transform: translateY(5px); transition: opacity 180ms ease-out, transform 180ms var(--ease-out); }
+  .campo-leyendo .acceso-observadora-movil { opacity: 1; transform: translateY(0); }
+  .acceso-nombre > label { padding-right: 65px; min-height: 30px; }
+  .acceso-companera .reglita-bocadillo { font-size: .7rem; padding: .5rem; }
+}
+@media (prefers-reduced-motion: reduce) { .acceso-observadora-movil { transition: none; transform: none; } }

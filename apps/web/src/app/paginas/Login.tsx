@@ -1,43 +1,26 @@
 import { ReglitaInteractiva } from "../componentes/ReglitaInteractiva";
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { aulaVirtual, type ClaseAula, type Estudiante } from "../datos/aulaVirtual";
+import { AccesoEstudiante } from "./AccesoEstudiante";
 import { useSesion } from "../sesion";
 import { IconoAnimado } from "../componentes/IconoAnimado";
 
 export function Login({ destino }: { destino?: string }) {
-  const { iniciarDocente, iniciarAlumno } = useSesion();
+  const { iniciarDocente } = useSesion();
   const navegar = useNavigate();
   const location = useLocation();
 
   const searchParams = new URLSearchParams(location.search);
-  const rolInicial = searchParams.get("rol") === "alumno" ? "alumno" : "docente";
+  const rolInicial = searchParams.get("rol") === "alumno" ? "alumno" : searchParams.get("rol") === "docente" || location.pathname.startsWith("/docente") ? "docente" : "alumno";
 
   const [tabRol, setTabRol] = useState<"docente" | "alumno">(rolInicial);
-
-  const clases = aulaVirtual.obtenerClases();
-  const [claseSeleccionadaId, setClaseSeleccionadaId] = useState<string>(clases[0]?.id || "");
-
-  const claseActual: ClaseAula | undefined =
-    clases.find((c) => c.id === claseSeleccionadaId) || clases[0];
-  const estudiantesClase: Estudiante[] = claseActual
-    ? aulaVirtual.obtenerEstudiantesPorClase(claseActual.id)
-    : [];
 
   const handleEntrarDocente = () => {
     iniciarDocente("Prof. Carlos Mendoza");
     navegar(destino || "/docente", { replace: true });
   };
 
-  const handleEntrarAlumno = (est: Estudiante) => {
-    iniciarAlumno(`token-${est.id}`, `${est.nombre} ${est.apellidos}`, est.id, claseActual?.id);
-    navegar("/estudiante", { replace: true });
-  };
-
-  const handleEntrarAlumnoInvitado = () => {
-    iniciarAlumno(`token-invitado-${Date.now()}`, "Estudiante Invitado", undefined, claseActual?.id);
-    navegar("/estudiante", { replace: true });
-  };
+  if (tabRol === "alumno") return <AccesoEstudiante alCambiarRol={() => setTabRol("docente")} />;
 
   return (
     <div className="centrado">
@@ -61,15 +44,15 @@ export function Login({ destino }: { destino?: string }) {
           </button>
           <button
             type="button"
-            className={`btn-rol ${tabRol === "alumno" ? "btn-rol-activo" : ""}`}
-            aria-pressed={tabRol === "alumno"}
+            className="btn-rol"
+            aria-pressed={false}
             onClick={() => setTabRol("alumno")}
           >
             <IconoAnimado tipo="estudiante" tamano={20} /> Estudiante
           </button>
         </div>
 
-        {tabRol === "docente" ? (
+        {(
           <div className="login-contenido-docente">
             <div className="docente-info-caja">
               <IconoAnimado tipo="docente" tamano={34} />
@@ -90,47 +73,6 @@ export function Login({ destino }: { destino?: string }) {
               onClick={handleEntrarDocente}
             >
               Entrar al Panel Docente
-            </button>
-          </div>
-        ) : (
-          <div className="login-contenido-estudiante">
-            <label className="etiqueta-chica">1. Elige tu salón:</label>
-            <div className="selector-clases-login">
-              {clases.map((c) => (
-                <button
-                  key={c.id}
-                  type="button"
-                  className={`chip-clase-login ${c.id === claseActual?.id ? "chip-clase-activo" : ""}`}
-                  onClick={() => setClaseSeleccionadaId(c.id)}
-                >
-                  {c.nombre.split("·")[0]}
-                </button>
-              ))}
-            </div>
-
-            <label className="etiqueta-chica">2. Haz clic en tu nombre para entrar:</label>
-            <div className="grilla-alumnos-login">
-              {estudiantesClase.map((est) => (
-                <button
-                  key={est.id}
-                  type="button"
-                  className="boton-alumno-login"
-                  onClick={() => handleEntrarAlumno(est)}
-                >
-                  <span className="avatar-alumno-login">{est.avatar}</span>
-                  <strong>{est.nombre}</strong>
-                </button>
-              ))}
-            </div>
-
-            <div className="separador-login">o</div>
-
-            <button
-              type="button"
-              className="boton boton-fantasma boton-ancho boton-sm"
-              onClick={handleEntrarAlumnoInvitado}
-            >
-              Entrar como Estudiante Invitado
             </button>
           </div>
         )}
