@@ -5,6 +5,11 @@
   "type": "module",
   "main": "src/index.ts",
   "scripts": {
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "test": "node --test src/*.test.ts"
+  },
+  "dependencies": {
+    "@brain-rush/gamespec": "*",
+    "phaser": "^4.2.1"
   }
 }
