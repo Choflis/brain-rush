@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Aula Conecta · MVP plataforma docente</title>
+<style>
+:root{--bg:#f4f6fb;--card:#fff;--ink:#1c2540;--muted:#68728c;--brand:#3b5bdb;--brand2:#e7ecff;--ok:#2f9e44;--warn:#f08c00;--bad:#e03131;--line:#e2e6f0;--r:14px}
+*{box-sizing:border-box}
+html{font-size:16px}
+body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--ink);line-height:1.45}
+button,input,select,textarea{font:inherit;color:inherit}
+h1{font-size:1.5rem;margin:.2rem 0 .3rem}h2{font-size:1.2rem;margin:.2rem 0 .6rem}h3{font-size:1.05rem;margin:.2rem 0 .6rem}h4{margin:1rem 0 .4rem}
+.muted{color:var(--muted);font-size:.9rem}
+.btn{border:0;background:var(--brand);color:#fff;padding:.55rem .95rem;border-radius:10px;cursor:pointer;font-weight:600}
+.btn:hover{filter:brightness(1.08)}
+.btn.alt{background:var(--brand2);color:var(--brand)}
+.btn.ghost{background:#fff;color:var(--muted);border:1px solid var(--line)}
+.btn.bad{background:#ffe3e3;color:var(--bad)}
+.btn.sm{padding:.3rem .65rem;font-size:.85rem;border-radius:8px}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn.on{outline:2px solid var(--brand);outline-offset:1px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:1rem 1.1rem;margin-bottom:1rem}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:1rem}
+.grid .card{margin:0}
+.row{display:flex;gap:.6rem;flex-wrap:wrap;align-items:center;margin:.5rem 0}
+input[type=text],input[type=email],input[type=password],input[type=number],select,textarea{width:100%;padding:.55rem .7rem;border:1px solid var(--line);border-radius:10px;background:#fff}
+textarea{resize:vertical}
+label{display:block;font-size:.85rem;color:var(--muted);margin:.5rem 0 .2rem}
+table{width:100%;border-collapse:collapse;font-size:.92rem}
+th,td{padding:.45rem .5rem;border-bottom:1px solid var(--line);text-align:left}
+th{color:var(--muted);font-weight:600;font-size:.8rem;text-transform:uppercase;letter-spacing:.03em}
+.tw{overflow-x:auto}
+.chip{display:inline-block;padding:.12rem .6rem;border-radius:99px;font-size:.78rem;font-weight:600;background:var(--brand2);color:var(--brand)}
+.chip.P{background:#d3f9d8;color:#2b8a3e}.chip.T{background:#fff0bf;color:#c26a00}.chip.F{background:#ffd8d8;color:#c92a2a}.chip.J{background:#d0ebff;color:#1971c2}.chip.N{background:#eef0f6;color:#8a93a8}
+.crumbs{font-size:.88rem;color:var(--muted);margin-bottom:.6rem;display:flex;gap:.3rem;flex-wrap:wrap}
+.crumbs a{color:var(--brand);cursor:pointer;text-decoration:none}
+.tabs{display:flex;gap:.4rem;margin:.8rem 0;flex-wrap:wrap}
+.tab{border:1px solid var(--line);background:#fff;padding:.5rem .9rem;border-radius:99px;cursor:pointer;font-weight:600;color:var(--muted)}
+.tab.on{background:var(--brand);color:#fff;border-color:var(--brand)}
+.bar{height:8px;background:var(--line);border-radius:9px;overflow:hidden}.bar i{display:block;height:100%;background:var(--brand)}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:.8rem;margin-bottom:1rem}
+.kpi{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:.8rem 1rem}.kpi b{font-size:1.7rem;display:block}.kpi span{color:var(--muted);font-size:.85rem}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.week{border:1px solid var(--line);border-radius:12px;padding:.7rem;background:#fff}
+.week h4{margin:0 0 .4rem;font-size:.95rem}
+.sess{display:flex;align-items:center;justify-content:space-between;width:100%;border:1px solid var(--line);background:#fafbff;border-radius:9px;padding:.4rem .6rem;margin-top:.35rem;cursor:pointer;text-align:left}
+.sess:disabled{opacity:.55;cursor:not-allowed}
+/* layout */
+#app{display:grid;grid-template-columns:230px 1fr;min-height:100vh}
+#app.t{grid-template-columns:230px 1fr 350px}
+#side{background:#fff;border-right:1px solid var(--line);padding:1rem;position:sticky;top:0;height:100vh;overflow:auto}
+#main{padding:1.2rem 1.5rem 5rem;min-width:0}
+.logo{font-weight:800;font-size:1.15rem;color:var(--brand);margin-bottom:1rem}
+.menu button{display:flex;gap:.6rem;align-items:center;width:100%;border:0;background:none;padding:.6rem .7rem;border-radius:10px;cursor:pointer;color:var(--ink);font-weight:600;text-align:left}
+.menu button.on{background:var(--brand2);color:var(--brand)}
+.who{margin-top:1rem;padding-top:1rem;border-top:1px solid var(--line);font-size:.85rem}
+#agent{background:#fff;border-left:1px solid var(--line);height:100vh;position:sticky;top:0;display:flex;flex-direction:column;z-index:20}
+.ahead{display:flex;gap:.5rem;align-items:center;padding:.7rem .9rem;border-bottom:1px solid var(--line)}
+.ahead b{flex:1}.ahead select{width:auto;padding:.3rem .5rem}
+.actx{font-size:.78rem;color:var(--muted);padding:.4rem .9rem;background:#f7f8fd;border-bottom:1px solid var(--line)}
+#chat{flex:1;overflow:auto;padding:.8rem .9rem;display:flex;flex-direction:column;gap:.6rem}
+.msg{max-width:92%;padding:.55rem .75rem;border-radius:12px;white-space:pre-wrap;font-size:.9rem}
+.msg.u{align-self:flex-end;background:var(--brand);color:#fff}.msg.a{align-self:flex-start;background:#eef1fb}
+.msg small{display:block;margin-top:.4rem;color:var(--muted)}
+.quick{display:flex;gap:.35rem;flex-wrap:wrap;padding:.4rem .9rem}
+#cf{display:flex;gap:.4rem;padding:.6rem .9rem;border-top:1px solid var(--line)}
+/* login */
+.login{max-width:430px;margin:6vh auto;padding:0 1rem}
+.login .card{padding:1.4rem}
+.err{color:var(--bad);font-size:.88rem;min-height:1.2rem;margin-top:.4rem}
+/* heatmap + donut */
+.hc{text-align:center;font-weight:700;font-size:.75rem;padding:.3rem .2rem;min-width:30px}
+.hc.P{background:#d3f9d8;color:#2b8a3e}.hc.T{background:#fff0bf;color:#c26a00}.hc.F{background:#ffd8d8;color:#c92a2a}.hc.J{background:#d0ebff;color:#1971c2}.hc.N{background:#f1f3f9;color:#b0b7c9}
+.donut{width:130px;height:130px;border-radius:50%;display:grid;place-items:center;margin:auto}
+.donut span{background:#fff;width:84px;height:84px;border-radius:50%;display:grid;place-items:center;font-weight:800}
+.legend{font-size:.82rem;display:flex;gap:.7rem;flex-wrap:wrap;justify-content:center;margin-top:.6rem}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:.3rem}
+/* modal juego */
+#modal{display:none}#modal.on{display:grid;position:fixed;inset:0;background:rgba(20,27,50,.55);place-items:center;z-index:50;padding:1rem}
+.mbox{background:#fff;border-radius:18px;padding:1.4rem;width:min(640px,100%);max-height:92vh;overflow:auto}
+.gtop{display:flex;justify-content:space-between;color:var(--muted);font-size:.85rem;margin-bottom:.4rem}
+.gbar{height:10px;background:var(--line);border-radius:9px;overflow:hidden;margin-bottom:1rem}.gbar i{display:block;height:100%;width:100%;background:var(--brand)}
+.opts{display:grid;gap:.6rem}
+.opt{padding:.9rem;border:2px solid var(--line);border-radius:12px;background:#fff;cursor:pointer;font-size:1.05rem;text-align:left}
+.opt:hover{border-color:var(--brand)}.opt.ok{background:#d3f9d8;border-color:var(--ok)}.opt.no{background:#ffd8d8;border-color:var(--bad)}
+.mcols{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}
+.mcols .opt{padding:.7rem;font-size:.95rem}.opt.sel{border-color:var(--brand);background:var(--brand2)}.opt.done{background:#d3f9d8;border-color:var(--ok);opacity:.7;cursor:default}
+.big{font-size:3rem;font-weight:800;color:var(--brand)}.big small{font-size:1rem;color:var(--muted)}
+#toast{position:fixed;left:50%;bottom:1.2rem;transform:translateX(-50%) translateY(120%);background:#1c2540;color:#fff;padding:.7rem 1.1rem;border-radius:12px;transition:.25s;z-index:60;max-width:90vw}
+#toast.on{transform:translateX(-50%)}
+@media(max-width:1100px){
+ #app.t{grid-template-columns:200px 1fr}
+ #agent{position:fixed;right:.5rem;bottom:0;top:auto;width:min(380px,calc(100vw - 1rem));height:72vh;border:1px solid var(--line);border-radius:14px 14px 0 0;transform:translateY(calc(100% - 50px));transition:.25s}
+ #agent.open{transform:none}
+}
+@media(max-width:760px){
+ #app,#app.t{grid-template-columns:1fr}
+ #side{position:static;height:auto;border-right:0;border-bottom:1px solid var(--line)}
+ .menu{display:flex;flex-wrap:wrap;gap:.3rem}.menu button{width:auto}
+ #main{padding:1rem 1rem 5rem}.two{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<div id="modal"></div>
+<div id="toast"></div>
+<script>
+(()=>{
+'use strict';
+
+/* =====================================================================
+   MÓDULO 1 · UTILIDADES
+   ===================================================================== */
+const $=s=>document.querySelector(s);
+const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const slug=s=>s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().trim().replace(/\s+/g,'.');
+const fmt=n=>n==null?'—':(Math.round(n*10)/10).toFixed(1);
+const avg=a=>a.length?a.reduce((x,y)=>x+y,0)/a.length:null;
+function rng(seed){return function(){seed|=0;seed=seed+0x6D2B79F5|0;let t=Math.imul(seed^seed>>>15,1|seed);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+function shuf(arr,seed){const r=rng(seed),a=arr.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(r()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+let toastT;
+function toast(m){const t=$('#toast');t.textContent=m;t.className='on';clearTimeout(toastT);toastT=setTimeout(()=>{t.className=''},2800)}
+function csv(name,rows){const t=rows.map(r=>r.map(x=>'"'+String(x==null?'':x).replace(/"/g,'""')+'"').join(',')).join('\n');const a=document.createElement('a');a.href=URL.createObjectURL(new Blob(['\ufeff'+t],{type:'text/csv'}));a.download=name;document.body.appendChild(a);a.click();a.remove()}
+
+/* =====================================================================
+   MÓDULO 2 · DATOS SIMULADOS (aulas, cursos, alumnos, bimestre)
+   ===================================================================== */
+const N=16, OPEN_IDX=6;                       // 8 semanas x 2 sesiones; la sesión 7 está "en curso"
+const CLASSES=[
+ {id:'3A',name:'3.º A',students:['Ana Torres','Luis Mamani','Camila Quispe','Diego Flores','Valeria Ccori','Mateo Huamán','Sofía Apaza','Joaquín Pari']},
+ {id:'4B',name:'4.º B',students:['Renzo Cáceres','Luciana Ramos','Bruno Condori','Fernanda Yucra','Gael Choque','Isabella Mendoza','Thiago Valdivia','Mía Cutipa']}
+];
+const KEYS=[
+ {k:'mat',n:'Matemática',topics:['Números hasta 1000','Suma y resta','Multiplicación','División','Fracciones','Medidas de longitud','Figuras geométricas','Gráficos de barras']},
+ {k:'com',n:'Comunicación',topics:['Comprensión de cuentos','El sustantivo','El adjetivo','Textos instructivos','La noticia','Ortografía: b y v','Rimas y canciones','Producción de textos']},
+ {k:'cyt',n:'Ciencia y Tecnología',topics:['Seres vivos','Las plantas','Los animales','El agua','El suelo','La energía','Materia y estados','Cuidado del ambiente']}
+];
+const COURSES=[];CLASSES.forEach(c=>KEYS.forEach(k=>COURSES.push({id:c.id+'-'+k.k,cls:c.id,key:k.k,name:k.n,topics:k.topics})));
+const STUDENTS=[];CLASSES.forEach(c=>c.students.forEach(n=>STUDENTS.push({sid:slug(n),name:n,cls:c.id})));
+const REPO=['Guía docente de Matemática.pdf','Banco de problemas de primaria.docx','Láminas de ciencia y ambiente.pptx','Antología de cuentos regionales.pdf','Rúbricas de evaluación formativa.xlsx'];
+const ATT={P:'Presente',T:'Tardanza',F:'Falta',J:'Justificada'};
+const ATTC={P:'#2f9e44',T:'#f08c00',F:'#e03131',J:'#339af0'};
+const TEACHER={name:'Prof. Rosa Quispe',email:'rosa.quispe',pass:'1234'};
+const course=id=>COURSES.find(c=>c.id===id);
+const cls=id=>CLASSES.find(c=>c.id===id);
+const studentsOf=id=>STUDENTS.filter(s=>s.cls===id);
+const sKey=(cid,i)=>cid+':'+i;
+const sInfo=(c,i)=>({idx:i,week:Math.floor(i/2)+1,n:i%2+1,topic:c.topics[Math.floor(i/2)]});
+
+/* =====================================================================
+   MÓDULO 3 · ESTADO, PERSISTENCIA Y ESTADÍSTICAS
+   ===================================================================== */
+const KEY='aulaconecta_mvp_v1';
+let DB;
+function load(){try{const x=localStorage.getItem(KEY);if(x){DB=JSON.parse(x);if(DB&&DB.cfg)return}}catch(e){}DB=seed()}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(DB))}catch(e){}}
+const ST={user:null,route:{name:'home'},tab:'inicio',loginTab:'docente',lang:'es',chat:[],att:{cls:'3A',key:'mat',idx:null},notes:{cls:'3A'},loginErr:''};
+
+function stOf(cid,i){return DB.status[sKey(cid,i)]||(i<OPEN_IDX?'done':i===OPEN_IDX?'open':'locked')}
+function getS(cid,i){const k=sKey(cid,i);if(!DB.sess[k])DB.sess[k]=mkSess(course(cid),i,false);return DB.sess[k]}
+function attOf(cid,i,sid){const a=DB.att[cid]&&DB.att[cid][i];return a&&a[sid]}
+function activeIdx(cid){const a=[];for(let i=0;i<N;i++)if(stOf(cid,i)!=='locked')a.push(i);return a}
+function tally(cid,idxs,sids){const c={P:0,T:0,F:0,J:0};idxs.forEach(i=>sids.forEach(s=>{const m=attOf(cid,i,s);if(m)c[m.s]++}));return c}
+function pct(c){const d=c.P+c.T+c.F;return d?Math.round((c.P+c.T)/d*100):null}
+function attPctS(s){const t={P:0,T:0,F:0,J:0};COURSES.filter(c=>c.cls===s.cls).forEach(c=>{const x=tally(c.id,activeIdx(c.id),[s.sid]);for(const k in t)t[k]+=x[k]});return pct(t)}
+function gameAvg(s){const v=[];COURSES.filter(c=>c.cls===s.cls).forEach(c=>{for(let i=0;i<N;i++){const r=DB.res[sKey(c.id,i)];if(r&&r[s.sid])v.push(r[s.sid].score)}});return avg(v)}
+function worksAvg(s){const v=[];COURSES.filter(c=>c.cls===s.cls).forEach(c=>{for(let i=0;i<N;i++){const S=DB.sess[sKey(c.id,i)];if(S)S.works.forEach(w=>{if(w.sid===s.sid)v.push(w.score)})}});return avg(v)}
+function finalOf(s){const w=DB.cfg.w,a=attPctS(s);const p=[[worksAvg(s),w.t],[gameAvg(s),w.j],[a==null?null:a/5,w.a]].filter(x=>x[0]!=null);const W=p.reduce((x,y)=>x+y[1],0);return W?p.reduce((x,y)=>x+y[0]*y[1],0)/W:null}
+function allWorks(clsId){const o=[];COURSES.filter(c=>c.cls===clsId).forEach(c=>{for(let i=0;i<N;i++){const S=DB.sess[sKey(c.id,i)];if(S)S.works.forEach((w,wi)=>o.push({...w,cid:c.id,i,wi,c}))}});return o}
+function risks(clsId){const out=[];COURSES.filter(c=>!clsId||c.cls===clsId).forEach(c=>{const act=activeIdx(c.id);studentsOf(c.cls).forEach(s=>{const p=pct(tally(c.id,act,[s.sid]));const m=act.map(i=>attOf(c.id,i,s.sid)).filter(Boolean).map(x=>x.s).slice(-2);const consec=m.length===2&&m.every(x=>x==='F');if((p!=null&&p<DB.cfg.risk)||consec)out.push({s,c,p,consec})})});return out}
+
+function mkSess(c,i,full){
+ const inf=sInfo(c,i),r=rng(i*31+c.id.charCodeAt(0)*7+c.id.length),type=i%2?'match':'trivia';
+ const S={plan:'',materials:[],works:[],game:{type,area:'Multidisciplinario',n:type==='match'?4:5,published:false,items:[]}};
+ S.game.items=buildGame(type,'Multidisciplinario',S.game.n,i*13+c.id.length);
+ if(full){
+  S.game.published=true;
+  S.materials.push({n:'Ficha de trabajo — '+inf.topic+'.pdf',src:'Repositorio institucional'});
+  if(i<OPEN_IDX){
+   S.materials.push({n:'Presentación — '+inf.topic+'.pptx',src:'Material propio'});
+   S.plan=planText(inf.topic,'es');
+   S.works=shuf(studentsOf(c.cls),i+7).slice(0,3).map(s=>{const sc=Math.round((11+r()*9)*10)/10;return{sid:s.sid,title:'Tarea: '+inf.topic,score:sc,star:sc>=18}});
+  }
+ }
+ return S;
+}
+function seed(){
+ const r=rng(2026);
+ const D={sess:{},att:{},res:{},status:{},cfg:{tol:10,late:30,risk:85,domain:'colegio.edu.pe',w:{t:50,j:30,a:20}}};
+ DB=D;
+ COURSES.forEach(c=>{
+  D.att[c.id]={};
+  const sts=studentsOf(c.cls);
+  for(let i=0;i<=OPEN_IDX;i++){
+   D.att[c.id][i]={};
+   D.sess[sKey(c.id,i)]=mkSess(c,i,true);
+   sts.forEach((s,si)=>{
+    if(i===OPEN_IDX&&si===0)return;           // el primer alumno de cada aula aún no ingresa hoy (demo de asistencia automática)
+    const x=r();let st;
+    if(si===3)st=x<.5?'P':x<.6?'T':x<.9?'F':'J'; else st=x<.82?'P':x<.9?'T':x<.95?'F':'J';
+    D.att[c.id][i][s.sid]={s:st,o:'auto'};
+    if(i<OPEN_IDX&&r()<.72){const k=sKey(c.id,i);(D.res[k]=D.res[k]||{})[s.sid]={score:Math.round((9+r()*11)*10)/10,mode:r()<.8?'movil':'computo',tries:1}}
+   });
+  }
+ });
+ return D;
+}
+
+/* =====================================================================
+   MÓDULO 4 · MOTOR DE JUEGOS (trivia + emparejar, puntaje ponderado)
+   ===================================================================== */
+const AREAS=['Multidisciplinario','Matemática','Comunicación','Ciencia y Tecnología','Personal Social'];
+const BANK=[
+ {a:'Matemática',q:'¿Cuánto es 7 × 8?',o:['54','56','63','48'],r:1,d:1},
+ {a:'Matemática',q:'¿Qué fracción es la mayor?',o:['1/2','1/4','1/8','1/3'],r:0,d:2},
+ {a:'Matemática',q:'¿Cuántos lados tiene un cuadrado?',o:['3','4','5','6'],r:1,d:1},
+ {a:'Matemática',q:'345 + 278 =',o:['613','623','633','523'],r:1,d:2},
+ {a:'Matemática',q:'¿Cuántos metros hay en 2 kilómetros?',o:['200','2 000','20','20 000'],r:1,d:3},
+ {a:'Comunicación',q:'¿Cuál de estas palabras es un sustantivo?',o:['correr','mesa','rápido','lejos'],r:1,d:1},
+ {a:'Comunicación',q:'¿Cuál está bien escrita?',o:['abión','avión','abion','avíon'],r:1,d:2},
+ {a:'Comunicación',q:'En «casa grande», ¿cuál es el adjetivo?',o:['casa','grande','ambas','ninguna'],r:1,d:1},
+ {a:'Comunicación',q:'Un texto que explica pasos para hacer algo es…',o:['un cuento','un instructivo','una noticia','una carta'],r:1,d:2},
+ {a:'Ciencia y Tecnología',q:'Las plantas necesitan para vivir…',o:['luz, agua y aire','solo tierra','solo aceite','ninguna cosa'],r:0,d:2},
+ {a:'Ciencia y Tecnología',q:'El agua en estado sólido se llama…',o:['hielo','vapor','nube','lluvia'],r:0,d:1},
+ {a:'Ciencia y Tecnología',q:'¿Qué animal es un mamífero?',o:['tortuga','delfín','rana','pez payaso'],r:1,d:2},
+ {a:'Ciencia y Tecnología',q:'¿Cuál es una energía renovable?',o:['petróleo','carbón','solar','gas'],r:2,d:3},
+ {a:'Personal Social',q:'¿Cuál es la capital del Perú?',o:['Cusco','Lima','Arequipa','Piura'],r:1,d:1},
+ {a:'Personal Social',q:'¿Qué volcán se ve desde Arequipa?',o:['Misti','Huascarán','Ausangate','Salcantay'],r:0,d:2},
+ {a:'Personal Social',q:'Reciclar ayuda a…',o:['cuidar el ambiente','ensuciar más','gastar más','nada'],r:0,d:1}
+];
+const PAIRS={
+ 'Matemática':[['1/2','Mitad'],['4 lados','Cuadrado'],['3 lados','Triángulo'],['100 cm','1 metro']],
+ 'Comunicación':[['mesa','Sustantivo'],['rápido','Adjetivo'],['correr','Verbo'],['¿Qué?','Pregunta']],
+ 'Ciencia y Tecnología':[['Hielo','Sólido'],['Agua','Líquido'],['Vapor','Gas'],['Sol','Energía']],
+ 'Personal Social':[['Lima','Capital del Perú'],['Misti','Volcán de Arequipa'],['Quechua','Lengua originaria'],['Reciclar','Cuidar el ambiente']]
+};
+function buildGame(type,area,n,seedN){
+ if(type==='match'){const pool=area==='Multidisciplinario'?[].concat(...Object.values(PAIRS)):PAIRS[area];return shuf(pool,seedN).slice(0,Math.min(n,6)).map(p=>({l:p[0],r:p[1]}))}
+ const pool=area==='Multidisciplinario'?BANK:BANK.filter(b=>b.a===area);
+ return shuf(pool,seedN).slice(0,Math.min(n,pool.length));
+}
+const TQ=15,TM=60;let G=null;
+function startGame(cid,i,opt){
+ const g=getS(cid,i).game;
+ if(!g||!g.items.length)return toast('Esta sesión aún no tiene juego');
+ G={cid,i,g,sid:opt.sid||null,mode:opt.mode||'preview',idx:0,pts:0,right:0,done:false,locked:false,total:g.items.length,tl:g.type==='trivia'?TQ:TM,mt:new Set(),sel:null,err:0,bad:null};
+ if(g.type==='match')G.order=shuf(g.items.map((_,k)=>k),Date.now()%1000);
+ drawGame();clearInterval(G.timer);G.timer=setInterval(tick,100);
+}
+function tick(){
+ if(!G||G.done)return;G.tl-=.1;
+ const bar=$('#gbar');if(bar)bar.style.width=Math.max(0,G.tl/(G.g.type==='trivia'?TQ:TM)*100)+'%';
+ if(G.tl<=0){if(G.g.type==='trivia'){if(!G.locked)ans(-1)}else finishGame()}
+}
+function ans(k){
+ if(!G||G.locked||G.done)return;G.locked=true;
+ const q=G.g.items[G.idx],ok=k===q.r;
+ if(ok){G.right++;G.pts+=q.d*(0.8+0.2*Math.max(0,G.tl)/TQ)}
+ document.querySelectorAll('.opt').forEach((b,j)=>{if(j===q.r)b.classList.add('ok');else if(j===k)b.classList.add('no')});
+ setTimeout(()=>{if(!G)return;G.idx++;G.locked=false;G.tl=TQ;if(G.idx>=G.total)finishGame();else drawGame()},950);
+}
+function mpick(side,k){
+ if(!G||G.done||G.mt.has(k))return;
+ if(!G.sel||G.sel.side===side){G.sel={side,k};drawGame();return}
+ if(G.sel.k===k){G.mt.add(k);G.sel=null;if(G.mt.size===G.total){finishGame();return}}
+ else{G.err++;G.sel=null;toast('Ups, esa pareja no coincide')}
+ drawGame();
+}
+function finishGame(){
+ if(!G||G.done)return;clearInterval(G.timer);
+ let sc;
+ if(G.g.type==='trivia'){const W=G.g.items.reduce((x,q)=>x+q.d,0);sc=20*G.pts/W}
+ else{sc=20*(G.mt.size/G.total)*(0.8+0.2*Math.max(0,G.tl)/TM)-G.err*0.5;G.right=G.mt.size}
+ G.sc=Math.round(Math.max(0,Math.min(20,sc))*10)/10;G.done=true;
+ if(G.sid&&G.mode!=='preview'){const k=sKey(G.cid,G.i);DB.res[k]=DB.res[k]||{};const p=DB.res[k][G.sid];DB.res[k][G.sid]={score:Math.max(p?p.score:0,G.sc),mode:G.mode,tries:(p?p.tries:0)+1};save()}
+ drawGame();render();
+}
+function closeGame(){if(G)clearInterval(G.timer);G=null;drawGame();render()}
+function drawGame(){
+ const m=$('#modal');
+ if(!G){m.className='';m.innerHTML='';return}
+ m.className='on';let b;
+ if(G.done){
+  b=`<h2>${G.sc>=14?'🎉 ¡Muy bien!':'💪 ¡Sigue practicando!'}</h2><div class="big">${G.sc.toFixed(1)} <small>/ 20</small></div><p>Aciertos: ${G.right} de ${G.total}. ${G.mode==='preview'?'Vista previa: el puntaje no se guarda.':'Puntaje guardado (se conserva el mejor intento).'}</p><button class="btn" data-a="closeGame">Cerrar</button>`;
+ }else if(G.g.type==='trivia'){
+  const q=G.g.items[G.idx];
+  b=`<div class="gtop"><span>Pregunta ${G.idx+1} de ${G.total}</span><span>${esc(q.a)} · ${'★'.repeat(q.d)}</span></div><div class="gbar"><i id="gbar"></i></div><h2>${esc(q.q)}</h2><div class="opts">${q.o.map((o,k)=>`<button class="opt" data-a="ans" data-k="${k}">${esc(o)}</button>`).join('')}</div><p><button class="btn ghost sm" data-a="closeGame">Salir</button></p>`;
+ }else{
+  b=`<div class="gtop"><span>Une cada pareja · ${G.mt.size}/${G.total}</span><span>Errores: ${G.err}</span></div><div class="gbar"><i id="gbar"></i></div><div class="mcols"><div class="opts">${G.g.items.map((p,k)=>`<button class="opt ${G.mt.has(k)?'done':''} ${G.sel&&G.sel.side==='l'&&G.sel.k===k?'sel':''}" data-a="mpick" data-s="l" data-k="${k}">${esc(p.l)}</button>`).join('')}</div><div class="opts">${G.order.map(k=>`<button class="opt ${G.mt.has(k)?'done':''} ${G.sel&&G.sel.side==='r'&&G.sel.k===k?'sel':''}" data-a="mpick" data-s="r" data-k="${k}">${esc(G.g.items[k].r)}</button>`).join('')}</div></div><p><button class="btn ghost sm" data-a="closeGame">Salir</button></p>`;
+ }
+ m.innerHTML=`<div class="mbox">${b}</div>`;
+}
+
+/* =====================================================================
+   MÓDULO 5 · AGENTE IA (simulado; punto de conexión a API real)
+   ===================================================================== */
+const KB=[
+ {id:1,t:'Currículo Nacional de la Educación Básica (MINEDU)'},
+ {id:2,t:'Texto escolar de Matemática, primaria'},
+ {id:3,t:'Texto escolar de Comunicación, primaria'},
+ {id:4,t:'Texto escolar de Ciencia y Tecnología, primaria'},
+ {id:5,t:'Guía de evaluación formativa'}
+];
+const AREA_KB={mat:2,com:3,cyt:4};
+const LANGS={es:'Español',en:'English',qu:'Runasimi (quechua)',pt:'Português'};
+const L={
+ es:{in:'Inicio',de:'Desarrollo',ci:'Cierre',obj:'Propósito',src:'Fuentes consultadas',hi:'Hola, soy tu asistente. Puedo planificar sesiones, crear juegos, resumir temas y citar fuentes.'},
+ en:{in:'Start',de:'Main activity',ci:'Closing',obj:'Goal',src:'Sources consulted',hi:'Hi, I am your assistant. I can plan lessons, create games, summarize topics and cite sources.'},
+ qu:{in:'Qallariy',de:'Ruray',ci:'Tukuy',obj:'Munay',src:'Maskasqa qillqakuna',hi:'Napaykullayki. Yanapasqayki yachachiykunata ruwanaykipaq (demo: contenido completo en español).'},
+ pt:{in:'Início',de:'Desenvolvimento',ci:'Encerramento',obj:'Objetivo',src:'Fontes consultadas',hi:'Olá, sou seu assistente. Posso planejar aulas, criar jogos, resumir temas e citar fontes (demo: conteúdo em espanhol).'}
+};
+function planText(topic,lang){
+ const t=L[lang]||L.es;
+ if(lang==='en')return `${t.obj}: students understand «${topic}» and apply it in everyday situations.\n\n${t.in} (10 min)\n• Motivating question about ${topic}.\n• Prior knowledge with a quick brainstorm.\n• Announce the goal and the optional closing game.\n\n${t.de} (25 min)\n• Short explanation with local examples.\n• Guided pair practice with the worksheet.\n• Independent practice and individual feedback.\n\n${t.ci} (10 min)\n• Metacognition: what did I learn? what was hard?\n• Assign the optional reinforcement game.`;
+ return `${t.obj}: que los estudiantes comprendan «${topic}» y lo apliquen en situaciones cotidianas.\n\n${t.in} (10 min)\n• Pregunta motivadora sobre ${topic}.\n• Recojo de saberes previos con lluvia de ideas.\n• Anuncio del propósito y del juego voluntario de cierre.\n\n${t.de} (25 min)\n• Explicación breve con ejemplos del entorno (Arequipa).\n• Práctica guiada en parejas con la ficha de trabajo.\n• Práctica autónoma y retroalimentación individual.\n\n${t.ci} (10 min)\n• Metacognición: ¿qué aprendí? ¿qué me costó?\n• Asignación de la actividad voluntaria (juego de refuerzo).`;
+}
+function ctx(){
+ const r=ST.route;if(!ST.user||!r.cid)return null;
+ const c=course(r.cid),k=cls(c.cls);
+ if(r.name==='session'){const inf=sInfo(c,r.i);return{c,k,topic:inf.topic,label:`${k.name} · ${c.name} · Semana ${inf.week} · Sesión ${inf.n}`}}
+ return{c,k,topic:null,label:`${k.name} · ${c.name}`};
+}
+async function askLLM(prompt,context){            // ← aquí se conecta una API real (OpenAI, Claude, etc.) usando un backend propio
+ return null;                                      //   Si devuelve texto, se usa en lugar de las respuestas simuladas.
+}
+function agentReply(msg){
+ const m=msg.toLowerCase(),cx=ctx(),lang=ST.lang,t=L[lang]||L.es;
+ const topic=cx&&cx.topic?cx.topic:(cx?cx.c.name:(lang==='en'?'the chosen topic':'el tema elegido'));
+ const src=cx?[1,AREA_KB[cx.c.key],5]:[1,5];
+ if(/plan|sesi|lesson/.test(m))return{t:planText(topic,lang),src,plan:true};
+ if(/juego|game|jogo/.test(m))return{t:lang==='en'?`Suggestion: a 5-question trivia mixing areas, or a matching game for «${topic}». Use "Create interactive game" in the Start tab.`:`Sugerencia: una trivia de 5 preguntas multidisciplinarias o un juego de emparejar sobre «${topic}». Usa «Crear juego interactivo» en la pestaña Inicio de la sesión. El puntaje se pondera por dificultad y tiempo.`,src};
+ if(/resum|summar|explica|resumo/.test(m))return{t:lang==='en'?`Key ideas about «${topic}»:\n1. Define it with everyday examples.\n2. Show one worked example.\n3. Check understanding with two quick questions.`:`Ideas clave sobre «${topic}»:\n1. Definirlo con ejemplos cotidianos.\n2. Mostrar un ejemplo resuelto paso a paso.\n3. Verificar la comprensión con dos preguntas rápidas.\n(Demo: en la versión real el resumen sale de los libros cargados.)`,src};
+ if(/fuente|source|libro|book|fonte/.test(m))return{t:KB.map(x=>`[${x.id}] ${x.t}`).join('\n'),src:[]};
+ return{t:t.hi,src:[]};
+}
+async function ask(text){
+ text=text.trim();if(!text)return null;
+ ST.chat.push({r:'u',t:text});
+ let r=null;try{const x=await askLLM(text,ctx());if(x)r={t:x,src:[]}}catch(e){}
+ r=r||agentReply(text);ST.chat.push({r:'a',t:r.t,src:r.src,plan:r.plan});
+ renderChat();return r;
+}
+function renderChat(){
+ const c=$('#chat');if(!c)return;
+ if(!ST.chat.length)ST.chat.push({r:'a',t:(L[ST.lang]||L.es).hi,src:[]});
+ c.innerHTML=ST.chat.map((m,i)=>`<div class="msg ${m.r}">${esc(m.t)}${m.src&&m.src.length?`<small>${esc((L[ST.lang]||L.es).src)}: ${m.src.map(id=>'['+id+']').join(' ')}</small>`:''}${m.plan&&ST.route.name==='session'&&ST.user.role==='docente'?`<br><button class="btn sm alt" data-a="useplan" data-m="${i}">Usar como plan de la sesión</button>`:''}</div>`).join('');
+ c.scrollTop=c.scrollHeight;
+ const x=$('#actx');if(x){const cx=ctx();x.textContent='Contexto: '+(cx?cx.label:'sin aula seleccionada')}
+}
+
+/* =====================================================================
+   MÓDULO 6 · VISTAS (login, inicio, aula, curso, sesión, notas, asistencia…)
+   ===================================================================== */
+const chip=s=>s?`<span class="chip ${s}">${ATT[s]}</span>`:'<span class="chip N">Sin marca</span>';
+const stLabel={done:'Cerrada',open:'En curso',locked:'Bloqueada'};
+const stIcon={done:'✅',open:'🟢',locked:'🔒'};
+const isT=()=>ST.user&&ST.user.role==='docente';
+
+function vLogin(){
+ const d=ST.loginTab==='docente';
+ return `<div class="login"><div class="logo">🎓 Aula Conecta</div><div class="card"><h2>Ingresar</h2><p class="muted">Plataforma de aula para primaria · MVP de demostración</p>
+ <div class="tabs"><button class="tab ${d?'on':''}" data-a="ltab" data-t="docente">Docente</button><button class="tab ${!d?'on':''}" data-a="ltab" data-t="alumno">Alumno</button></div>
+ ${d?`<label>Correo institucional</label><input type="email" id="em" placeholder="rosa.quispe@${esc(DB.cfg.domain)}"><label>Contraseña</label><input type="password" id="pw" placeholder="1234 (demo)">`
+ :`<label>Correo institucional del alumno</label><input type="email" id="em" placeholder="ana.torres@${esc(DB.cfg.domain)}"><p class="muted">Solo se aceptan correos @${esc(DB.cfg.domain)}.</p><label>Hora de ingreso simulada (demo de asistencia automática)</label><select id="sim"><option value="3">Puntual (minuto 3)</option><option value="18">Tarde (minuto 18)</option><option value="45">Muy tarde (minuto 45)</option></select>`}
+ <div class="err">${esc(ST.loginErr)}</div>
+ <div class="row"><button class="btn" data-a="login">Entrar</button><button class="btn alt" data-a="demo" data-r="${d?'docente':'alumno'}">Acceso demo ${d?'docente':'alumno'}</button></div></div>
+ <p class="muted">Los alumnos entran en modo solo lectura: ven materiales y juegos de las sesiones abiertas.</p></div>`;
+}
+function vSide(){
+ const u=ST.user,t=isT();
+ const items=t?[['home','🏠','Inicio'],['notas','📒','Notas generales'],['asistencia','🗓️','Asistencia'],['repo','📚','Repositorio'],['config','⚙️','Configuración']]
+  :[['home','🏠','Inicio'],['class','📘','Mis cursos'],['mygrades','📒','Mis notas'],['myatt','🗓️','Mi asistencia']];
+ const r=ST.route.name,act=n=>t?(['class','course','session'].includes(r)?n==='home':r===n):(['course','session'].includes(r)?n==='class':r===n);
+ return `<div class="logo">🎓 Aula Conecta</div><div class="menu">${items.map(([n,i,l])=>`<button class="${act(n)?'on':''}" data-a="nav" data-to="${n}" ${n==='class'?`data-cls="${u.cls}"`:''}>${i} ${l}</button>`).join('')}</div>
+ <div class="who"><b>${esc(u.name)}</b><br><span class="muted">${t?'Docente':'Alumno · solo lectura'}</span><div class="row"><button class="btn sm ghost" data-a="font">A+</button><button class="btn sm ghost" data-a="logout">Salir</button></div></div>`;
+}
+function crumbs(parts){return `<div class="crumbs">${parts.map(p=>p.to?`<a data-a="nav" data-to="${p.to}" ${p.cls?`data-cls="${p.cls}"`:''} ${p.cid?`data-cid="${p.cid}"`:''}>${esc(p.l)}</a>`:`<span>${esc(p.l)}</span>`).join(' › ')}</div>`}
+
+function vHome(){
+ const u=ST.user;
+ if(isT()){
+  const rk=risks();
+  return `<h1>Hola, ${esc(u.name)} 👋</h1><p class="muted">Tus salones de primaria</p>
+  <div class="grid">${CLASSES.map(c=>{
+   const t={P:0,T:0,F:0,J:0};COURSES.filter(x=>x.cls===c.id).forEach(x=>{const y=tally(x.id,activeIdx(x.id),studentsOf(c.id).map(s=>s.sid));for(const k in t)t[k]+=y[k]});
+   return `<div class="card"><h2>${c.name}</h2><p class="muted">${c.students.length} estudiantes</p><div class="row">${COURSES.filter(x=>x.cls===c.id).map(x=>`<span class="chip">${esc(x.name)}</span>`).join('')}</div><p>Asistencia del bimestre: <b>${pct(t)==null?'—':pct(t)+'%'}</b></p><button class="btn" data-a="nav" data-to="class" data-cls="${c.id}">Entrar al aula</button></div>`}).join('')}</div>
+  <h3 style="margin-top:1.4rem">🔔 Avisos</h3><div class="card">${rk.length?rk.slice(0,5).map(x=>`<div class="row">⚠️ <b>${esc(x.s.name)}</b> (${cls(x.c.cls).name} · ${esc(x.c.name)}): asistencia ${x.p==null?'—':x.p+'%'}${x.consec?' · 2 faltas seguidas':''} <button class="btn sm alt" data-a="goatt" data-cls="${x.c.cls}" data-key="${x.c.key}">Ver</button></div>`).join(''):'Sin alertas de asistencia.'}</div>`;
+ }
+ const k=cls(u.cls);
+ const open=COURSES.filter(c=>c.cls===u.cls).map(c=>{const i=activeIdx(c.id).filter(x=>stOf(c.id,x)==='open').pop();return i==null?null:{c,i}}).filter(Boolean);
+ return `<h1>¡Hola, ${esc(u.name.split(' ')[0])}! 👋</h1><p class="muted">${k.name} · Hoy en tus cursos</p>
+ ${open.length?`<div class="grid">${open.map(({c,i})=>{const inf=sInfo(c,i),S=getS(c.id,i),best=DB.res[sKey(c.id,i)]&&DB.res[sKey(c.id,i)][u.sid];return `<div class="card"><span class="chip">${esc(c.name)}</span><h3>${esc(inf.topic)}</h3><p class="muted">Semana ${inf.week} · Sesión ${inf.n} · Asistencia: ${chip(attOf(c.id,i,u.sid)&&attOf(c.id,i,u.sid).s)}</p><div class="row"><button class="btn" data-a="nav" data-to="session" data-cid="${c.id}" data-i="${i}">Materiales</button>${S.game.published?`<button class="btn alt" data-a="play" data-cid="${c.id}" data-i="${i}">🎮 Jugar (voluntario)</button>`:''}</div>${best?`<p class="muted">Tu mejor puntaje: <b>${fmt(best.score)}</b>/20</p>`:''}</div>`}).join('')}</div>`:'<div class="card">No hay sesiones abiertas por ahora.</div>'}`;
+}
+function vClass(){
+ const k=cls(ST.route.cls),t=isT();
+ return crumbs([{l:t?'Inicio':'Mis cursos',to:t?'home':null},{l:k.name}])+`<h1>${k.name}</h1><p class="muted">Cursos del aula · bimestre de 8 semanas</p><div class="grid">${COURSES.filter(c=>c.cls===k.id).map(c=>{
+  const act=activeIdx(c.id),op=act.filter(i=>stOf(c.id,i)==='open').pop();
+  return `<div class="card"><h2>${esc(c.name)}</h2><div class="bar"><i style="width:${act.length/N*100}%"></i></div><p class="muted">${act.length} de ${N} sesiones habilitadas${op!=null?` · en curso: ${esc(sInfo(c,op).topic)}`:''}</p><button class="btn" data-a="nav" data-to="course" data-cid="${c.id}">Abrir curso</button></div>`}).join('')}</div>`;
+}
+function vCourse(){
+ const c=course(ST.route.cid),k=cls(c.cls),t=isT();
+ return crumbs([{l:t?'Inicio':'Mis cursos',to:t?'home':'class',cls:k.id},{l:k.name,to:'class',cls:k.id},{l:c.name}])+`<h1>${esc(c.name)} · ${k.name}</h1><p class="muted">Bimestre académico · 8 semanas × 2 sesiones</p><div class="grid">${c.topics.map((tp,w)=>`<div class="week"><h4>Semana ${w+1}: ${esc(tp)}</h4>${[0,1].map(n=>{const i=w*2+n,s=stOf(c.id,i),dis=!t&&s==='locked';return `<button class="sess" ${dis?'disabled':''} data-a="nav" data-to="session" data-cid="${c.id}" data-i="${i}"><span>Sesión ${n+1}</span><span>${stIcon[s]} ${stLabel[s]}</span></button>`}).join('')}</div>`).join('')}</div>`;
+}
+function vSession(){
+ const {cid,i}=ST.route,c=course(cid),k=cls(c.cls),inf=sInfo(c,i),S=getS(cid,i),s=stOf(cid,i),t=isT();
+ const head=crumbs([{l:t?'Inicio':'Mis cursos',to:t?'home':'class',cls:k.id},{l:k.name,to:'class',cls:k.id},{l:c.name,to:'course',cid},{l:`Semana ${inf.week} · Sesión ${inf.n}`}])
+ +`<h1>${esc(inf.topic)}</h1><p class="muted">${esc(c.name)} · ${k.name} · Semana ${inf.week}, sesión ${inf.n} · ${stIcon[s]} ${stLabel[s]}</p>`;
+ const ctl=t?`<div class="row"><span class="muted">Acceso de alumnos:</span>${['open','done','locked'].map(x=>`<button class="btn sm ${s===x?'':'ghost'}" data-a="setstatus" data-cid="${cid}" data-i="${i}" data-s="${x}">${stIcon[x]} ${x==='open'?'Abrir':x==='done'?'Cerrar sesión':'Bloquear'}</button>`).join('')}</div>`:'';
+ const tabs=t?[['inicio','1 · Inicio de clase'],['medio','2 · Desarrollo'],['fin','3 · Cierre y refuerzo']]:[['mat','📎 Materiales'],['juego','🎮 Juego de refuerzo']];
+ const tb=`<div class="tabs">${tabs.map(([x,l])=>`<button class="tab ${ST.tab===x?'on':''}" data-a="tab" data-t="${x}">${l}</button>`).join('')}</div>`;
+ let body='';
+ if(t)body=ST.tab==='inicio'?tInicio(cid,i,inf,S):ST.tab==='medio'?tMedio(cid,i,S,c):tFin(cid,i,S,c);
+ else body=ST.tab==='mat'?sMat(S):sJuego(cid,i,S);
+ return head+ctl+tb+body;
+}
+function tInicio(cid,i,inf,S){
+ const g=S.game;
+ return `<div class="card"><h3>🤖 Planificar con el agente</h3><p class="muted">Tu valor agregado: consulta al agente y ajusta el plan.</p><textarea id="q" rows="2">Planifica una sesión de 45 minutos sobre ${esc(inf.topic)}</textarea><div class="row"><button class="btn" data-a="askplan">Consultar al agente</button></div><h4>Plan de la sesión</h4><textarea id="plan" rows="13" placeholder="Aquí aparecerá el plan…">${esc(S.plan)}</textarea><div class="row"><button class="btn alt" data-a="saveplan" data-cid="${cid}" data-i="${i}">Guardar plan</button></div></div>
+ <div class="card"><h3>🎮 Crear juego interactivo</h3><div class="two"><div><label>Tipo</label><select id="g-type"><option value="trivia" ${g.type==='trivia'?'selected':''}>Trivia</option><option value="match" ${g.type==='match'?'selected':''}>Emparejar</option></select></div><div><label>Área</label><select id="g-area">${AREAS.map(a=>`<option ${g.area===a?'selected':''}>${a}</option>`).join('')}</select></div></div><label>Cantidad de preguntas / parejas</label><input type="number" id="g-n" min="3" max="8" value="${g.n}"><div class="row"><button class="btn" data-a="genGame" data-cid="${cid}" data-i="${i}">Generar juego</button><button class="btn ghost" data-a="preview" data-cid="${cid}" data-i="${i}">Vista previa</button></div><p class="muted">Juego actual: ${g.type==='trivia'?'Trivia':'Emparejar'} · ${esc(g.area)} · ${g.items.length} ítems · ${g.published?'publicado':'sin publicar'}</p></div>`;
+}
+function tMedio(cid,i,S,c){
+ const sts=studentsOf(c.cls);
+ return `<div class="card"><h3>📎 Materiales de la sesión</h3><div class="two"><div><label>Subir material propio (simulado: se guarda el nombre)</label><input type="file" id="up" multiple><div class="row"><button class="btn alt" data-a="addfiles" data-cid="${cid}" data-i="${i}">Agregar archivos</button></div></div><div><label>Repositorio institucional</label><select id="repo">${REPO.map(r=>`<option>${esc(r)}</option>`).join('')}</select><div class="row"><button class="btn alt" data-a="addrepo" data-cid="${cid}" data-i="${i}">Agregar del repositorio</button></div></div></div>
+ <table><tr><th>Archivo</th><th>Origen</th><th></th></tr>${S.materials.length?S.materials.map((m,k)=>`<tr><td>${esc(m.n)}</td><td>${esc(m.src)}</td><td><button class="btn sm bad" data-a="delmat" data-cid="${cid}" data-i="${i}" data-k="${k}">Quitar</button></td></tr>`).join(''):'<tr><td colspan="3" class="muted">Aún no hay materiales.</td></tr>'}</table></div>
+ <div class="card"><h3>📝 Trabajos de los alumnos</h3><div class="tw"><table><tr><th>Alumno</th><th>Trabajo</th><th>Nota /20</th><th>Destacado</th></tr>${S.works.length?S.works.map((w,k)=>`<tr><td>${esc(sts.find(s=>s.sid===w.sid)?.name||w.sid)}</td><td>${esc(w.title)}</td><td style="width:90px"><input type="number" min="0" max="20" step="0.5" value="${w.score}" data-ch="score" data-cid="${cid}" data-i="${i}" data-k="${k}"></td><td><button class="btn sm ${w.star?'':'ghost'}" data-a="star" data-cid="${cid}" data-i="${i}" data-k="${k}">${w.star?'⭐ Sí':'☆ No'}</button></td></tr>`).join(''):'<tr><td colspan="4" class="muted">Sin trabajos registrados.</td></tr>'}</table></div>
+ <h4>Registrar trabajo</h4><div class="two"><div><select id="w-s">${sts.map(s=>`<option value="${s.sid}">${esc(s.name)}</option>`).join('')}</select></div><div><input type="text" id="w-t" placeholder="Título del trabajo"></div></div><div class="row"><input type="number" id="w-n" min="0" max="20" step="0.5" placeholder="Nota" style="max-width:120px"><button class="btn alt" data-a="addwork" data-cid="${cid}" data-i="${i}">Registrar</button></div></div>`;
+}
+function tFin(cid,i,S,c){
+ const sts=studentsOf(c.cls),R=DB.res[sKey(cid,i)]||{},played=sts.filter(s=>R[s.sid]).sort((a,b)=>R[b.sid].score-R[a.sid].score),pend=sts.filter(s=>!R[s.sid]);
+ const av=avg(played.map(s=>R[s.sid].score));
+ return `<div class="card"><h3>🏁 Actividad voluntaria de refuerzo</h3><p class="muted">Los alumnos con acceso móvil juegan desde casa; el resto lo hace en la clase de cómputo.</p><div class="row"><span class="chip">${S.game.type==='trivia'?'Trivia':'Emparejar'} · ${esc(S.game.area)} · ${S.game.items.length} ítems</span><button class="btn ${S.game.published?'bad':''}" data-a="pub" data-cid="${cid}" data-i="${i}">${S.game.published?'Despublicar':'Publicar a los alumnos'}</button><button class="btn ghost" data-a="preview" data-cid="${cid}" data-i="${i}">Vista previa</button></div></div>
+ <div class="kpis"><div class="kpi"><b>${Math.round(played.length/sts.length*100)}%</b><span>participación (${played.length}/${sts.length})</span></div><div class="kpi"><b>${fmt(av)}</b><span>puntaje promedio /20</span></div><div class="kpi"><b>${pend.length}</b><span>pendientes</span></div></div>
+ <div class="two"><div class="card"><h3>Ranking ponderado</h3><table><tr><th>#</th><th>Alumno</th><th>Puntaje</th><th>Vía</th></tr>${played.length?played.map((s,n)=>`<tr><td>${n+1}</td><td>${esc(s.name)}</td><td><b>${fmt(R[s.sid].score)}</b></td><td>${R[s.sid].mode==='computo'?'💻 Cómputo':'📱 Móvil'}</td></tr>`).join(''):'<tr><td colspan="4" class="muted">Nadie ha jugado aún.</td></tr>'}</table></div>
+ <div class="card"><h3>Pendientes · modo laboratorio de cómputo</h3><table>${pend.length?pend.map(s=>`<tr><td>${esc(s.name)}</td><td style="text-align:right"><button class="btn sm" data-a="playlab" data-cid="${cid}" data-i="${i}" data-sid="${s.sid}">💻 Jugar ahora</button></td></tr>`).join(''):'<tr><td class="muted">¡Todos completaron la actividad!</td></tr>'}</table></div></div>`;
+}
+function sMat(S){
+ return `<div class="card"><h3>📎 Materiales de clase</h3><table>${S.materials.length?S.materials.map(m=>`<tr><td>${esc(m.n)}</td><td class="muted">${esc(m.src)}</td><td style="text-align:right"><button class="btn sm alt" data-a="openmat">Abrir</button></td></tr>`).join(''):'<tr><td class="muted">Tu docente aún no subió materiales.</td></tr>'}</table><p class="muted">Vista de solo lectura: no puedes modificar nada.</p></div>`;
+}
+function sJuego(cid,i,S){
+ const b=DB.res[sKey(cid,i)]&&DB.res[sKey(cid,i)][ST.user.sid];
+ return `<div class="card"><h3>🎮 Juego de refuerzo (voluntario)</h3>${S.game.published?`<p>Repasa lo aprendido jugando: <b>${S.game.type==='trivia'?'Trivia':'Emparejar'}</b> · ${esc(S.game.area)}.</p><div class="row"><button class="btn" data-a="play" data-cid="${cid}" data-i="${i}">Jugar</button></div>${b?`<p>Tu mejor puntaje: <b>${fmt(b.score)}</b> / 20 (${b.tries} intento/s)</p>`:''}`:'<p class="muted">El juego de esta sesión todavía no está publicado.</p>'}</div>`;
+}
+function vNotas(){
+ const f=ST.notes,sts=studentsOf(f.cls),fw=allWorks(f.cls).filter(w=>w.star).sort((a,b)=>b.score-a.score);
+ return `<h1>📒 Notas generales</h1><div class="row"><select id="nf" data-ch="nfilter" style="max-width:180px">${CLASSES.map(c=>`<option value="${c.id}" ${c.id===f.cls?'selected':''}>${c.name}</option>`).join('')}</select><button class="btn alt" data-a="csvNotes">Exportar CSV</button></div>
+ <div class="card tw"><table><tr><th>Alumno</th><th>Trabajos</th><th>Juegos</th><th>Asistencia</th><th>Nota final</th></tr>${sts.map(s=>{const a=attPctS(s),fo=finalOf(s);return `<tr><td>${esc(s.name)}</td><td>${fmt(worksAvg(s))}</td><td>${fmt(gameAvg(s))}</td><td>${a==null?'—':a+'%'}</td><td><b style="color:${fo!=null&&fo<11?'var(--bad)':'inherit'}">${fmt(fo)}</b></td></tr>`}).join('')}</table><p class="muted">Ponderación: trabajos ${DB.cfg.w.t}% · juegos ${DB.cfg.w.j}% · asistencia ${DB.cfg.w.a}% (editable en Configuración).</p></div>
+ <h3>⭐ Trabajos destacados</h3><div class="card">${fw.length?`<table><tr><th>Alumno</th><th>Curso</th><th>Trabajo</th><th>Nota</th><th></th></tr>${fw.slice(0,10).map(w=>`<tr><td>${esc(sts.find(s=>s.sid===w.sid)?.name||w.sid)}</td><td>${esc(w.c.name)}</td><td>${esc(w.title)}</td><td><b>${fmt(w.score)}</b></td><td><button class="btn sm ghost" data-a="star" data-cid="${w.cid}" data-i="${w.i}" data-k="${w.wi}" data-from="notas">Quitar</button></td></tr>`).join('')}</table>`:'<span class="muted">Marca trabajos como destacados dentro de una sesión.</span>'}</div>`;
+}
+function vAsist(){
+ const f=ST.att,cid=f.cls+'-'+f.key,c=course(cid),sts=studentsOf(f.cls),sids=sts.map(s=>s.sid),act=activeIdx(cid);
+ const openI=act.filter(i=>stOf(cid,i)==='open').pop(),last=act[act.length-1],wk=Math.floor(last/2);
+ const tH=openI!=null?tally(cid,[openI],sids):{P:0,T:0,F:0,J:0},tS=tally(cid,act.filter(i=>Math.floor(i/2)===wk),sids),tB=tally(cid,act,sids);
+ const marks=tH.P+tH.T+tH.F+tH.J,rk=risks(f.cls).filter(x=>x.c.id===cid),tot=tB.P+tB.T+tB.F+tB.J||1;
+ const a1=tB.P/tot*100,a2=a1+tB.T/tot*100,a3=a2+tB.F/tot*100;
+ const pts=act.map((i,n)=>({i,p:pct(tally(cid,[i],sids))})).filter(x=>x.p!=null),W=300,H=110;
+ const px=n=>pts.length>1?10+n*(W-20)/(pts.length-1):W/2,py=p=>H-10-(p/100)*(H-20);
+ const sel=ST.att.idx!=null&&act.includes(ST.att.idx)?ST.att.idx:(openI!=null?openI:last);
+ const ap=n=>n==null?'—':n+'%';
+ return `<h1>🗓️ Dashboard de asistencia</h1>
+ <div class="row"><select data-ch="afilter" data-f="cls" style="max-width:150px">${CLASSES.map(x=>`<option value="${x.id}" ${x.id===f.cls?'selected':''}>${x.name}</option>`).join('')}</select><select data-ch="afilter" data-f="key" style="max-width:220px">${KEYS.map(x=>`<option value="${x.k}" ${x.k===f.key?'selected':''}>${x.n}</option>`).join('')}</select><button class="btn alt" data-a="csvAtt">Exportar CSV</button></div>
+ <div class="kpis"><div class="kpi"><b>${ap(pct(tH))}</b><span>hoy · ${marks}/${sts.length} marcados</span></div><div class="kpi"><b>${ap(pct(tS))}</b><span>esta semana</span></div><div class="kpi"><b>${ap(pct(tB))}</b><span>bimestre</span></div><div class="kpi"><b style="color:${rk.length?'var(--bad)':'var(--ok)'}">${rk.length}</b><span>alumnos en riesgo (&lt;${DB.cfg.risk}%)</span></div></div>
+ <div class="two"><div class="card"><h3>Tendencia por sesión</h3><svg viewBox="0 0 ${W} ${H}" width="100%"><line x1="10" x2="${W-10}" y1="${py(DB.cfg.risk)}" y2="${py(DB.cfg.risk)}" stroke="#e03131" stroke-dasharray="4 4" opacity=".5"/><polyline fill="none" stroke="#3b5bdb" stroke-width="2.5" points="${pts.map((x,n)=>px(n)+','+py(x.p)).join(' ')}"/>${pts.map((x,n)=>`<circle cx="${px(n)}" cy="${py(x.p)}" r="3.5" fill="#3b5bdb"><title>S${Math.floor(x.i/2)+1}.${x.i%2+1}: ${x.p}%</title></circle>`).join('')}</svg><p class="muted">Línea roja: umbral de riesgo.</p></div>
+ <div class="card"><h3>Distribución del bimestre</h3><div class="donut" style="background:conic-gradient(${ATTC.P} 0 ${a1}%,${ATTC.T} ${a1}% ${a2}%,${ATTC.F} ${a2}% ${a3}%,${ATTC.J} ${a3}% 100%)"><span>${ap(pct(tB))}</span></div><div class="legend">${Object.keys(ATT).map(k=>`<span><i style="background:${ATTC[k]}"></i>${ATT[k]} ${tB[k]}</span>`).join('')}</div></div></div>
+ <div class="card"><h3>Mapa de calor alumno × sesión</h3><div class="tw"><table><tr><th>Alumno</th>${act.map(i=>`<th class="hc">${Math.floor(i/2)+1}.${i%2+1}</th>`).join('')}<th>%</th></tr>${sts.map(s=>`<tr><td>${esc(s.name)}</td>${act.map(i=>{const m=attOf(cid,i,s.sid);return `<td class="hc ${m?m.s:'N'}" title="${m?ATT[m.s]+(m.o==='manual'?' (editada)':''):'Sin marca'}">${m?m.s+(m.o==='manual'?'✎':''):'·'}</td>`}).join('')}<td><b>${ap(pct(tally(cid,act,[s.sid])))}</b></td></tr>`).join('')}</table></div><p class="muted">P presente · T tardanza · F falta · J justificada · ✎ editada manualmente</p></div>
+ <div class="two"><div class="card"><h3>⚠️ Alertas de riesgo</h3>${rk.length?rk.map(x=>`<p>• <b>${esc(x.s.name)}</b>: ${ap(x.p)}${x.consec?' · 2 faltas seguidas':''}</p>`).join(''):'<span class="muted">Sin alumnos en riesgo.</span>'}</div>
+ <div class="card"><h3>Comparativa entre aulas · ${esc(c.name)}</h3><table>${CLASSES.map(x=>{const id=x.id+'-'+f.key;return `<tr><td>${x.name}</td><td><b>${ap(pct(tally(id,activeIdx(id),studentsOf(x.id).map(s=>s.sid))))}</b></td></tr>`}).join('')}</table></div></div>
+ <div class="card"><h3>Cruce asistencia × rendimiento</h3><div class="tw"><table><tr><th>Alumno</th><th>Asistencia</th><th>Prom. juegos</th><th>Prom. trabajos</th><th>Señal</th></tr>${sts.map(s=>{const a=pct(tally(cid,act,[s.sid])),g=gameAvg(s),w=worksAvg(s),low=(a!=null&&a<DB.cfg.risk)&&((g!=null&&g<12)||(w!=null&&w<12));return `<tr><td>${esc(s.name)}</td><td>${ap(a)}</td><td>${fmt(g)}</td><td>${fmt(w)}</td><td>${low?'<span class="chip F">Necesita apoyo</span>':a!=null&&a<DB.cfg.risk?'<span class="chip T">Vigilar</span>':'<span class="chip P">Bien</span>'}</td></tr>`}).join('')}</table></div></div>
+ <div class="card"><h3>✍️ Pase de lista rápido (respaldo manual)</h3><div class="row"><span class="muted">Sesión:</span><select data-ch="afilter" data-f="idx" style="max-width:260px">${act.map(i=>`<option value="${i}" ${i===sel?'selected':''}>Semana ${Math.floor(i/2)+1} · Sesión ${i%2+1}</option>`).join('')}</select></div><table>${sts.map(s=>{const m=attOf(cid,sel,s.sid);return `<tr><td>${esc(s.name)}</td><td>${['P','T','F','J'].map(k=>`<button class="btn sm ${m&&m.s===k?'':'ghost'}" data-a="att" data-cid="${cid}" data-i="${sel}" data-sid="${s.sid}" data-s="${k}">${k}</button>`).join(' ')}</td><td class="muted">${m?(m.o==='manual'?'manual'+(m.n?': '+esc(m.n):''):'automática'):'sin marca'}</td></tr>`}).join('')}</table></div>`;
+}
+function vRepo(){
+ return `<h1>📚 Repositorio</h1><div class="card"><h3>Repositorio institucional (simulado)</h3><table>${REPO.map(r=>`<tr><td>${esc(r)}</td><td class="muted">Institucional</td></tr>`).join('')}</table><p class="muted">Desde cada sesión (pestaña Desarrollo) agregas estos archivos o subes material propio. En la versión real se conecta con el repositorio de la institución.</p></div>`;
+}
+function vConfig(){
+ const c=DB.cfg;
+ return `<h1>⚙️ Configuración</h1><div class="card"><h3>Reglas de asistencia automática</h3><div class="two"><div><label>Tolerancia: presente hasta el minuto</label><input type="number" id="c-tol" value="${c.tol}"></div><div><label>Tardanza hasta el minuto (después, falta)</label><input type="number" id="c-late" value="${c.late}"></div><div><label>Umbral de riesgo (% asistencia)</label><input type="number" id="c-risk" value="${c.risk}"></div><div><label>Dominio institucional</label><input type="text" id="c-dom" value="${esc(c.domain)}"></div></div></div>
+ <div class="card"><h3>Ponderación de la nota final</h3><div class="two"><div><label>Trabajos %</label><input type="number" id="c-wt" value="${c.w.t}"></div><div><label>Juegos %</label><input type="number" id="c-wj" value="${c.w.j}"></div><div><label>Asistencia %</label><input type="number" id="c-wa" value="${c.w.a}"></div></div><div class="row"><button class="btn" data-a="cfgsave">Guardar</button><button class="btn bad" data-a="reset">Restaurar datos de demo</button></div></div>`;
+}
+function vMyGrades(){
+ const u=ST.user,s=STUDENTS.find(x=>x.sid===u.sid),rows=[];
+ COURSES.filter(c=>c.cls===u.cls).forEach(c=>{for(let i=0;i<N;i++){const r=DB.res[sKey(c.id,i)];if(r&&r[u.sid])rows.push({c,i,r:r[u.sid]})}});
+ const w=allWorks(u.cls).filter(x=>x.sid===u.sid);
+ return `<h1>📒 Mis notas</h1><div class="kpis"><div class="kpi"><b>${fmt(finalOf(s))}</b><span>nota final /20</span></div><div class="kpi"><b>${fmt(worksAvg(s))}</b><span>trabajos</span></div><div class="kpi"><b>${fmt(gameAvg(s))}</b><span>juegos</span></div></div>
+ <div class="two"><div class="card"><h3>Mis juegos</h3><table>${rows.length?rows.map(x=>`<tr><td>${esc(x.c.name)} · ${esc(sInfo(x.c,x.i).topic)}</td><td><b>${fmt(x.r.score)}</b></td></tr>`).join(''):'<tr><td class="muted">Aún no juegas ninguna actividad.</td></tr>'}</table></div>
+ <div class="card"><h3>Mis trabajos</h3><table>${w.length?w.map(x=>`<tr><td>${esc(x.title)}</td><td><b>${fmt(x.score)}</b> ${x.star?'⭐':''}</td></tr>`).join(''):'<tr><td class="muted">Sin trabajos calificados.</td></tr>'}</table></div></div>`;
+}
+function vMyAtt(){
+ const u=ST.user;
+ return `<h1>🗓️ Mi asistencia</h1>${COURSES.filter(c=>c.cls===u.cls).map(c=>{const act=activeIdx(c.id);return `<div class="card"><h3>${esc(c.name)} · ${pct(tally(c.id,act,[u.sid]))==null?'—':pct(tally(c.id,act,[u.sid]))+'%'}</h3><div class="row">${act.map(i=>`<span title="Semana ${Math.floor(i/2)+1} · Sesión ${i%2+1}">${chip((attOf(c.id,i,u.sid)||{}).s)}</span>`).join('')}</div></div>`}).join('')}`;
+}
+
+/* =====================================================================
+   MÓDULO 7 · RENDER Y NAVEGACIÓN (con guardia de rutas por rol)
+   ===================================================================== */
+const ROUTES={docente:['home','notas','asistencia','repo','config','class','course','session'],alumno:['home','class','course','session','mygrades','myatt']};
+function mount(){
+ const t=isT();const app=$('#app');app.className=t?'t':'';
+ app.innerHTML=`<aside id="side"></aside><main id="main"></main>${t?`<section id="agent"><div class="ahead"><b>🤖 Asistente IA</b><select id="lang" data-ch="lang">${Object.entries(LANGS).map(([k,v])=>`<option value="${k}" ${k===ST.lang?'selected':''}>${v}</option>`).join('')}</select><button class="btn ghost sm" data-a="toggleAgent">⌃</button></div><div class="actx" id="actx"></div><div id="chat"></div><div class="quick"><button class="btn sm alt" data-a="quick" data-q="Planifica esta sesión">Planificar sesión</button><button class="btn sm alt" data-a="quick" data-q="Sugiere un juego">Crear juego</button><button class="btn sm alt" data-a="quick" data-q="Resume el tema">Resumir tema</button><button class="btn sm alt" data-a="quick" data-q="¿Qué fuentes usas?">Fuentes</button></div><form id="cf"><input type="text" id="ci" placeholder="Pregunta al agente…" autocomplete="off"><button class="btn">Enviar</button></form></section>`:''}`;
+ const f=$('#cf');if(f)f.addEventListener('submit',e=>{e.preventDefault();const i=$('#ci');ask(i.value);i.value=''});
+}
+function render(){
+ if(!ST.user){$('#app').className='';$('#app').innerHTML=vLogin();return}
+ if(!$('#side'))mount();
+ if(!ROUTES[ST.user.role].includes(ST.route.name))ST.route={name:'home'};
+ const r=ST.route.name,V={home:vHome,class:vClass,course:vCourse,session:vSession,notas:vNotas,asistencia:vAsist,repo:vRepo,config:vConfig,mygrades:vMyGrades,myatt:vMyAtt};
+ $('#side').innerHTML=vSide();$('#main').innerHTML=V[r]();renderChat();
+}
+function nav(name,p){
+ p=p||{};const u=ST.user;
+ if(!u.role)return;
+ if(u.role==='alumno'){
+  if(name==='class'&&p.cls!==u.cls)p.cls=u.cls;
+  if(p.cid&&course(p.cid).cls!==u.cls)return toast('Sin acceso a ese curso');
+  if(name==='session'&&stOf(p.cid,p.i)==='locked')return toast('🔒 Esta sesión se desbloquea cuando tu docente la abra');
+ }
+ ST.route={name,...p};
+ if(name==='session')ST.tab=u.role==='docente'?'inicio':'mat';
+ render();window.scrollTo(0,0);
+}
+
+/* =====================================================================
+   MÓDULO 8 · ACCIONES (docente) y ACCIONES comunes — control de permisos
+   ===================================================================== */
+const ACT={
+ ltab:el=>{ST.loginTab=el.dataset.t;ST.loginErr='';render()},
+ login:()=>doLogin(),
+ demo:el=>{ST.loginTab=el.dataset.r;render();$('#em').value=el.dataset.r==='docente'?TEACHER.email+'@'+DB.cfg.domain:'ana.torres@'+DB.cfg.domain;if(el.dataset.r==='docente')$('#pw').value=TEACHER.pass;doLogin()},
+ logout:()=>{if(G)closeGame();ST.user=null;ST.route={name:'home'};ST.chat=[];ST.loginErr='';render()},
+ font:()=>{const h=document.documentElement;h.style.fontSize=(parseFloat(h.style.fontSize)||16)>=19?'16px':(parseFloat(h.style.fontSize)||16)+1.5+'px'},
+ nav:el=>nav(el.dataset.to,{cls:el.dataset.cls,cid:el.dataset.cid,i:el.dataset.i!=null?+el.dataset.i:undefined}),
+ goatt:el=>{ST.att.cls=el.dataset.cls;ST.att.key=el.dataset.key;ST.att.idx=null;nav('asistencia')},
+ tab:el=>{ST.tab=el.dataset.t;render()},
+ play:el=>{const u=ST.user;if(u.role==='alumno'&&(stOf(el.dataset.cid,+el.dataset.i)==='locked'||!getS(el.dataset.cid,+el.dataset.i).game.published))return toast('Este juego aún no está disponible');startGame(el.dataset.cid,+el.dataset.i,{sid:u.role==='alumno'?u.sid:null,mode:u.role==='alumno'?'movil':'preview'})},
+ ans:el=>ans(+el.dataset.k),
+ mpick:el=>mpick(el.dataset.s,+el.dataset.k),
+ closeGame:()=>closeGame(),
+ toggleAgent:()=>$('#agent').classList.toggle('open'),
+ quick:el=>{$('#agent').classList.add('open');ask(el.dataset.q)},
+ openmat:()=>toast('Abriendo material… (demo: sin archivo real)'),
+ csvAtt:()=>{const f=ST.att,cid=f.cls+'-'+f.key,act=activeIdx(cid);csv(`asistencia_${cid}.csv`,[['Alumno',...act.map(i=>`S${Math.floor(i/2)+1}.${i%2+1}`),'% asistencia'],...studentsOf(f.cls).map(s=>[s.name,...act.map(i=>{const m=attOf(cid,i,s.sid);return m?ATT[m.s]:''}),pct(tally(cid,act,[s.sid]))])])},
+ csvNotes:()=>{const c=ST.notes.cls;csv(`notas_${c}.csv`,[['Alumno','Trabajos','Juegos','Asistencia %','Nota final'],...studentsOf(c).map(s=>[s.name,fmt(worksAvg(s)),fmt(gameAvg(s)),attPctS(s),fmt(finalOf(s))])])}
+};
+const ACT_T={      // acciones que modifican datos: SOLO docente (el alumno queda en solo lectura)
+ setstatus:el=>{DB.status[sKey(el.dataset.cid,+el.dataset.i)]=el.dataset.s;save();render();toast('Estado de la sesión actualizado')},
+ askplan:async()=>{const r=await ask($('#q').value);$('#agent').classList.add('open');const p=$('#plan');if(p&&r&&r.plan)p.value=r.t},
+ useplan:el=>{const m=ST.chat[+el.dataset.m],r=ST.route;if(r.name!=='session')return;getS(r.cid,r.i).plan=m.t;save();render();toast('Plan cargado en la sesión')},
+ saveplan:el=>{getS(el.dataset.cid,+el.dataset.i).plan=$('#plan').value;save();toast('Plan guardado')},
+ genGame:el=>{const S=getS(el.dataset.cid,+el.dataset.i),type=$('#g-type').value,area=$('#g-area').value,n=Math.max(3,Math.min(8,+$('#g-n').value||5));S.game={type,area,n,published:S.game.published,items:buildGame(type,area,n,Date.now()%100000)};save();render();toast('Juego generado')},
+ preview:el=>startGame(el.dataset.cid,+el.dataset.i,{mode:'preview'}),
+ addfiles:el=>{const f=$('#up').files;if(!f.length)return toast('Elige uno o más archivos');const S=getS(el.dataset.cid,+el.dataset.i);[...f].forEach(x=>S.materials.push({n:x.name,src:'Material propio'}));save();render()},
+ addrepo:el=>{getS(el.dataset.cid,+el.dataset.i).materials.push({n:$('#repo').value,src:'Repositorio institucional'});save();render()},
+ delmat:el=>{getS(el.dataset.cid,+el.dataset.i).materials.splice(+el.dataset.k,1);save();render()},
+ addwork:el=>{const t=$('#w-t').value.trim(),n=parseFloat($('#w-n').value);if(!t||isNaN(n)||n<0||n>20)return toast('Completa título y una nota entre 0 y 20');getS(el.dataset.cid,+el.dataset.i).works.push({sid:$('#w-s').value,title:t,score:n,star:n>=18});save();render()},
+ star:el=>{const w=getS(el.dataset.cid,+el.dataset.i).works[+el.dataset.k];w.star=!w.star;save();render()},
+ pub:el=>{const g=getS(el.dataset.cid,+el.dataset.i).game;g.published=!g.published;save();render();toast(g.published?'Juego publicado':'Juego despublicado')},
+ playlab:el=>startGame(el.dataset.cid,+el.dataset.i,{sid:el.dataset.sid,mode:'computo'}),
+ att:el=>{const cid=el.dataset.cid,i=+el.dataset.i,s=el.dataset.s;let n='';if(s==='J'){n=prompt('Motivo de la justificación:')||''}DB.att[cid]=DB.att[cid]||{};DB.att[cid][i]=DB.att[cid][i]||{};DB.att[cid][i][el.dataset.sid]={s,o:'manual',n};save();render()},
+ cfgsave:()=>{const c=DB.cfg;c.tol=+$('#c-tol').value||10;c.late=Math.max(c.tol,+$('#c-late').value||30);c.risk=+$('#c-risk').value||85;c.domain=($('#c-dom').value.trim()||c.domain).replace(/^@/,'');c.w={t:+$('#c-wt').value||0,j:+$('#c-wj').value||0,a:+$('#c-wa').value||0};save();render();toast('Configuración guardada')},
+ reset:()=>{if(!confirm('¿Restaurar los datos de demostración?'))return;try{localStorage.removeItem(KEY)}catch(e){}DB=seed();save();ST.chat=[];render();toast('Datos de demo restaurados')}
+};
+const CH={      // cambios en inputs/selects
+ lang:el=>{ST.lang=el.value;ST.chat.push({r:'a',t:(L[ST.lang]||L.es).hi,src:[]});renderChat()},
+ nfilter:el=>{ST.notes.cls=el.value;render()},
+ afilter:el=>{const f=el.dataset.f;ST.att[f]=f==='idx'?+el.value:el.value;if(f!=='idx')ST.att.idx=null;render()},
+ score:el=>{if(!isT())return;const v=parseFloat(el.value);if(isNaN(v)||v<0||v>20){toast('Nota entre 0 y 20');return render()}const w=getS(el.dataset.cid,+el.dataset.i).works[+el.dataset.k];w.score=v;save();toast('Nota actualizada')}
+};
+document.addEventListener('click',e=>{
+ const el=e.target.closest('[data-a]');if(!el)return;const a=el.dataset.a;
+ if(ACT_T[a]){if(!isT())return toast('Vista de solo lectura para alumnos');ACT_T[a](el,e)}else if(ACT[a])ACT[a](el,e);
+});
+document.addEventListener('change',e=>{const el=e.target.closest('[data-ch]');if(!el)return;const f=CH[el.dataset.ch];if(f)f(el)});
+document.addEventListener('keydown',e=>{if(e.key==='Enter'&&!ST.user&&e.target.closest('.login'))doLogin()});
+
+/* =====================================================================
+   MÓDULO 9 · INGRESO, VALIDACIÓN DE CORREO Y ASISTENCIA AUTOMÁTICA
+   ===================================================================== */
+function doLogin(){
+ const em=($('#em').value||'').trim().toLowerCase(),dom='@'+DB.cfg.domain;
+ const fail=m=>{ST.loginErr=m;const x=document.querySelector('.err');if(x)x.textContent=m};
+ if(ST.loginTab==='docente'){
+  const pw=$('#pw').value;
+  if(!em||!pw)return fail('Ingresa tu correo y contraseña.');
+  if(!em.endsWith(dom))return fail('Usa tu correo institucional ('+dom+').');
+  if(em!==TEACHER.email+dom||pw!==TEACHER.pass)return fail('Credenciales incorrectas (demo: '+TEACHER.email+dom+' / '+TEACHER.pass+').');
+  ST.user={role:'docente',name:TEACHER.name,email:em};
+ }else{
+  if(!em)return fail('Ingresa tu correo institucional.');
+  if(!em.endsWith(dom))return fail('Solo se permite el correo institucional ('+dom+').');
+  const s=STUDENTS.find(x=>x.sid+dom===em);
+  if(!s)return fail('Ese correo no figura en la matrícula.');
+  ST.user={role:'alumno',name:s.name,email:em,sid:s.sid,cls:s.cls};
+  const msg=autoAttendance(+$('#sim').value);
+  ST.pendingToast=msg;
+ }
+ ST.loginErr='';ST.route={name:'home'};ST.chat=[];mount();render();
+ if(ST.pendingToast){toast(ST.pendingToast);ST.pendingToast=null}
+}
+function autoAttendance(min){
+ const u=ST.user;let st=null;
+ COURSES.filter(c=>c.cls===u.cls).forEach(c=>{for(let i=0;i<N;i++)if(stOf(c.id,i)==='open'){
+  DB.att[c.id]=DB.att[c.id]||{};DB.att[c.id][i]=DB.att[c.id][i]||{};
+  if(!DB.att[c.id][i][u.sid]){st=min<=DB.cfg.tol?'P':min<=DB.cfg.late?'T':'F';DB.att[c.id][i][u.sid]={s:st,o:'auto',m:min}}
+ }});
+ save();
+ return st?`Asistencia registrada automáticamente: ${ATT[st]}`:'Bienvenido/a. Tu asistencia de hoy ya estaba registrada.';
+}
+
+/* =====================================================================
+   ARRANQUE
+   ===================================================================== */
+load();render();
+})();
+</script>
+</body>
+</html>

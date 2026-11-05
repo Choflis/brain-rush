@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Manco Inca: La Rebelión</title>
+<style>
+:root{--p:#b04dff;--c:#27e6ff;--g:#9dff3a;--r:#ff4d6d;--bg:#0b0720;--cd:#171036;--t:#f4f1ff}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;background:radial-gradient(circle at 15% 0,#2f0f6b,transparent 50%),radial-gradient(circle at 95% 100%,#063a4d,transparent 50%),var(--bg);color:var(--t);font:700 clamp(16px,2.4vw,19px)/1.5 "Trebuchet MS","Segoe UI",system-ui,sans-serif}
+#app{max-width:780px;margin:auto;padding:12px 12px 70px}
+#cf{position:fixed;inset:0;pointer-events:none;z-index:50}
+.scr{display:none}.scr.on{display:block;animation:in .45s}
+@keyframes in{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@keyframes sh{20%{transform:translateX(-12px)}40%{transform:translateX(12px)}60%{transform:translateX(-8px)}80%{transform:translateX(8px)}}
+#app.shake{animation:sh .45s}
+@keyframes gl{50%{text-shadow:0 0 8px var(--c),0 0 30px var(--p),0 0 50px var(--p)}}
+@keyframes bn{40%{transform:translateY(-12px) scale(1.2)}}
+h1,h2{font-family:Impact,"Arial Black",sans-serif;font-weight:400;letter-spacing:.5px;margin:.3em 0}
+h1{font-size:clamp(34px,8vw,60px);text-align:center;color:var(--g);text-shadow:0 0 14px var(--p);animation:gl 2.4s infinite;line-height:1.05}
+h2{font-size:clamp(24px,5vw,34px);color:var(--c)}
+.card{background:var(--cd);border:2px solid #4b3a99;border-radius:22px;padding:16px 18px;margin:12px 0;box-shadow:0 0 22px #b04dff33}
+.big{font-size:70px;text-align:center;line-height:1}
+.btn{background:linear-gradient(135deg,var(--p),var(--c));color:#fff;border:0;border-radius:16px;padding:14px 24px;font:inherit;font-weight:900;font-size:1.05em;cursor:pointer;box-shadow:0 0 18px #b04dff88;transition:.2s;margin:6px 4px}
+.btn:hover:not(:disabled){transform:translateY(-2px) scale(1.03);box-shadow:0 0 28px var(--c)}
+.btn:disabled{opacity:.4;cursor:not-allowed}.btn.alt{background:#2a1f66}
+.ctr{text-align:center}
+input{width:100%;padding:14px;border-radius:14px;border:2px solid var(--c);background:#0b0720;color:#fff;font:inherit;font-size:1.1em;text-align:center}
+input.err{border-color:var(--r);animation:sh .4s}
+.avs{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin:14px 0}
+.av{font-size:38px;width:68px;height:68px;border-radius:50%;border:3px solid #4b3a99;background:var(--cd);cursor:pointer}
+.av.on{border-color:var(--g);box-shadow:0 0 18px var(--g);transform:scale(1.12)}
+#hud{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between;background:#120b2e;border:2px solid #3b2d80;border-radius:18px;padding:8px 12px;position:sticky;top:6px;z-index:5}
+#hud b{color:var(--g)}
+#xp{flex:1 1 140px;height:14px;background:#2a1f66;border-radius:9px;overflow:hidden}
+#xpf{height:100%;width:0;background:linear-gradient(90deg,var(--p),var(--c));transition:width .6s}
+#guide{display:flex;gap:10px;align-items:center;margin:10px 0}
+#mas{font-size:46px}#mas.bn{animation:bn .5s}
+#bub{background:#fff;color:#1b1040;border-radius:16px 16px 16px 4px;padding:8px 14px;flex:1}
+.rd{font-weight:600;font-size:1.05em}
+mark{background:none;color:var(--g);font-weight:900}
+#tm{display:flex;gap:8px;align-items:center}#tbw{flex:1;height:14px;background:#2a1f66;border-radius:9px;overflow:hidden}
+#tb{height:100%;width:100%;transition:width .1s linear}
+.opt{display:block;width:100%;margin:8px 0;text-align:left;background:#1d1445;border:2px solid #4b3a99;color:var(--t);border-radius:14px;padding:13px 16px;font:inherit;cursor:pointer;transition:.15s}
+.opt:hover:not(:disabled){border-color:var(--c);box-shadow:0 0 14px var(--c)}
+.opt.good{border-color:var(--g);background:#1f4010;box-shadow:0 0 16px var(--g)}
+.opt.badc{border-color:var(--r);background:#4a1020}.opt.gone{opacity:.12;pointer-events:none}
+.opt.sel{border-color:var(--c)}.zone{min-height:54px;border:2px dashed var(--c);border-radius:14px;padding:6px;margin-bottom:8px}
+.mt{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.lfs{display:flex;flex-wrap:wrap;gap:6px;justify-content:center}
+.lfs .btn{padding:9px 14px;font-size:.9em}
+#fb{border-left:6px solid var(--c)}
+#hn{background:#3a2d00;border-radius:12px;padding:8px 12px;margin:8px 0}
+#ov{display:none;position:fixed;inset:0;background:#000c;z-index:60;padding:20px;overflow:auto}#ov.on{display:block}
+#ts{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);background:var(--g);color:#1b1040;padding:10px 18px;border-radius:30px;font-weight:900;z-index:70;opacity:0;transition:.3s;pointer-events:none;text-align:center;max-width:90%}
+#ts.on{opacity:1}
+#mu{position:fixed;top:8px;right:8px;z-index:9;font-size:22px;background:#2a1f66;border:0;border-radius:50%;width:44px;height:44px;cursor:pointer;color:#fff}
+#card{border-color:var(--g);text-align:center}
+.st{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin:10px 0}.st div{background:#0b0720;border-radius:12px;padding:8px}
+.bd{display:inline-block;background:#0b0720;border:2px solid var(--p);border-radius:12px;padding:5px 10px;margin:4px;font-size:.9em}
+small{font-weight:600;font-size:.88em;display:block;margin-top:4px}
+@media(max-width:520px){.mt{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important}}
+</style></head><body>
+<canvas id="cf"></canvas><button id="mu" onclick="mute()" aria-label="Sonido">🔊</button>
+<div id="ts"></div><div id="ov" onclick="closeRd()"><div class="card"><h2>📖 Relee con calma</h2><div id="rd" class="rd"></div><p class="ctr"><button class="btn">Cerrar y seguir ⏱️</button></p></div></div>
+<div id="app">
+<div id="hud" hidden><span id="hearts"></span><span id="rk"></span><div id="xp"><div id="xpf"></div></div><span>⭐ <b id="sc">0</b></span><span id="st"></span></div>
+<div id="guide" hidden><span id="mas">🦙</span><div id="bub">¡Hola!</div></div>
+
+<section id="s0" class="scr on">
+<div class="big">🏔️⚔️🦙</div><h1>MANCO INCA<br>LA REBELIÓN</h1>
+<p class="ctr" id="sub"></p>
+<div class="card"><p class="ctr">Eres un <mark>viajero en el tiempo</mark>. Supera 4 niveles y al jefe final para <mark>salvar la línea del tiempo</mark> del Tahuantinsuyo.</p>
+<input id="nm" maxlength="18" placeholder="Escribe tu nombre" autocomplete="off">
+<div class="avs" id="avs"></div>
+<p class="ctr"><button class="btn" onclick="go(false)">¡Comenzar misión! 🚀</button></p></div>
+</section>
+
+<section id="sl" class="scr"><div class="card"><div class="big" id="li"></div><h2 id="ln" class="ctr"></h2><div id="lx" class="rd"></div></div>
+<p class="ctr"><button class="btn" id="lbtn" onclick="ask()"></button></p></section>
+
+<section id="sq" class="scr">
+<div class="card"><div id="qh" style="color:var(--c)"></div><div id="tm"><span id="tn">25</span><div id="tbw"><div id="tb"></div></div></div>
+<h3 id="qt" style="margin:.6em 0;font-size:1.2em"></h3><div id="ans"></div><div id="hn" hidden></div></div>
+<div class="lfs"><button class="btn alt" id="lf-f" onclick="lf('f')">✂️ 50/50</button><button class="btn alt" id="lf-h" onclick="lf('h')">💡 Pista</button><button class="btn alt" id="lf-r" onclick="lf('r')">📖 Releer</button></div>
+<div id="fb" class="card" hidden><div id="fbt"></div><p class="ctr"><button class="btn" id="nx">Continuar ➜</button></p></div>
+</section>
+
+<section id="sf" class="scr"><div class="card ctr"><div class="big">🎉</div><h2>¡Nivel superado!</h2><p id="ft"></p></div>
+<p class="ctr"><button class="btn" id="fbtn">Siguiente nivel ➜</button></p></section>
+
+<section id="se" class="scr"><div class="card" id="card"></div>
+<div class="card"><h2>📚 Temas para reforzar</h2><div id="wk"></div></div>
+<div class="card" id="er" hidden></div>
+<p class="ctr"><button class="btn" onclick="go(true)">🔄 Jugar de nuevo</button><button class="btn alt" onclick="errs()">🔍 Ver mis errores</button></p>
+<p class="ctr"><small>📸 Toma captura de la tarjeta y envíala a tu profesor.</small></p></section>
+</div>
+
+<script>
+/* ============ DATOS EDITABLES ============ */
+const TITULO="Resistencia indígena: la rebelión de Manco Inca";
+const SUB="Historia del Perú · 2.° de secundaria";
+const AVATARES=["🦅","🦙","🛡️","🗡️","🧭","🏺"];
+const OKS=["¡Eso es!","¡Crack de la historia!","¡Directo al blanco!","¡Qué nivel!","¡Perfecto!"];
+const BADS=["¡Auch!","Casi, casi…","Uy, esa fue difícil.","Tranquilo, se aprende."];
+const SORPRESAS=["💡 Tip: si dudas, usa 📖 Releer.","🎲 Las rachas multiplican tus puntos: x2 con 3 y x3 con 5.","🦙 Chaski dice: ¡leer bien es tu superpoder!","⚡ Responde rápido: el tiempo que sobra suma puntos."];
+const NIVELES=[
+{icon:"🎭",name:"Nivel 1: El secreto del Inca Títere",g:"Lee con calma, ¡luego vienen los retos!",
+text:"Tras la muerte de Atahualpa, los españoles nombraron inca a <mark>Túpac Huallpa</mark> (Toparpa) para aparentar una alianza con el Tahuantinsuyo. Pero en <mark>Jauja</mark> fue asesinado y Pizarro buscó otro aliado: <mark>Manco Inca</mark>, hijo de Huayna Cápac, enemigo de Atahualpa y partidario de Huáscar. En <mark>Jaquijahuana</mark> ofreció ayuda contra el general Quisquis a cambio de ser nombrado inca. Tenía solo <mark>veinte años</mark>. Los españoles lo veían como un soberano manipulable: el <mark>Inca Títere</mark>. Juntos entraron triunfantes al Cusco.",
+fact:"Manco Inca tenía solo 20 años cuando se alió con los españoles. ¡Un adolescente grande en plena historia!",
+qs:[
+{t:"mc",topic:"Antecedentes",q:"¿Quién fue nombrado inca por los españoles tras la muerte de Atahualpa?",o:["Túpac Huallpa (Toparpa)","Huáscar","Quisquis","Cahuide"],a:0,hint:"Los españoles lo llamaban Toparpa.",why:"Nombraron a Túpac Huallpa para aparentar una alianza con el Tahuantinsuyo.",src:"Antecedentes"},
+{t:"tf",topic:"Quién era Manco Inca",q:"Manco Inca era hijo de Huayna Cápac y partidario de Huáscar.",a:true,hint:"Era enemigo de Atahualpa.",why:"Era hijo de Huayna Cápac, enemigo de Atahualpa y partidario de Huáscar.",src:"El sucesor: Manco Inca"},
+{t:"order",topic:"Orden de los hechos",q:"Ordena los hechos del primero al último:",items:["Los españoles nombran inca a Túpac Huallpa","Túpac Huallpa es asesinado en Jauja","Manco Inca ofrece su apoyo en Jaquijahuana","Manco Inca entra al Cusco junto a los españoles"],hint:"Primero muere un inca; luego aparece otro aliado.",why:"Así ocurrieron los hechos.",src:"Antecedentes y Camino al Cusco"}]},
+{icon:"🗝️",name:"Nivel 2: El gran engaño",g:"¡Aquí el Inca se pone astuto! 😎",
+text:"Al llegar al Cusco, los españoles <mark>saquearon y destruyeron</mark> la ciudad, e incluso humillaron al inca. Manco Inca descubrió su ambición por el <mark>oro y la plata</mark>. En 1536, Francisco Pizarro estaba en <mark>Lima</mark> y Diego de Almagro en <mark>Chile</mark>; <mark>Hernando y Juan Pizarro</mark> custodiaban al inca. Manco engañó a Hernando: le dijo que conocía dónde estaban los tesoros incas y pidió permiso para ir por ellos. Ya libre, fue al <mark>Valle de Yucay</mark> y armó un gran ejército.",
+fact:"Manco Inca escapó sin pelear: solo usó su inteligencia y la codicia de sus captores.",
+qs:[
+{t:"fill",topic:"Inicio de la rebelión",q:"Manco Inca engañó a Hernando Pizarro aprovechando su ______ por los tesoros.",o:["codicia","generosidad","valentía","religión"],a:0,hint:"Es la ambición excesiva por la riqueza.",why:"Se aprovechó de la codicia de los españoles.",src:"El inicio de la rebelión"},
+{t:"match",topic:"Personajes de 1536",q:"Relaciona cada personaje con lo que hacía en 1536:",pairs:[["Francisco Pizarro","Estaba en Lima"],["Diego de Almagro","Exploraba Chile"],["Hernando y Juan Pizarro","Custodiaban al inca"],["Manco Inca","Armó ejército en Yucay"]],hint:"Los hermanos Pizarro estaban en el Cusco.",why:"Revisa quién estaba dónde en 1536.",src:"Despertando a la realidad"}]},
+{icon:"🏔️",name:"Nivel 3: El cerco del Cusco",g:"¡Sacsayhuamán nos espera! 🏯",
+text:"El <mark>3 de mayo de 1536</mark>, unos <mark>180 000</mark> guerreros rodearon el Cusco. Los españoles eran menos de doscientos, pero tenían más de treinta mil aliados indígenas. Manco Inca <mark>cavó huecos en las calles</mark> para romper las patas de los caballos y cortó los alimentos. Tomó la fortaleza de <mark>Sacsayhuamán</mark>; Juan Pizarro intentó recuperarla frente al general <mark>Cahuide</mark>, quien se lanzó desde lo alto para no ser prisionero. El cerco duró meses: el cansancio y la falta de provisiones debilitaron a los incas, y llegó <mark>Almagro</mark> desde Chile. Manco se refugió en <mark>Vilcabamba</mark>.",
+fact:"Los españoles decían ver a la Virgen María apagando los incendios de los techos. ¡Estaban muertos de miedo!",
+qs:[
+{t:"mc",topic:"Cerco del Cusco",q:"¿Qué estrategia usó Manco Inca contra los caballos españoles?",o:["Cavó grandes huecos en las calles","Les echó veneno al agua","Los espantó con fuego","Los robó de noche"],a:0,hint:"Piensa en las patas de los animales.",why:"Los huecos servían para romper las patas de los caballos.",src:"Cerco del Cusco"},
+{t:"op",topic:"Final del cerco",q:"Si fueras Manco Inca y tu ejército estuviera cansado y sin comida tras meses de cerco, ¿qué harías?",o:["Retirarme a Vilcabamba para recuperar fuerzas","Seguir el cerco pase lo que pase","Negociar la paz con Almagro","Buscar más aliados andinos"],msg:"¡Buena reflexión! Manco puso fin al cerco y se refugió en Vilcabamba. Toda idea vale si la defiendes con argumentos."}]},
+{icon:"🌊",name:"Nivel 4: El cerco de Lima",g:"¡Ahora la Ciudad de los Reyes! 👑",
+text:"En agosto de 1536, <mark>Titu Quisu Yupanqui</mark> salió de Tambo con unos <mark>25 000 soldados</mark>, por orden de Manco Inca, tomó el <mark>cerro San Cristóbal</mark> y sitió Lima. En la batalla de <mark>Atocongo</mark> los incas usaron armas europeas, pero Francisco Pizarro, con sus <mark>aliados andinos</mark>, los venció. Titu Quisu llegó hasta la Plaza de Armas, fue sorprendido y murió; sus soldados se dispersaron. Los <mark>yungas</mark> de Lurigancho, Surco, Pachacámac, Chilca y Huarochirí lucharon junto a Pizarro.",
+fact:"En Atocongo, los incas ya usaban armas europeas y no les tenían miedo.",
+qs:[
+{t:"mc",topic:"Cerco de Lima",q:"¿Quién dirigió el cerco de Lima por orden de Manco Inca?",o:["Titu Quisu Yupanqui","Cahuide","Quisquis","Juan Pizarro"],a:0,hint:"Salió de Tambo con 25 000 soldados.",why:"Titu Quisu Yupanqui lideró el cerco y tomó el cerro San Cristóbal.",src:"Cerco de Lima"},
+{t:"tf",topic:"Aliados de los españoles",q:"Los yungas lucharon junto a Francisco Pizarro contra Titu Quisu Yupanqui.",a:true,hint:"Mira los pueblos mencionados al final.",why:"Los yungas de Lurigancho, Surco, Pachacámac, Chilca y Huarochirí apoyaron a Pizarro.",src:"Los vencedores de la rebelión"}]},
+{boss:1,icon:"👹",name:"JEFE FINAL: El guardián de Vilcabamba",g:"¡Último reto! Tú puedes. 💪",
+text:"<mark>Repaso final:</mark> Manco Inca pasó de aliado a líder de la rebelión de 1536. Cercó el Cusco y Lima. Cahuide defendió Sacsayhuamán. Pero la rebelión fracasó por el cansancio, la falta de provisiones, la llegada de Almagro y el apoyo de <mark>etnias indígenas aliadas</mark> a los españoles.",
+fact:"",
+qs:[
+{t:"mc",topic:"Cahuide y Sacsayhuamán",q:"Cuando Sacsayhuamán estaba siendo recuperada, ¿qué hizo Cahuide?",o:["Se lanzó desde lo alto para no ser prisionero","Se rindió ante Juan Pizarro","Huyó a Lima","Pactó con Almagro"],a:0,hint:"Prefirió no caer prisionero.",why:"Cahuide se lanzó desde uno de los terrones.",src:"Cerco del Cusco"},
+{t:"mc",topic:"Indígenas contra indígenas",q:"¿Por qué se dice que la batalla de Lima fue «de indígenas contra indígenas»?",o:["Pueblos antes sometidos por los incas lucharon junto a los españoles","Porque no había españoles","Porque los incas pelearon entre ellos","Porque los yungas apoyaron a Titu Quisu"],a:0,hint:"Piensa en quién ayudó a Pizarro.",why:"Huancas, huaylas y yungas se aliaron con los españoles para enfrentarse a los incas.",src:"Los vencedores de la rebelión"},
+{t:"mc",topic:"Causas de la derrota",q:"¿Qué explica mejor que la rebelión no expulsara a los españoles?",o:["Aliados indígenas, desgaste inca y llegada de Almagro","Los españoles eran más numerosos","Manco Inca no quiso luchar","Los incas no tenían guerreros"],a:0,hint:"Hubo varias causas a la vez.",why:"Los incas eran muchísimos más; perdieron por el desgaste, los aliados españoles y los refuerzos.",src:"Final del cerco cusqueño"}]}];
+const INSIGNIAS={nin:["🥷","Lector ninja"],cer:["🧠","Cerebro en llamas"],rac:["🔥","Racha imparable"],sin:["💖","Sin rasguños"],jef:["👑","Cazador de jefes"],det:["🔎","Detective puro"]};
+/* ============ MOTOR DEL JUEGO ============ */
+const $=s=>document.querySelector(s),pk=a=>a[Math.random()*a.length|0];
+const sh=a=>{a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a};
+const esc=s=>s.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const RK=[[0,"Novato","🌱"],[500,"Explorador","🧭"],[1200,"Experto","⚔️"],[2200,"Leyenda","👑"]];
+const rk=x=>RK.reduce((i,r,j)=>x>=r[0]?j:i,0);
+let L,S,Q,lock,tl,tmr,ls,pause,muted,AC,shown=0,cn,AV=AVATARES[0],NAME="";
+$("#sub").textContent=SUB;
+AVATARES.forEach((a,i)=>{const b=document.createElement("button");b.className="av"+(i?"":" on");b.textContent=a;b.onclick=()=>{AV=a;document.querySelectorAll(".av").forEach(x=>x.classList.remove("on"));b.classList.add("on")};$("#avs").appendChild(b)});
+function tone(f,d,ty="sine",st=0,v=.15){if(muted)return;try{AC=AC||new(window.AudioContext||window.webkitAudioContext)();const o=AC.createOscillator(),g=AC.createGain(),t=AC.currentTime+st;o.type=ty;o.frequency.value=f;g.gain.setValueAtTime(v,t);g.gain.exponentialRampToValueAtTime(.001,t+d);o.connect(g);g.connect(AC.destination);o.start(t);o.stop(t+d)}catch(e){}}
+const sfx={ok:()=>[523,659,784].forEach((f,i)=>tone(f,.15,"triangle",i*.09)),bad:()=>{tone(180,.3,"sawtooth");tone(120,.3,"sawtooth",.15)},up:()=>[392,523,659,784,1047].forEach((f,i)=>tone(f,.18,"square",i*.1,.1)),tick:()=>tone(900,.05)};
+function mute(){muted=!muted;$("#mu").textContent=muted?"🔇":"🔊"}
+function confetti(n=80){const c=$("#cf"),x=c.getContext("2d"),C=["#b04dff","#27e6ff","#9dff3a","#ffd23f","#ff4d6d"];c.width=innerWidth;c.height=innerHeight;const P=Array.from({length:n},()=>({x:innerWidth/2,y:innerHeight*.4,vx:(Math.random()-.5)*14,vy:-Math.random()*14-4,s:5+Math.random()*7,c:pk(C),r:Math.random()*6}));let f=0;(function a(){x.clearRect(0,0,c.width,c.height);P.forEach(p=>{p.x+=p.vx;p.y+=p.vy;p.vy+=.35;p.r+=.2;x.fillStyle=p.c;x.save();x.translate(p.x,p.y);x.rotate(p.r);x.fillRect(-p.s/2,-p.s/2,p.s,p.s*.6);x.restore()});if(++f<110)requestAnimationFrame(a);else x.clearRect(0,0,c.width,c.height)})()}
+function show(id){document.querySelectorAll(".scr").forEach(s=>s.classList.toggle("on",s.id===id));$("#hud").hidden=$("#guide").hidden=id==="s0";scrollTo(0,0)}
+function say(t){$("#bub").textContent=t;const m=$("#mas");m.classList.remove("bn");void m.offsetWidth;m.classList.add("bn")}
+function toast(t){const e=$("#ts");e.textContent=t;e.classList.add("on");setTimeout(()=>e.classList.remove("on"),2300)}
+function give(id){if(S.bd.includes(id))return;S.bd.push(id);toast(INSIGNIAS[id][0]+" ¡Insignia: "+INSIGNIAS[id][1]+"!")}
+function hud(){const i=rk(S.xp),n=RK[i+1];$("#hearts").textContent="❤️".repeat(S.lives)+"🖤".repeat(3-S.lives);$("#rk").textContent=RK[i][2]+" "+RK[i][1];$("#xpf").style.width=(n?(S.xp-RK[i][0])/(n[0]-RK[i][0])*100:100)+"%";$("#st").textContent=S.streak>1?"🔥x"+mult():"";clearInterval(cn);cn=setInterval(()=>{const d=S.score-shown;if(d<=0){shown=S.score;clearInterval(cn)}else shown+=Math.ceil(d/8);$("#sc").textContent=shown},30)}
+const mult=()=>S.streak>=5?3:S.streak>=3?2:1;
+function go(rand){const n=rand?NAME:$("#nm").value.trim();if(!n){$("#nm").classList.add("err");$("#nm").focus();return}NAME=n;shown=0;
+S={lives:3,score:0,xp:0,streak:0,ok:0,bad:0,li:0,qi:0,bd:[],mist:[],t0:Date.now(),lf:{f:1,h:1,r:1},used:0,rank:0};
+L=NIVELES.map(l=>({...l,qs:rand?sh(l.qs):l.qs}));$("#sc").textContent=0;intro()}
+function intro(){const l=L[S.li];S.qi=0;$("#li").textContent=l.icon;$("#ln").textContent=l.name;$("#lx").innerHTML=l.text;$("#lbtn").textContent=l.boss?"¡Entrar a la batalla! ⚔️":"¡Listo para el reto! ⚡";show("sl");say(l.g);hud()}
+function lfUpd(){["f","h","r"].forEach(k=>$("#lf-"+k).disabled=!S.lf[k])}
+function btn(c,t){const b=document.createElement("button");b.className=c;b.textContent=t;return b}
+function ask(){const l=L[S.li],q=l.qs[S.qi],A=$("#ans");Q=q;lock=false;pause=false;A.innerHTML="";$("#fb").hidden=true;$("#hn").hidden=true;show("sq");
+$("#qh").textContent=l.icon+" "+l.name.split(":")[0]+" · pregunta "+(S.qi+1)+"/"+l.qs.length;$("#qt").textContent=q.q;
+const opts=it=>it.forEach(o=>{const b=btn("opt",o.x);b.dataset.ok=o.ok?1:0;b.onclick=()=>{if(lock)return;b.classList.add("sel");resolve(q.t==="op"?null:o.ok,0)};A.appendChild(b)});
+if(q.t==="mc"||q.t==="fill")opts(sh(q.o.map((x,i)=>({x,ok:i===q.a}))));
+else if(q.t==="op")opts(q.o.map(x=>({x,ok:1})));
+else if(q.t==="tf")opts([{x:"✅ Verdadero",ok:q.a},{x:"❌ Falso",ok:!q.a}]);
+else if(q.t==="order"){let pool=sh(q.items),ch=[];const ro=()=>{A.innerHTML='<div class="zone" id="z">'+(ch.length?"":"<i>Toca las tarjetas en orden 👇</i>")+'</div><div id="pl"></div><button class="btn" id="ck">Comprobar ✔️</button>';
+ch.forEach((x,i)=>{const b=btn("opt sel",(i+1)+". "+x);b.onclick=()=>{if(lock)return;ch.splice(i,1);pool.push(x);ro()};$("#z").appendChild(b)});
+pool.forEach(x=>{const b=btn("opt",x);b.onclick=()=>{if(lock)return;pool.splice(pool.indexOf(x),1);ch.push(x);ro()};$("#pl").appendChild(b)});
+$("#ck").disabled=pool.length>0;$("#ck").onclick=()=>{if(!lock)resolve(ch.every((x,i)=>x===q.items[i]),0)}};ro()}
+else if(q.t==="match"){const R=sh(q.pairs.map(p=>p[1])),COL=["#27e6ff","#9dff3a","#ffd23f","#ff4d6d"];let sel=null,mp={};
+const rm=()=>{A.innerHTML='<div class="mt"><div id="ml"></div><div id="mr"></div></div><button class="btn" id="ck">Comprobar ✔️</button>';
+q.pairs.forEach((p,i)=>{const b=btn("opt",p[0]);if(sel===i||mp[i]!=null)b.style.borderColor=COL[i];if(sel===i)b.style.boxShadow="0 0 14px "+COL[i];b.onclick=()=>{if(lock)return;delete mp[i];sel=i;rm()};$("#ml").appendChild(b)});
+R.forEach((x,j)=>{const b=btn("opt",x),o=Object.keys(mp).find(k=>mp[k]===j);if(o!=null)b.style.borderColor=COL[o];b.onclick=()=>{if(lock||sel==null)return;Object.keys(mp).forEach(k=>{if(mp[k]===j)delete mp[k]});mp[sel]=j;sel=null;rm()};$("#mr").appendChild(b)});
+$("#ck").disabled=Object.keys(mp).length<4;$("#ck").onclick=()=>{if(!lock)resolve(q.pairs.every((p,i)=>R[mp[i]]===p[1]),0)}};rm();A.insertAdjacentHTML("beforebegin","")}
+lfUpd();$("#tm").hidden=q.t==="op";if(q.t!=="op")startT();say(q.t==="op"?"Aquí no hay error: ¡opina!":"¡Concentración! 🎯")}
+function startT(){tl=25;ls=99;clearInterval(tmr);bar();tmr=setInterval(()=>{if(pause||lock)return;tl-=.1;bar();const c=Math.ceil(tl);if(c!==ls){ls=c;if(c<=5&&c>0)sfx.tick()}if(tl<=0)resolve(false,1)},100)}
+function bar(){const b=$("#tb");b.style.width=Math.max(0,tl/25*100)+"%";b.style.background=tl<=7?"var(--r)":"linear-gradient(90deg,var(--g),var(--c))";$("#tn").textContent=Math.ceil(Math.max(tl,0))}
+function ansTxt(q){return q.t==="tf"?(q.a?"Verdadero":"Falso"):q.t==="order"?q.items.join(" ➜ "):q.t==="match"?q.pairs.map(p=>p[0]+" = "+p[1]).join("; "):q.o[q.a]}
+function resolve(ok,to){if(lock)return;lock=true;clearInterval(tmr);const q=Q;let h;
+document.querySelectorAll("#ans .opt").forEach(b=>{if(b.dataset.ok==="1")b.classList.add("good");else if(b.classList.contains("sel")&&["mc","fill","tf"].includes(q.t))b.classList.add("badc");b.disabled=true});
+const ck=$("#ck");if(ck)ck.disabled=true;
+if(q.t==="op"){S.score+=100;S.xp+=100;h="🧠 "+q.msg+" <b>+100</b>";sfx.ok();confetti(30);say("¡Me encanta cómo piensas!")}
+else if(ok){S.streak++;S.ok++;const m=mult(),p=(100+Math.round(Math.max(tl,0)))*m;S.score+=p;S.xp+=p;
+h="✅ "+pk(OKS)+(m>1?" 🔥 ¡Racha x"+m+"!":"")+" <b>+"+p+"</b><small>"+q.why+"</small>";sfx.ok();confetti(40);say(pk(OKS));
+if(S.streak>=3)give("cer");if(S.streak>=5)give("rac");if(25-tl<6)give("nin")}
+else{S.streak=0;S.lives--;S.bad++;S.mist.push(q);
+h="💥 "+(to?"¡Se acabó el tiempo!":pk(BADS))+"<small>"+q.why+(["order","match"].includes(q.t)?"<br>Correcto: "+ansTxt(q):"")+"<br>📖 Pista: relee «"+q.src+"».</small>";
+sfx.bad();$("#app").classList.add("shake");setTimeout(()=>$("#app").classList.remove("shake"),500);say(S.lives>0?"¡Sin miedo, a la siguiente! 💪":"Nos quedamos sin vidas… 😢")}
+const r=rk(S.xp);if(r>S.rank){S.rank=r;sfx.up();confetti(120);h+="<br>⬆️ <b>¡Subiste a "+RK[r][1]+"!</b>"}
+hud();$("#fbt").innerHTML=h;$("#fb").hidden=false;$("#nx").onclick=S.lives<=0?()=>finish(false):()=>{S.qi++;S.qi>=L[S.li].qs.length?endLevel():ask()};
+$("#fb").scrollIntoView({behavior:"smooth",block:"center"})}
+function endLevel(){const l=L[S.li];sfx.up();confetti(110);if(l.boss){give("jef");return finish(true)}
+$("#ft").innerHTML="💡 <b>Dato curioso:</b> "+l.fact+"<br><br>"+pk(SORPRESAS);$("#fbtn").onclick=()=>{S.li++;intro()};show("sf");say("¡Vamos por más!")}
+function lf(k){if(lock||!S.lf[k])return;const q=Q;
+if(k==="f"){if(!["mc","fill"].includes(q.t))return toast("El 50/50 solo sirve con 4 opciones 😉");sh([...document.querySelectorAll("#ans .opt")].filter(b=>b.dataset.ok==="0")).slice(0,2).forEach(b=>b.classList.add("gone"))}
+if(k==="h"){$("#hn").hidden=false;$("#hn").textContent="💡 "+(q.hint||"Piensa en lo que acabas de leer.")}
+if(k==="r"){pause=true;$("#rd").innerHTML=L[S.li].text;$("#ov").classList.add("on")}
+S.lf[k]=0;S.used++;lfUpd()}
+function closeRd(){$("#ov").classList.remove("on");pause=false}
+function fmt(s){return Math.floor(s/60)+":"+String(s%60).padStart(2,"0")}
+function finish(win){clearInterval(tmr);if(win&&S.lives===3)give("sin");if(win&&!S.used)give("det");
+const secs=Math.round((Date.now()-S.t0)/1000),r=RK[rk(S.xp)];
+$("#card").innerHTML="<div class='big'>"+AV+"</div><h2>"+(win?"🏆 ¡Misión cumplida!":"💫 Misión interrumpida")+"</h2><h3 style='margin:0'>"+esc(NAME)+" · "+r[2]+" "+r[1]+"</h3><div class='st'><div>⭐ Puntaje<br><b style='color:var(--g);font-size:1.5em'>"+S.score+"</b></div><div>⏱️ Tiempo<br><b>"+fmt(secs)+"</b></div><div>✅ Aciertos<br><b>"+S.ok+"</b></div><div>❌ Errores<br><b>"+S.bad+"</b></div></div><div>"+(S.bd.length?S.bd.map(i=>"<span class='bd'>"+INSIGNIAS[i][0]+" "+INSIGNIAS[i][1]+"</span>").join(""):"<small>Aún sin insignias: ¡intenta de nuevo!</small>")+"</div><small>"+TITULO+" · "+new Date().toLocaleDateString("es-PE")+"</small>";
+const tp=[...new Set(S.mist.map(q=>q.topic))];$("#wk").innerHTML=tp.length?tp.map(t=>"<span class='bd'>📌 "+t+"</span>").join(""):"🌟 ¡Nada que reforzar! Dominas la lectura.";
+$("#er").hidden=true;show("se");if(win){confetti(170);sfx.up();say("¡Salvaste la línea del tiempo!")}else{sfx.bad();say("¡Revisa tus errores y vuelve más fuerte!")}}
+function errs(){const e=$("#er");e.hidden=!e.hidden;e.innerHTML="<h2>🔍 Mis errores</h2>"+(S.mist.length?S.mist.map(q=>"<p>❌ <b>"+q.q+"</b><small>✅ "+ansTxt(q)+"<br>"+q.why+"</small></p>").join(""):"<p>🎉 ¡No tuviste errores!</p>")}
+</script></body></html>

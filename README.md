@@ -1,105 +1,33 @@
-<h1 align="center">🧠 BRAIN RUSH!</h1>
+# Aula Conecta · Motor de juegos educativos desde la sesión de clase
 
-<p align="center"><strong>Salta, piensa y resuelve. Solo o con tu equipo.</strong></p>
+> Nombre de trabajo. El nombre definitivo está pendiente de decisión.
 
-![BRAIN RUSH! — parkour educativo con un compañero de IA](docs/images/brain-rush-obby.png)
+**Aula Conecta** es una plataforma B2B para colegios de primaria. Convierte las sesiones de aprendizaje que ya escribe cada docente en **videojuegos educativos generados con IA**, que se pueden jugar en la web, imprimir en papel y revisar desde un panel de métricas.
 
-<p align="center"><em>Arte conceptual de la propuesta. El juego todavía no está implementado.</em></p>
+Los juegos son de dos tipos:
 
-## ¿Qué es BRAIN RUSH!?
+- **Activación:** el docente lo proyecta y todos los alumnos participan desde sus dispositivos durante la clase.
+- **Complemento:** los alumnos lo juegan en casa, en cualquier dispositivo, o en versión impresa cuando no tienen acceso.
 
-**BRAIN RUSH!** es una propuesta de juego educativo en **Roblox**, pensada para escuelas. Combina la aventura de un parkour con preguntas y la emoción de resolver una misión entre amigos.
+## Documentación
 
-La experiencia se divide en **dos modos**: un recorrido individual con un asistente de inteligencia artificial y un modo cooperativo con problemas que requieren el aporte de varios estudiantes.
+| Documento | Contenido |
+|---|---|
+| [01 · Visión y modelo de negocio](docs/especificacion/01-vision-y-negocio.md) | Problema, clientes, propuesta de valor, suscripción y créditos. |
+| [02 · Requisitos](docs/especificacion/02-requisitos.md) | Personas, requisitos funcionales y no funcionales, criterios de aceptación. |
+| [03 · Arquitectura técnica](docs/especificacion/03-arquitectura-tecnica.md) | Stack de despliegue, formato del juego, generación con IA, impresión y escaneo. |
+| [04 · MVP para hack4edu 2026](docs/especificacion/04-mvp-hack4edu.md) | Alcance del MVP, rúbrica del concurso, plan de entrega y decisiones pendientes. |
+| [Dirección de arte](docs/arte-conceptual.md) | Estilo visual basado en la referencia de diseño. |
+| [Retos de hack4edu 2026](docs/bases/retos-hack4edu-2026.md) | Los 29 retos publicados, con descripciones y distintivo «Reto ProFuturo». |
+| [Cobertura de retos](docs/bases/cobertura-retos.md) | Qué retos cubre el sistema, con qué grado y con qué límites. |
 
-El objetivo es que los estudiantes practiquen conocimientos, reciban ayuda cuando la necesiten y aprendan a trabajar juntos. Para la escuela, la propuesta busca ofrecer información sobre los temas que dominan y los que necesitan reforzar.
+## Fuentes del proyecto
 
-## 🏃 Modo individual: parkour con IA
+- `docs/sesiones/`: sesiones de aprendizaje reales (formato MINEDU: propósito, competencias, desempeños, criterios, momentos de la sesión, instrumento de evaluación).
+- `docs/examples/`: ejemplos de juegos generados (trivia, emparejar, recorrido 3D, dilemas) y el prototipo del panel docente (`index.html`).
+- `docs/design/idea.jpeg`: referencia de estilo visual.
+- `docs/bases/bases-hack4edu.pdf`: bases del concurso para el que se prepara el MVP.
 
-El estudiante recorre una pista de obstáculos dividida en etapas. Entre saltos, plataformas y puntos de control encuentra preguntas del ciclo escolar seleccionado.
+## Estado
 
-### ¿Cómo sería una partida?
-
-1. El estudiante elige el área de aprendizaje y el ciclo que le corresponde.
-2. Supera un tramo de parkour hasta llegar a una estación de preguntas.
-3. Responde una pregunta para desbloquear el siguiente tramo.
-4. Si necesita ayuda, consulta al compañero de IA que lo acompaña.
-5. Si se equivoca, recibe una explicación y puede volver a intentarlo.
-6. Continúa desde los puntos de control hasta completar el recorrido.
-
-**Ejemplo:** después de cruzar unas plataformas flotantes, una puerta presenta una pregunta de matemática. Resolverla permite abrir el camino hacia la siguiente zona.
-
-### 🤖 Un compañero de IA a tu lado
-
-El asistente se representa como un personaje que acompaña al jugador durante el recorrido. Su función es ayudarlo a comprender y llegar a su propia respuesta.
-
-- Reformular una pregunta con palabras más sencillas.
-- Dar pistas progresivas cuando el estudiante se atasca.
-- Explicar un concepto con ejemplos apropiados para su nivel.
-- Ayudar a comprender un error antes de volver a intentarlo.
-- Animar al estudiante a seguir avanzando.
-
-La propuesta es que **la IA oriente y el estudiante resuelva**. Su diseño visual, nombre y funcionamiento técnico se definirán durante el desarrollo.
-
-### Progreso y aprendizaje
-
-Se propone registrar las respuestas, los intentos y las pistas utilizadas para identificar temas por reforzar. El desempeño académico se distinguirá del desempeño en el parkour: saltar mejor o terminar más rápido no equivale a saber más.
-
-## 🤝 Modo cooperativo: misiones en equipo
-
-![Concepto de estudiantes colaborando para recuperar el agua de una comunidad](docs/images/brain-rush-coop.png)
-
-*Ilustración conceptual de una posible misión cooperativa.*
-
-Varios estudiantes entran a un escenario con un problema amplio que deben resolver juntos. Investigan, comparten información, reparten tareas y acuerdan una solución.
-
-Cada integrante tendrá una contribución necesaria para avanzar. La colaboración forma parte de la misión: el equipo necesita combinar lo que descubre y lo que sabe cada jugador.
-
-### Ejemplo de misión: ¡la comunidad se quedó sin agua!
-
-Una comunidad necesita recuperar su suministro de agua. El equipo debe:
-
-- Investigar dónde está el problema y reunir pistas.
-- Calcular la cantidad de agua que necesita la población.
-- Elegir materiales y distribuir recursos limitados.
-- Coordinar acciones para reparar el sistema.
-- Comprobar la solución y explicar por qué funciona.
-
-Este escenario es un ejemplo de diseño. Las misiones concretas se elegirán según los contenidos educativos y la dificultad apropiada para los estudiantes.
-
-## 📚 Áreas, ciclos e idiomas
-
-Los contenidos se organizarán por **áreas de aprendizaje** y por **primer, segundo y tercer ciclo**, tal como plantea la idea inicial. La equivalencia con grados escolares y los contenidos de cada ciclo están pendientes de definir con el equipo educativo.
-
-Como áreas iniciales se pueden explorar matemática, comunicación y ciencias. Una misma misión cooperativa podría combinar varias de ellas.
-
-También se contempla incorporar **diferentes lenguas**, tanto en textos y actividades como en la organización de grupos por idioma. La primera lengua, las siguientes traducciones y la distribución de salas o servidores se decidirán más adelante.
-
-## 🎯 Primera versión propuesta
-
-Para validar la idea, se propone comenzar con una experiencia pequeña y jugable:
-
-- Un espacio de entrada para elegir entre los dos modos.
-- Un área de aprendizaje y un ciclo escolar.
-- Un parkour corto con preguntas y puntos de control.
-- Un compañero de IA con ayudas guiadas.
-- Una misión cooperativa con un problema y un objetivo compartido.
-- Un resumen básico de avance y temas por reforzar.
-
-El alcance exacto se acordará antes de programar. Después se podrán ampliar áreas, ciclos, idiomas y misiones.
-
-## 🚧 Estado del proyecto
-
-**Etapa actual: definición de la idea.** Este repositorio contiene la presentación del concepto y sus ilustraciones. Todavía no incluye código del juego, un mapa jugable ni una integración de IA.
-
-- [x] Definir el nombre: **BRAIN RUSH!**.
-- [x] Documentar los dos modos de juego.
-- [x] Añadir arte conceptual para comunicar la propuesta.
-- [ ] Precisar los grados y contenidos de cada ciclo.
-- [ ] Acordar el alcance de la primera versión.
-- [ ] Preparar el proyecto de Roblox Studio y su estructura de código.
-- [ ] Construir y probar el primer recorrido y la primera misión.
-
-## 🎨 Sobre las imágenes
-
-Las imágenes fueron generadas con IA para ilustrar la idea con una estética de avatares y escenarios de Roblox. **Son arte conceptual; no son capturas de un juego desarrollado.** Los prompts y detalles de generación se conservan en [Arte conceptual](docs/arte-conceptual.md).
+**Etapa actual: especificación.** Esta versión reemplaza la idea anterior de un juego en Roblox. Aún no hay código de producción. El prototipo de ejemplo en `docs/examples/index.html` es solo una maqueta de referencia.

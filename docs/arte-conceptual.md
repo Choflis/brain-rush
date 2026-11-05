@@ -1,28 +1,33 @@
-# Arte conceptual de BRAIN RUSH!
+# Dirección de arte · Aula Conecta
 
-Estas ilustraciones se generaron con la herramienta integrada **ImageGen** para el README. Son propuestas visuales originales con estética de Roblox; no muestran una implementación jugable ni representan capturas oficiales de Roblox.
+Referencia visual: `docs/design/idea.jpeg`.
 
-## Parkour individual con compañero de IA
+## Qué tomamos de la referencia
 
-- Archivo: `images/brain-rush-obby.png`.
-- Uso: portada del README y presentación del modo individual.
-- Generación: imagen nueva, sin referencias de entrada.
+- **Paleta:** morado intenso como color de marca (acciones principales, cabeceras, personaje), verde lima como acento (tarjetas destacadas, botones de confirmación) y blanco o gris muy claro como fondo. El morado se usa también para textos clave sobre fondo claro.
+- **Formas:** tarjetas grandes con esquinas muy redondeadas, botones tipo píldora, bloques con forma orgánica como fondos de sección.
+- **Navegación:** barra superior con pocas pestañas grandes; la pestaña activa se resalta con una píldora de color.
+- **Personajes:** mascotas 3D de aspecto amigable, expresivas, con ojos grandes y gestos claros. Son los protagonistas de cada juego.
+- **Tipografía:** sans-serif redondeada y de peso alto para títulos; cuerpo en tamaño generoso (mínimo 16 px en web, 14 pt en impresión).
 
-### Prompt utilizado
+## Qué no tomamos
 
-```text
-Create a wide 16:9 promotional concept-art banner for an independent Roblox educational game titled exactly 'BRAIN RUSH!'. Vibrant high-quality Roblox-style 3D render with recognizable blocky toy avatars, square heads, simple friendly faces and chunky plastic limbs, not realistic humans. Foreground: one cheerful student avatar with a yellow head, blue hoodie, dark blocky trousers jumping across floating orange and cyan obby platforms in the sky. Beside the avatar floats a small friendly round cyan AI robot companion with a glowing face and small antenna. A checkpoint with a simple glowing question-mark symbol is ahead. Background: playful futuristic school islands, clouds, books, geometric shapes, purple and cyan accents. Clear action composition, cinematic lighting, bright approachable adventure-game thumbnail energy. Large very legible dimensional white-and-yellow title at top left, exact text 'BRAIN RUSH!'. Keep all important elements inside generous margins. No Roblox wordmark, no extra text, no HUD, no watermark. This is original concept art, not a screenshot of a finished game.
-```
+- **Personajes de otras obras.** La referencia muestra personajes de una película de animación. No se usan ni se imitan sus personajes, su nombre ni su logotipo. Las mascotas de Aula Conecta son originales.
+- **Texto en la referencia.** Los textos de la imagen están en otro idioma y se usan solo como guía de estilo, no como contenido.
 
-## Misión cooperativa: recuperar el agua
+## Principios para niños que aún no leen
 
-- Archivo: `images/brain-rush-coop.png`.
-- Uso: ilustrar el trabajo en equipo y un problema compartido.
-- Referencia visual: la portada del parkour para mantener la estética y los colores.
-- El escenario de agua es un ejemplo; la misión definitiva está pendiente de definir.
+- Cada pantalla de juego explica su acción con una imagen o animación. El texto es un complemento, no la vía principal.
+- Botones con íconos grandes y color. El color nunca es la única señal: se combina con forma e icono (accesibilidad).
+- Retroalimentación con gestos visibles: estrella que aparece para acierto, escalera que muestra la pista para error. No se castiga con texto.
+- Animación corta (menos de 3 segundos) para el tutorial de cada mecánica.
 
-### Prompt utilizado
+## Mascota (provisional)
 
-```text
-Create a NEW wide 16:9 original concept illustration for the cooperative game mode of 'BRAIN RUSH!'. Use the attached image ONLY as an art-direction reference: preserve its recognizable Roblox-style blocky toy avatars, friendly faces, high-quality colorful 3D plastic materials, purple-cyan-orange palette and bright daylight. New scene and composition: a team of four distinct student avatars collaboratively restoring water to a cheerful small village. Wide elevated three-quarter game camera. In the foreground left an avatar in a blue hoodie with square yellow head is placing a chunky cyan pipe elbow into a broken water system. On the right an avatar with dark brown skin and purple shirt is turning a large orange valve. Another avatar with black hair and green shirt studies a simple map on a freestanding board; a fourth avatar with orange hoodie is transporting a pipe segment. The pipes connect a blue water tank to the village, with a visible clear water stream starting to flow into a small fountain; everyone has a different meaningful task. Central shared objective easy to understand, playful blocky houses and cubic trees, friendly collaborative adventure energy, tiny floating mathematical geometric symbols subtly in background. Keep the same game visual identity but no large robot companion, no school island scene, no title, no text, no logos, no HUD, no watermark. The image should depict a team solving one large problem, not a competitive battle. This is concept art, not a screenshot.
-```
+- Un personaje guía por grado o por área. Para el MVP: **"Reglita"**, una regla con ojos y brazos, que guía el juego de longitudes.
+- Paleta: morado para el cuerpo, verde lima para detalles y accesorios.
+- Expresiones mínimas: normal, feliz, pensando, sorprendido, animando.
+
+## Ilustraciones
+
+Todavía no hay ilustraciones propias del producto. Se producirán a partir de esta dirección de arte, y se incorporarán a la biblioteca de assets (`packages/assets`).
