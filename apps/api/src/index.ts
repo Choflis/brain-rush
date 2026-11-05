@@ -9,18 +9,30 @@ import { rutasPanel } from "./rutas/panel.ts";
 import { rutasSalas } from "./rutas/salas.ts";
 import type { AppEnv } from "./tipos.ts";
 
-const ORIGENES = /^http:\/\/(localhost|127\.0\.0\.1|192\.168\.\d{1,3}\.\d{1,3}|10\.\d{1,3}\.\d{1,3}\.\d{1,3}):(5173|4173)$/;
+const ORIGENES_LOCALES = /^http:\/\/(localhost|127\.0\.0\.1|192\.168\.\d{1,3}\.\d{1,3}|10\.\d{1,3}\.\d{1,3}\.\d{1,3}):(5173|4173)$/;
+const ORIGENES_PAGES = /^https:\/\/([a-zA-Z0-9-]+\.)*(pages\.dev|workers\.dev)$/;
 
 export const app = new Hono<AppEnv>();
 
 app.use(
   "*",
-  cors({
-    origin: (origen) => (ORIGENES.test(origen) ? origen : undefined),
-    allowMethods: ["GET", "POST", "OPTIONS"],
-    allowHeaders: ["Content-Type", "Authorization", "Idempotency-Key"],
-    maxAge: 86400,
-  }),
+  async (c, next) => {
+    const middlewareCors = cors({
+      origin: (origen) => {
+        if (!origen) return undefined;
+        if (ORIGENES_LOCALES.test(origen)) return origen;
+        if (ORIGENES_PAGES.test(origen)) return origen;
+        if (c.env.ALLOWED_ORIGIN && (c.env.ALLOWED_ORIGIN === "*" || c.env.ALLOWED_ORIGIN === origen)) {
+          return origen;
+        }
+        return undefined;
+      },
+      allowMethods: ["GET", "POST", "OPTIONS"],
+      allowHeaders: ["Content-Type", "Authorization", "Idempotency-Key"],
+      maxAge: 86400,
+    });
+    return middlewareCors(c, next);
+  },
 );
 
 rutasBasicas(app);

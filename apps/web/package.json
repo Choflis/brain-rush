@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "deploy": "wrangler pages deploy dist --project-name=brain-rush-web",
     "typecheck": "tsc --noEmit",
     "dev:tiendita": "vite --config vite.tiendita.config.ts",
     "build:tiendita": "vite build --config vite.tiendita.config.ts"

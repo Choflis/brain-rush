@@ -3,6 +3,7 @@ export type Env = {
   FILES: R2Bucket;
   ENVIRONMENT: string;
   MISTRAL_API_KEY?: string;
+  ALLOWED_ORIGIN?: string;
 };
 
 export type Rol = "admin" | "docente" | "alumno";

@@ -16,4 +16,5 @@ bucket_name = "brain-rush-files"
 
 # Secretos (no versionar): MISTRAL_API_KEY. Usar `wrangler secret put MISTRAL_API_KEY`.
 [vars]
-ENVIRONMENT = "dev"
+ENVIRONMENT = "production"
+ALLOWED_ORIGIN = "*"
