@@ -3,10 +3,20 @@ import Phaser from "phaser";
 import type { GameSpec, ItemCarrera, Unidad } from "@brain-rush/gamespec";
 import { UNIDADES } from "@brain-rush/gamespec";
 import { EscenaBase, type ConfiguracionEscenaBase } from "./escena.ts";
-import { colorHexANumero, resolverVisual } from "./visuales.ts";
+import { resolverVisual } from "./visuales.ts";
 
 /** Intentos por ítem antes de revelar la respuesta (ver docs/especificacion/08-contrato.md, sección 7). */
 const MAX_INTENTOS_CARRERA = 2;
+
+const FUENTE_SISTEMA = "'Segoe UI', system-ui, -apple-system, 'Helvetica Neue', sans-serif";
+const COLOR_TINTA = "#14201f";
+const COLOR_MUTED = "#4a5c59";
+const COLOR_NARANJA = "#f26a3d";
+const COLOR_VERDE = "#1f7a6a";
+const COLOR_LINEA = 0xe4dccd;
+const COLOR_PAPEL = 0xfffcf6;
+const COLOR_NARANJA_HEX = 0xf26a3d;
+const COLOR_VERDE_HEX = 0x1f7a6a;
 
 /**
  * Redondea un valor numérico a 6 decimales para evitar artefactos
@@ -43,7 +53,7 @@ export class MecanicaCarrera extends EscenaBase {
   private contenedorContenido: Phaser.GameObjects.Container | null = null;
   private contenedorTarjetaResultado: Phaser.GameObjects.Container | null = null;
   private textoResultado: Phaser.GameObjects.Text | null = null;
-  private spriteReglita: Phaser.GameObjects.Text | null = null;
+  private spriteReglita: Phaser.GameObjects.Image | Phaser.GameObjects.Text | null = null;
   private graficosEscalera: Phaser.GameObjects.Graphics | null = null;
   private zonasDrop: Phaser.GameObjects.Zone[] = [];
 
@@ -375,12 +385,12 @@ export class MecanicaCarrera extends EscenaBase {
 
     const tarjeta = this.add.container(ancho / 2, 115);
 
-    // Fondo redondeado de la tarjeta
+    // Fondo redondeado de la tarjeta (#fffcf6, borde #e4dccd, radio 18px)
     const bg = this.add.graphics();
-    bg.fillStyle(0xfffcf6, 0.96);
-    bg.fillRoundedRect(-360, -38, 720, 76, 12);
-    bg.lineStyle(2, 0x81c784, 1);
-    bg.strokeRoundedRect(-360, -38, 720, 76, 12);
+    bg.fillStyle(COLOR_PAPEL, 0.98);
+    bg.fillRoundedRect(-360, -38, 720, 76, 18);
+    bg.lineStyle(2, COLOR_LINEA, 1);
+    bg.strokeRoundedRect(-360, -38, 720, 76, 18);
     tarjeta.add(bg);
 
     // Asset visual del objeto
@@ -394,8 +404,9 @@ export class MecanicaCarrera extends EscenaBase {
 
     const nombreObj = this.add
       .text(-310, 22, visualObjeto.nombre ?? "Objeto", {
+        fontFamily: FUENTE_SISTEMA,
         fontSize: "11px",
-        color: "#4a5c59",
+        color: COLOR_MUTED,
         fontStyle: "bold",
         align: "center",
         wordWrap: { width: 110 }
@@ -403,16 +414,17 @@ export class MecanicaCarrera extends EscenaBase {
       .setOrigin(0.5);
     tarjeta.add(nombreObj);
 
-    // Texto de la conversión solicitada
+    // Texto de la conversión solicitada (título peso 900, tinta #14201f)
     const textoConversion = this.add
       .text(
         -15,
         -7,
         `${this.itemActual.cantidad} ${this.itemActual.desde}  ➔  ¿cuántos ${this.itemActual.hasta}?`,
         {
+          fontFamily: FUENTE_SISTEMA,
           fontSize: "22px",
-          color: "#14201f",
-          fontStyle: "bold"
+          color: COLOR_TINTA,
+          fontStyle: "900"
         }
       )
       .setOrigin(0.5);
@@ -424,8 +436,9 @@ export class MecanicaCarrera extends EscenaBase {
         19,
         "Usa ×10 y ÷10 con la escalera y arrastra el resultado a la puerta",
         {
+          fontFamily: FUENTE_SISTEMA,
           fontSize: "12px",
-          color: "#4a5c59"
+          color: COLOR_MUTED
         }
       )
       .setOrigin(0.5);
@@ -438,8 +451,9 @@ export class MecanicaCarrera extends EscenaBase {
         -7,
         `Ítem ${this.indiceItemActual + 1} / ${this.items.length}`,
         {
+          fontFamily: FUENTE_SISTEMA,
           fontSize: "14px",
-          color: "#1f7a6a",
+          color: COLOR_VERDE,
           fontStyle: "bold"
         }
       )
@@ -448,8 +462,9 @@ export class MecanicaCarrera extends EscenaBase {
 
     const textoAciertos = this.add
       .text(290, 15, `Aciertos: ${this.aciertos}`, {
+        fontFamily: FUENTE_SISTEMA,
         fontSize: "12px",
-        color: "#1f7a6a",
+        color: COLOR_VERDE,
         fontStyle: "bold"
       })
       .setOrigin(0.5);
@@ -466,20 +481,21 @@ export class MecanicaCarrera extends EscenaBase {
 
     const contenedorEscalera = this.add.container(ancho / 2, 220);
 
-    // Marco exterior de la escalera
+    // Marco exterior de la escalera (#fffcf6, borde #e4dccd, radio 18px)
     const fondo = this.add.graphics();
-    fondo.fillStyle(0xe0f2f1, 0.85);
-    fondo.fillRoundedRect(-360, -45, 720, 90, 12);
-    fondo.lineStyle(2, 0x26a69a, 0.9);
-    fondo.strokeRoundedRect(-360, -45, 720, 90, 12);
+    fondo.fillStyle(COLOR_PAPEL, 0.98);
+    fondo.fillRoundedRect(-360, -45, 720, 90, 18);
+    fondo.lineStyle(2, COLOR_LINEA, 1);
+    fondo.strokeRoundedRect(-360, -45, 720, 90, 18);
     contenedorEscalera.add(fondo);
 
-    // Título de la escalera métrica
+    // Título de la escalera métrica (peso 900, tinta #14201f)
     const titulo = this.add
       .text(0, -32, "🪜 Escalera de Unidades de Longitud", {
+        fontFamily: FUENTE_SISTEMA,
         fontSize: "13px",
-        color: "#1f7a6a",
-        fontStyle: "bold"
+        color: COLOR_TINTA,
+        fontStyle: "900"
       })
       .setOrigin(0.5);
     contenedorEscalera.add(titulo);
@@ -500,8 +516,9 @@ export class MecanicaCarrera extends EscenaBase {
       // Etiqueta de la unidad en el peldaño
       const textoUnidad = this.add
         .text(xPaso, 3, unidad, {
+          fontFamily: FUENTE_SISTEMA,
           fontSize: "16px",
-          color: "#14201f",
+          color: COLOR_TINTA,
           fontStyle: "bold"
         })
         .setOrigin(0.5);
@@ -511,18 +528,20 @@ export class MecanicaCarrera extends EscenaBase {
       if (esOrigen) {
         const tagInicio = this.add
           .text(xPaso, 27, "Inicio", {
+            fontFamily: FUENTE_SISTEMA,
             fontSize: "11px",
-            color: "#1f7a6a",
+            color: COLOR_VERDE,
             fontStyle: "bold"
           })
           .setOrigin(0.5);
-        contenedorEscalera.add(tagInicio);
+      contenedorEscalera.add(tagInicio);
       }
       if (esMeta) {
         const tagMeta = this.add
           .text(xPaso, 27, "🎯 Meta", {
+            fontFamily: FUENTE_SISTEMA,
             fontSize: "11px",
-            color: "#1f7a6a",
+            color: COLOR_VERDE,
             fontStyle: "bold"
           })
           .setOrigin(0.5);
@@ -534,15 +553,17 @@ export class MecanicaCarrera extends EscenaBase {
         const flechaX = xPaso + 50;
         const flechaDer = this.add
           .text(flechaX, -8, "➔ ×10", {
+            fontFamily: FUENTE_SISTEMA,
             fontSize: "11px",
-            color: "#1f7a6a",
+            color: COLOR_NARANJA,
             fontStyle: "bold"
           })
           .setOrigin(0.5);
         const flechaIzq = this.add
           .text(flechaX, 14, "⬅ ÷10", {
+            fontFamily: FUENTE_SISTEMA,
             fontSize: "11px",
-            color: "#1f7a6a",
+            color: COLOR_VERDE,
             fontStyle: "bold"
           })
           .setOrigin(0.5);
@@ -551,11 +572,25 @@ export class MecanicaCarrera extends EscenaBase {
       }
     }
 
-    // Reglita colocada sobre la unidad activa
+    // Mascota de tiendita colocada sobre la unidad activa (con setDisplaySize(40, 40))
     const xReglita = xBase + this.unidadActualIndex * pasoX;
-    this.spriteReglita = this.add
-      .text(xReglita, -6, "📏", { fontSize: "28px" })
-      .setOrigin(0.5);
+    if (this.textures && this.textures.exists("mascota-tiendita")) {
+      const mascota = this.add.image(xReglita, -6, "mascota-tiendita");
+      mascota.setDisplaySize(40, 40);
+      mascota.setOrigin(0.5);
+      this.spriteReglita = mascota;
+    } else {
+      try {
+        const mascota = this.add.image(xReglita, -6, "mascota-tiendita");
+        mascota.setDisplaySize(40, 40);
+        mascota.setOrigin(0.5);
+        this.spriteReglita = mascota;
+      } catch {
+        this.spriteReglita = this.add
+          .text(xReglita, -6, "📏", { fontSize: "28px" })
+          .setOrigin(0.5);
+      }
+    }
     contenedorEscalera.add(this.spriteReglita);
 
     this.redibujarPeldanosEscalera();
@@ -563,7 +598,7 @@ export class MecanicaCarrera extends EscenaBase {
   }
 
   /**
-   * Redibuja los recuadros de cada peldaño destacando la posición activa.
+   * Redibuja los recuadros de cada peldaño destacando la posición activa con colores tiendita.
    */
   private redibujarPeldanosEscalera(): void {
     if (!this.graficosEscalera || !this.itemActual) return;
@@ -579,22 +614,22 @@ export class MecanicaCarrera extends EscenaBase {
       const esMeta = UNIDADES[i] === this.itemActual.hasta;
 
       if (esActivo) {
-        this.graficosEscalera.fillStyle(0xfff59d, 1);
-        this.graficosEscalera.fillRoundedRect(xPaso - 32, -18, 64, 40, 8);
-        this.graficosEscalera.lineStyle(3, 0xfbc02d, 1);
-        this.graficosEscalera.strokeRoundedRect(xPaso - 32, -18, 64, 40, 8);
+        this.graficosEscalera.fillStyle(0xdff2ec, 1);
+        this.graficosEscalera.fillRoundedRect(xPaso - 32, -18, 64, 40, 10);
+        this.graficosEscalera.lineStyle(3, COLOR_VERDE_HEX, 1);
+        this.graficosEscalera.strokeRoundedRect(xPaso - 32, -18, 64, 40, 10);
       } else {
-        this.graficosEscalera.fillStyle(0xfffcf6, 0.95);
+        this.graficosEscalera.fillStyle(COLOR_PAPEL, 1);
         this.graficosEscalera.fillRoundedRect(xPaso - 30, -16, 60, 36, 8);
 
         if (esMeta) {
-          this.graficosEscalera.lineStyle(2, 0x43a047, 1);
+          this.graficosEscalera.lineStyle(2, COLOR_VERDE_HEX, 1);
           this.graficosEscalera.strokeRoundedRect(xPaso - 30, -16, 60, 36, 8);
         } else if (esOrigen) {
-          this.graficosEscalera.lineStyle(2, 0x1e88e5, 1);
+          this.graficosEscalera.lineStyle(2, COLOR_NARANJA_HEX, 1);
           this.graficosEscalera.strokeRoundedRect(xPaso - 30, -16, 60, 36, 8);
         } else {
-          this.graficosEscalera.lineStyle(1, 0xb0bec5, 1);
+          this.graficosEscalera.lineStyle(1, COLOR_LINEA, 1);
           this.graficosEscalera.strokeRoundedRect(xPaso - 30, -16, 60, 36, 8);
         }
       }
@@ -602,27 +637,31 @@ export class MecanicaCarrera extends EscenaBase {
   }
 
   /**
-   * Dibuja los botones interactivos ×10 y ÷10 junto con la tarjeta arrastrable del resultado.
+   * Dibuja los botones interactivos ×10 (naranja) y ÷10 (verde) con radio 18px y sombra,
+   * junto con la tarjeta arrastrable del resultado.
    */
   private dibujarControlesResultado(ancho: number): void {
     if (!this.add || !this.contenedorContenido) return;
 
     const contenedorControles = this.add.container(ancho / 2, 335);
 
-    // Botón Dividir entre 10 (icono-entre-10)
+    // Botón Dividir entre 10: radio 18px, fondo verde #1f7a6a, con sombra
     const btnDividir = this.add.container(-190, 0);
     const bgDividir = this.add.graphics();
-    bgDividir.fillStyle(0xab47bc, 1);
-    bgDividir.fillRoundedRect(-60, -24, 120, 48, 12);
-    bgDividir.lineStyle(2, 0xffffff, 0.9);
-    bgDividir.strokeRoundedRect(-60, -24, 120, 48, 12);
+    bgDividir.fillStyle(0x14201f, 0.15);
+    bgDividir.fillRoundedRect(-60, -20, 120, 48, 18);
+    bgDividir.fillStyle(COLOR_VERDE_HEX, 1);
+    bgDividir.fillRoundedRect(-60, -24, 120, 48, 18);
+    bgDividir.lineStyle(2, 0x165b4f, 0.6);
+    bgDividir.strokeRoundedRect(-60, -24, 120, 48, 18);
     btnDividir.add(bgDividir);
 
     const txtDividir = this.add
-      .text(0, 0, "➗ ÷10", {
+      .text(0, -2, "➗ ÷10", {
+        fontFamily: FUENTE_SISTEMA,
         fontSize: "17px",
         color: "#ffffff",
-        fontStyle: "bold"
+        fontStyle: "900"
       })
       .setOrigin(0.5);
     btnDividir.add(txtDividir);
@@ -633,30 +672,34 @@ export class MecanicaCarrera extends EscenaBase {
     this.aplicarEfectoHover(btnDividir);
     contenedorControles.add(btnDividir);
 
-    // Tarjeta arrastrable con el resultado actual
+    // Tarjeta arrastrable con el resultado actual (#fffdf7, borde naranja, radio 18px con sombra)
     this.contenedorTarjetaResultado = this.add.container(0, 0);
 
     const bgResultado = this.add.graphics();
-    bgResultado.fillStyle(0xfff8e1, 1);
-    bgResultado.fillRoundedRect(-100, -28, 200, 56, 14);
-    bgResultado.lineStyle(3, 0xff8f00, 1);
-    bgResultado.strokeRoundedRect(-100, -28, 200, 56, 14);
+    bgResultado.fillStyle(0x493126, 0.12);
+    bgResultado.fillRoundedRect(-100, -24, 200, 56, 18);
+    bgResultado.fillStyle(0xfffdf7, 1);
+    bgResultado.fillRoundedRect(-100, -28, 200, 56, 18);
+    bgResultado.lineStyle(3, COLOR_NARANJA_HEX, 1);
+    bgResultado.strokeRoundedRect(-100, -28, 200, 56, 18);
     this.contenedorTarjetaResultado.add(bgResultado);
 
     this.textoResultado = this.add
-      .text(0, -6, `${this.valorActual} ${this.unidadActual}`, {
+      .text(0, -8, `${this.valorActual} ${this.unidadActual}`, {
+        fontFamily: FUENTE_SISTEMA,
         fontSize: "22px",
-        color: "#f26a3d",
-        fontStyle: "bold"
+        color: COLOR_NARANJA,
+        fontStyle: "900"
       })
       .setOrigin(0.5);
     this.contenedorTarjetaResultado.add(this.textoResultado);
 
     const subtituloArrastrar = this.add
-      .text(0, 16, "🖐️ Arrastra a la puerta", {
+      .text(0, 14, "🖐️ Arrastra a la puerta", {
+        fontFamily: FUENTE_SISTEMA,
         fontSize: "11px",
-        color: "#a9713f",
-        fontStyle: "italic"
+        color: COLOR_MUTED,
+        fontStyle: "bold"
       })
       .setOrigin(0.5);
     this.contenedorTarjetaResultado.add(subtituloArrastrar);
@@ -672,20 +715,23 @@ export class MecanicaCarrera extends EscenaBase {
 
     contenedorControles.add(this.contenedorTarjetaResultado);
 
-    // Botón Multiplicar por 10 (icono-por-10)
+    // Botón Multiplicar por 10: radio 18px, fondo naranja #f26a3d, con sombra
     const btnMultiplicar = this.add.container(190, 0);
     const bgMultiplicar = this.add.graphics();
-    bgMultiplicar.fillStyle(0x42a5f5, 1);
-    bgMultiplicar.fillRoundedRect(-60, -24, 120, 48, 12);
-    bgMultiplicar.lineStyle(2, 0xffffff, 0.9);
-    bgMultiplicar.strokeRoundedRect(-60, -24, 120, 48, 12);
+    bgMultiplicar.fillStyle(0xd94f24, 0.25);
+    bgMultiplicar.fillRoundedRect(-60, -20, 120, 48, 18);
+    bgMultiplicar.fillStyle(COLOR_NARANJA_HEX, 1);
+    bgMultiplicar.fillRoundedRect(-60, -24, 120, 48, 18);
+    bgMultiplicar.lineStyle(2, 0xd94f24, 0.6);
+    bgMultiplicar.strokeRoundedRect(-60, -24, 120, 48, 18);
     btnMultiplicar.add(bgMultiplicar);
 
     const txtMultiplicar = this.add
-      .text(0, 0, "✖️ ×10", {
+      .text(0, -2, "✖️ ×10", {
+        fontFamily: FUENTE_SISTEMA,
         fontSize: "17px",
-        color: "#ffffff",
-        fontStyle: "bold"
+        color: COLOR_TINTA,
+        fontStyle: "900"
       })
       .setOrigin(0.5);
     btnMultiplicar.add(txtMultiplicar);
@@ -709,9 +755,10 @@ export class MecanicaCarrera extends EscenaBase {
 
     const labelOpciones = this.add
       .text(-320, 0, "Opciones:", {
+        fontFamily: FUENTE_SISTEMA,
         fontSize: "13px",
-        color: "#4a5c59",
-        fontStyle: "bold"
+        color: COLOR_TINTA,
+        fontStyle: "900"
       })
       .setOrigin(0, 0.5);
     contenedorOpciones.add(labelOpciones);
@@ -730,16 +777,17 @@ export class MecanicaCarrera extends EscenaBase {
       const chip = this.add.container(xChip, 0);
 
       const bgChip = this.add.graphics();
-      bgChip.fillStyle(0xf5f5f5, 0.95);
-      bgChip.fillRoundedRect(-anchoChip / 2, -18, anchoChip, 36, 10);
-      bgChip.lineStyle(2, 0x90a4ae, 1);
-      bgChip.strokeRoundedRect(-anchoChip / 2, -18, anchoChip, 36, 10);
+      bgChip.fillStyle(COLOR_PAPEL, 0.98);
+      bgChip.fillRoundedRect(-anchoChip / 2, -18, anchoChip, 36, 14);
+      bgChip.lineStyle(2, COLOR_LINEA, 1);
+      bgChip.strokeRoundedRect(-anchoChip / 2, -18, anchoChip, 36, 14);
       chip.add(bgChip);
 
       const textoChip = this.add
         .text(0, 0, `${opc} ${this.itemActual.hasta}`, {
+          fontFamily: FUENTE_SISTEMA,
           fontSize: "13px",
-          color: "#14201f",
+          color: COLOR_TINTA,
           fontStyle: "bold"
         })
         .setOrigin(0.5);
@@ -762,7 +810,7 @@ export class MecanicaCarrera extends EscenaBase {
   }
 
   /**
-   * Dibuja la puerta del guardián (puerta-guardian) como zona receptora del resultado.
+   * Dibuja la puerta del guardián (puerta-guardian) como tarjeta con fondo #fffcf6, borde #e4dccd, radio 18px.
    */
   private dibujarPuerta(ancho: number): void {
     if (!this.add || !this.contenedorContenido) return;
@@ -770,29 +818,32 @@ export class MecanicaCarrera extends EscenaBase {
     const contenedorPuerta = this.add.container(ancho / 2, 520);
 
     const visualPuerta = resolverVisual("puerta-guardian");
-    const colorPuerta = colorHexANumero(visualPuerta.color);
 
     const bgPuerta = this.add.graphics();
-    bgPuerta.fillStyle(colorPuerta, 0.95);
-    bgPuerta.fillRoundedRect(-120, -38, 240, 76, 14);
-    bgPuerta.lineStyle(3, 0xffd54f, 1);
-    bgPuerta.strokeRoundedRect(-120, -38, 240, 76, 14);
+    bgPuerta.fillStyle(0x493126, 0.1);
+    bgPuerta.fillRoundedRect(-120, -34, 240, 76, 18);
+    bgPuerta.fillStyle(COLOR_PAPEL, 1);
+    bgPuerta.fillRoundedRect(-120, -38, 240, 76, 18);
+    bgPuerta.lineStyle(2, COLOR_LINEA, 1);
+    bgPuerta.strokeRoundedRect(-120, -38, 240, 76, 18);
     contenedorPuerta.add(bgPuerta);
 
     const textoPuerta = this.add
       .text(0, -9, `${visualPuerta.emoji} ${visualPuerta.nombre ?? "Puerta del Guardián"}`, {
+        fontFamily: FUENTE_SISTEMA,
         fontSize: "16px",
-        color: "#ffffff",
-        fontStyle: "bold"
+        color: COLOR_TINTA,
+        fontStyle: "900"
       })
       .setOrigin(0.5);
     contenedorPuerta.add(textoPuerta);
 
     const subtituloPuerta = this.add
       .text(0, 15, "Suelta aquí el resultado para abrir", {
-        fontSize: "11px",
-        color: "#dff2ec",
-        fontStyle: "italic"
+        fontFamily: FUENTE_SISTEMA,
+        fontSize: "12px",
+        color: COLOR_MUTED,
+        fontStyle: "bold"
       })
       .setOrigin(0.5);
     contenedorPuerta.add(subtituloPuerta);

@@ -4,6 +4,8 @@ import type { GameSpec, ItemTienda } from "@brain-rush/gamespec";
 import { EscenaBase, type ConfiguracionEscenaBase } from "./escena.ts";
 import { colorHexANumero, resolverVisual } from "./visuales.ts";
 
+const FUENTE_SISTEMA = "'Segoe UI', system-ui, -apple-system, 'Helvetica Neue', sans-serif";
+
 export interface ConfiguracionTienda extends ConfiguracionEscenaBase {
   spec: GameSpec;
 }
@@ -396,8 +398,9 @@ export class MecanicaTienda extends EscenaBase {
 
     this.textoCamion = this.add
       .text(130, 16, `${this.progresoCamion}/${this.objetivoCamion}`, {
+        fontFamily: FUENTE_SISTEMA,
         fontSize: "12px",
-        color: "#333333",
+        color: "#14201f",
         fontStyle: "bold"
       })
       .setOrigin(0, 0.5);
@@ -457,9 +460,10 @@ export class MecanicaTienda extends EscenaBase {
 
       const txt = this.add
         .text(ancho / 2, 86, textoConsigna, {
+          fontFamily: FUENTE_SISTEMA,
           fontSize: "16px",
           color: "#1f7a6a",
-          fontStyle: "bold"
+          fontStyle: "900"
         })
         .setOrigin(0.5);
       this.contenedorItemActual.add(txt);
@@ -505,8 +509,9 @@ export class MecanicaTienda extends EscenaBase {
 
       const nombreEst = this.add
         .text(0, 26, visualEst.nombre ?? est.id, {
+          fontFamily: FUENTE_SISTEMA,
           fontSize: "13px",
-          color: "#333333",
+          color: "#14201f",
           fontStyle: "bold",
           wordWrap: { width: anchoEstanteria - 20 },
           align: "center"
@@ -545,9 +550,10 @@ export class MecanicaTienda extends EscenaBase {
       const cantidadReq = item.pedido?.cantidad ?? 1;
       this.textoBolsa = this.add
         .text(15, 0, `${this.productosEnBolsa.length} / ${cantidadReq}`, {
+          fontFamily: FUENTE_SISTEMA,
           fontSize: "20px",
           color: "#f26a3d",
-          fontStyle: "bold"
+          fontStyle: "900"
         })
         .setOrigin(0.5);
       contenedorBolsa.add(this.textoBolsa);

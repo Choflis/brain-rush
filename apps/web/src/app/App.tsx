@@ -50,6 +50,20 @@ function RutaDocente() {
 }
 
 export function App() {
+  const ubicacion = useLocation();
+  const esJuegoOSala =
+    ubicacion.pathname.startsWith("/j/") ||
+    ubicacion.pathname.startsWith("/s/");
+
+  if (esJuegoOSala) {
+    return (
+      <Routes>
+        <Route path="/j/:codigo" element={<Juego />} />
+        <Route path="/s/:codigo" element={<Sala />} />
+      </Routes>
+    );
+  }
+
   return (
     <div className="aplicacion">
       <Cabecera />
@@ -58,8 +72,6 @@ export function App() {
           <Route path="/" element={<Inicio />} />
           <Route path="/docente/login" element={<Login destino="/docente" />} />
           <Route path="/docente" element={<RutaDocente />} />
-          <Route path="/j/:codigo" element={<Juego />} />
-          <Route path="/s/:codigo" element={<Sala />} />
           <Route path="/proyectar/:codigo" element={<Proyeccion />} />
           <Route path="*" element={<NoEncontrada />} />
         </Routes>

@@ -1,11 +1,15 @@
 import { useEffect, useRef, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import type { GameSpec } from "@brain-rush/gamespec";
 import { api, ErrorApi, type EstadoSalaNombre, type Progreso } from "../api";
 import { MecanicaTienda } from "../../../../../packages/engine/src/tienda.ts";
 import { EmisorEventosMotor, type EventoMotor } from "../../../../../packages/engine/src/eventos.ts";
 import Phaser from "phaser";
 import specTiendaDefault from "../../../../../fixtures/juegos/n1-tienda.json";
+import { Camion, Icono } from "../../juego/ilustraciones";
+import "../../juego/tienda.css";
+
+const MASCOT = "/juego/tiendita/mascota.png";
 
 /**
  * Subclase de MecanicaTienda para sala sincronizada.
@@ -304,69 +308,116 @@ export function Sala() {
   // Vista 1: Formulario para ingresar nombre y unirse a la sala
   if (!alumno) {
     return (
-      <div className="centrado">
-        <section className="tarjeta tarjeta-login" style={{ maxWidth: "420px", width: "100%" }}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-            <span className="etiqueta">Sala de activación</span>
-            <span className="pastilla pastilla-publicado" style={{ fontWeight: 800 }}>
-              {codigo}
+      <div className="shop-app is-intro" style={{ minHeight: "100vh" }}>
+        <header className="shop-header">
+          <Link to="/" className="brand-link" aria-label="BRAIN RUSH, página principal">
+            <span className="shop-brand">
+              <svg viewBox="0 0 32 32" fill="none" aria-hidden="true">
+                <path d="M17 2 6 18h9l-1 12 12-18h-9z" fill="currentColor" />
+              </svg>
+              <span>BRAIN<b>RUSH</b></span>
             </span>
-          </div>
+          </Link>
+          <span
+            style={{
+              marginLeft: "auto",
+              fontSize: "14px",
+              fontWeight: 800,
+              background: "var(--green-light)",
+              color: "var(--green)",
+              padding: "4px 14px",
+              borderRadius: "999px",
+            }}
+          >
+            Sala {codigo}
+          </span>
+        </header>
 
-          <h1 style={{ marginTop: "0.5rem" }}>Únete al juego</h1>
-          <p className="suave">
-            Ingresa tu nombre o el de tu equipo para participar desde este dispositivo.
-          </p>
-
-          {errorUnirse && (
-            <div className="aviso aviso-error" role="alert" style={{ margin: "1rem 0" }}>
-              <strong>No se pudo ingresar:</strong>
-              <p style={{ margin: "0.25rem 0 0" }}>{errorUnirse}</p>
+        <main className="shop-intro" style={{ maxWidth: "480px", margin: "auto", padding: "20px" }}>
+          <section
+            style={{
+              width: "100%",
+              background: "#fffcf6",
+              border: "1px solid var(--line)",
+              borderRadius: "var(--radius)",
+              padding: "32px 28px",
+              boxShadow: "0 10px 30px #49312610",
+              textAlign: "center",
+            }}
+          >
+            <img
+              src={MASCOT}
+              alt=""
+              style={{ width: "90px", height: "100px", objectFit: "contain", marginBottom: "8px" }}
+            />
+            <div className="age-tag" style={{ justifyContent: "center", marginBottom: "8px" }}>
+              Sala de activación colectiva
             </div>
-          )}
+            <h1 style={{ fontSize: "32px", fontWeight: 1000, color: "var(--ink)", margin: "0 0 8px" }}>
+              ¡A jugar en equipo!
+            </h1>
+            <p style={{ color: "var(--muted)", fontSize: "15px", fontWeight: 650, margin: "0 0 20px" }}>
+              Ingresa tu nombre o el de tu equipo para ayudar a llenar el camión.
+            </p>
 
-          <form onSubmit={manejarUnirse}>
-            <div style={{ marginBottom: "1.2rem" }}>
-              <label
-                htmlFor="nombre-alumno"
-                style={{ display: "block", fontWeight: 700, marginBottom: "0.4rem" }}
+            {errorUnirse && (
+              <div
+                className="aviso aviso-error"
+                role="alert"
+                style={{
+                  borderRadius: "14px",
+                  padding: "10px 14px",
+                  background: "#fff3ef",
+                  border: "1px solid #f0b8a7",
+                  color: "#d94f24",
+                  fontWeight: 700,
+                  fontSize: "14px",
+                  marginBottom: "16px",
+                  textAlign: "left",
+                }}
               >
-                Tu nombre o apodo
-              </label>
+                {errorUnirse}
+              </div>
+            )}
+
+            <form onSubmit={manejarUnirse} style={{ display: "grid", gap: "14px" }}>
               <input
                 id="nombre-alumno"
                 type="text"
                 value={nombreForm}
                 onChange={(e) => setNombreForm(e.target.value)}
-                placeholder="Ejemplo: Sofía o Equipo 3"
+                placeholder="Tu nombre o equipo..."
                 maxLength={40}
                 required
                 autoFocus
                 style={{
                   width: "100%",
-                  padding: "0.75rem 1rem",
-                  fontSize: "1.05rem",
-                  borderRadius: "12px",
-                  border: "2px solid var(--linea)",
-                  background: "var(--papel-alto)",
-                  fontFamily: "inherit",
+                  padding: "14px 18px",
+                  fontSize: "17px",
+                  fontWeight: 700,
+                  borderRadius: "var(--radius)",
+                  border: "2px solid var(--line)",
+                  background: "#fffdf7",
+                  color: "var(--ink)",
+                  outline: "none",
                 }}
               />
-            </div>
 
-            <button
-              type="submit"
-              className="boton boton-primario boton-grande boton-ancho"
-              disabled={uniendo || !nombreForm.trim()}
-            >
-              {uniendo ? "Uniéndose a la sala…" : "Entrar a la sala"}
-            </button>
-          </form>
+              <button
+                type="submit"
+                className="primary-button play-button"
+                disabled={uniendo || !nombreForm.trim()}
+                style={{ width: "100%" }}
+              >
+                <Icono nombre="play" /> {uniendo ? "Uniéndose a la sala…" : "¡Entrar a la sala!"}
+              </button>
+            </form>
 
-          <small className="suave" style={{ display: "block", marginTop: "1rem" }}>
-            La sala es colectiva: los nombres no se mostrarán en la proyección pública.
-          </small>
-        </section>
+            <span style={{ display: "block", marginTop: "14px", fontSize: "12px", color: "var(--muted)", fontWeight: 600 }}>
+              Meta colectiva: entre todos llenamos el camión de reparto.
+            </span>
+          </section>
+        </main>
       </div>
     );
   }
@@ -380,74 +431,79 @@ export function Sala() {
     const metaLograda = progreso.actual >= progreso.objetivo;
 
     return (
-      <div className="centrado">
-        <section
-          className="tarjeta"
-          style={{ maxWidth: "520px", width: "100%", textAlign: "center", padding: "2.5rem 1.8rem" }}
-        >
-          <div style={{ fontSize: "3.5rem", marginBottom: "0.5rem" }}>
-            {metaLograda ? "🏆🚚" : "🎉"}
+      <div className="shop-app" style={{ minHeight: "100vh" }}>
+        <header className="shop-header">
+          <Link to="/" className="brand-link" aria-label="BRAIN RUSH, página principal">
+            <span className="shop-brand">
+              <svg viewBox="0 0 32 32" fill="none" aria-hidden="true">
+                <path d="M17 2 6 18h9l-1 12 12-18h-9z" fill="currentColor" />
+              </svg>
+              <span>BRAIN<b>RUSH</b></span>
+            </span>
+          </Link>
+        </header>
+
+        <main className="result-screen">
+          <div className="result-art">
+            <img src={MASCOT} alt="La mascota celebra contigo" />
+            <div className="result-stars">
+              {[0, 1, 2].map((n) => (
+                <Icono key={n} nombre="star" size={48} />
+              ))}
+            </div>
           </div>
-          <span className="etiqueta">Actividad finalizada</span>
-          <h1 style={{ marginTop: "0.4rem" }}>
-            {metaLograda ? "¡Meta colectiva completada!" : "¡Buen trabajo en el aula!"}
+
+          <h1 style={{ marginTop: "10px", marginBottom: "6px" }}>
+            {metaLograda ? "¡Reparto completado!" : "¡Buen trabajo en el aula!"}
           </h1>
 
-          <p className="suave" style={{ fontSize: "1.1rem" }}>
-            ¡Gracias por participar, <strong>{alumno.nombre}</strong>! La sala{" "}
-            <code>{codigo}</code> ha finalizado.
+          <p style={{ maxWidth: "440px", fontSize: "16px", fontWeight: 700, color: "var(--muted)", margin: "0 auto 18px", textWrap: "balance" }}>
+            ¡Gracias por participar, <strong>{alumno.nombre}</strong>! La sala <code>{codigo}</code> ha finalizado.
           </p>
 
           <div
             style={{
-              background: "var(--verde-claro)",
-              borderRadius: "16px",
-              padding: "1.4rem",
-              margin: "1.5rem 0",
-              textAlign: "left",
+              background: "#fffcf6",
+              border: "1px solid var(--line)",
+              borderRadius: "var(--radius)",
+              padding: "20px 24px",
+              margin: "0 auto 24px",
+              maxWidth: "400px",
+              width: "100%",
+              boxShadow: "0 6px 18px #4931260a",
             }}
           >
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                fontWeight: 700,
-                marginBottom: "0.4rem",
-              }}
-            >
-              <span>🚚 Carga del camión</span>
-              <span>
-                {progreso.actual} / {progreso.objetivo} ({porcentaje}%)
-              </span>
-            </div>
-
-            <div
-              style={{
-                width: "100%",
-                height: "16px",
-                background: "#ffffff",
-                borderRadius: "999px",
-                overflow: "hidden",
-              }}
-            >
-              <div
-                style={{
-                  width: `${porcentaje}%`,
-                  height: "100%",
-                  background: metaLograda ? "var(--verde)" : "var(--naranja)",
-                  borderRadius: "999px",
-                  transition: "width 0.4s ease",
-                }}
-              />
+            <div className="truck-progress" style={{ margin: "0 auto 12px" }}>
+              <Camion lleno={metaLograda} />
+              <div>
+                <span>Nuestro reparto colectivo</span>
+                <strong>
+                  {progreso.actual}
+                  <small> / {progreso.objetivo}</small>
+                </strong>
+                <div
+                  className="progress-track"
+                  role="progressbar"
+                  aria-label="Avance del reparto"
+                  aria-valuemin={0}
+                  aria-valuemax={progreso.objetivo}
+                  aria-valuenow={progreso.actual}
+                >
+                  <i style={{ width: `${porcentaje}%` }} />
+                </div>
+              </div>
             </div>
 
             <div
               style={{
                 display: "flex",
                 justifyContent: "space-between",
-                marginTop: "1rem",
-                fontSize: "0.95rem",
-                color: "var(--tinta-suave)",
+                marginTop: "12px",
+                fontSize: "13px",
+                fontWeight: 750,
+                color: "var(--muted)",
+                borderTop: "1px solid var(--line)",
+                paddingTop: "10px",
               }}
             >
               <span>👥 {participantes} participantes</span>
@@ -457,12 +513,13 @@ export function Sala() {
 
           <button
             type="button"
-            className="boton boton-primario boton-grande boton-ancho"
+            className="primary-button"
             onClick={manejarSalir}
+            style={{ minWidth: "220px" }}
           >
             Salir de la sala
           </button>
-        </section>
+        </main>
       </div>
     );
   }
@@ -470,47 +527,68 @@ export function Sala() {
   // Vista 3: Sala esperando inicio del docente
   if (estadoSala === "esperando") {
     return (
-      <div className="centrado">
-        <section
-          className="tarjeta"
-          style={{ maxWidth: "460px", width: "100%", textAlign: "center", padding: "2.2rem 1.6rem" }}
-        >
-          <div style={{ fontSize: "3rem", marginBottom: "0.5rem" }}>🎒</div>
-          <span className="etiqueta">Conectado a la sala</span>
-          <h1 style={{ marginTop: "0.4rem" }}>¡Todo listo, {alumno.nombre}!</h1>
-          <p className="suave">
-            Estás conectado a la sala <strong>{codigo}</strong>. Espera a que el docente inicie la
-            primera ronda en la proyección.
+      <div className="shop-app" style={{ minHeight: "100vh" }}>
+        <header className="shop-header">
+          <Link to="/" className="brand-link" aria-label="BRAIN RUSH, página principal">
+            <span className="shop-brand">
+              <svg viewBox="0 0 32 32" fill="none" aria-hidden="true">
+                <path d="M17 2 6 18h9l-1 12 12-18h-9z" fill="currentColor" />
+              </svg>
+              <span>BRAIN<b>RUSH</b></span>
+            </span>
+          </Link>
+        </header>
+
+        <main className="result-screen">
+          <div className="result-art">
+            <img src={MASCOT} alt="La mascota te espera" />
+          </div>
+
+          <div
+            style={{
+              fontSize: "13px",
+              fontWeight: 800,
+              background: "var(--green-light)",
+              color: "var(--green)",
+              padding: "4px 12px",
+              borderRadius: "999px",
+              margin: "8px 0",
+            }}
+          >
+            Conectado a la sala {codigo}
+          </div>
+
+          <h1>¡Todo listo, {alumno.nombre}!</h1>
+          <p style={{ maxWidth: "420px", color: "var(--muted)", fontWeight: 700, margin: "0 auto 16px" }}>
+            Espera a que tu docente inicie la ronda en la pantalla grande.
           </p>
 
           <div
             style={{
               display: "inline-flex",
               alignItems: "center",
-              gap: "0.5rem",
-              background: "var(--verde-claro)",
-              padding: "0.6rem 1.2rem",
+              gap: "8px",
+              background: "#fffcf6",
+              border: "1px solid var(--line)",
+              padding: "8px 18px",
               borderRadius: "999px",
-              fontWeight: 700,
-              color: "var(--verde)",
-              margin: "1.2rem 0",
+              fontWeight: 750,
+              color: "var(--green)",
+              marginBottom: "20px",
             }}
           >
-            <span style={{ fontSize: "1.2rem" }}>👥</span>
+            <span>👥</span>
             <span>{participantes} estudiantes en la sala</span>
           </div>
 
-          <div style={{ marginTop: "1rem" }}>
-            <button
-              type="button"
-              className="boton boton-fantasma"
-              onClick={manejarSalir}
-              style={{ fontSize: "0.9rem" }}
-            >
-              Cambiar nombre / Salir
-            </button>
-          </div>
-        </section>
+          <button
+            type="button"
+            className="text-button"
+            onClick={manejarSalir}
+          >
+            Cambiar nombre / Salir
+          </button>
+        </main>
       </div>
     );
   }
@@ -518,172 +596,210 @@ export function Sala() {
   // Vista 4: Sala en pausa
   if (estadoSala === "pausada") {
     return (
-      <div className="centrado">
-        <section
-          className="tarjeta"
-          style={{ maxWidth: "460px", width: "100%", textAlign: "center", padding: "2.5rem 1.8rem" }}
-        >
-          <div style={{ fontSize: "3rem", marginBottom: "0.5rem" }}>⏸️</div>
-          <span className="etiqueta">Pausa</span>
-          <h1>Actividad en pausa</h1>
-          <p className="suave">
+      <div className="shop-app" style={{ minHeight: "100vh" }}>
+        <header className="shop-header">
+          <Link to="/" className="brand-link" aria-label="BRAIN RUSH, página principal">
+            <span className="shop-brand">
+              <svg viewBox="0 0 32 32" fill="none" aria-hidden="true">
+                <path d="M17 2 6 18h9l-1 12 12-18h-9z" fill="currentColor" />
+              </svg>
+              <span>BRAIN<b>RUSH</b></span>
+            </span>
+          </Link>
+        </header>
+
+        <main className="result-screen">
+          <div className="result-art">
+            <img src={MASCOT} alt="" />
+          </div>
+          <h1>Una pequeña pausa</h1>
+          <p style={{ maxWidth: "420px", color: "var(--muted)", fontWeight: 700, margin: "0 auto" }}>
             El docente ha pausado temporalmente la sala. En breve se reanudará la ronda.
           </p>
-        </section>
+        </main>
       </div>
     );
   }
 
   // Vista 5: Sala jugando (Renderizado de MecanicaTienda sobre Phaser)
-  const pctCamion = Math.min(
-    100,
-    Math.round((progreso.actual / Math.max(1, progreso.objetivo)) * 100),
-  );
-
   return (
-    <div style={{ maxWidth: "900px", margin: "0 auto", padding: "0.5rem 0" }}>
-      {/* Cabecera del juego del alumno */}
+    <div className="shop-app" style={{ minHeight: "100vh", display: "flex", flexDirection: "column", background: "#fbf7ef" }}>
+      {/* Cabecera del juego del alumno con camión estilo tiendita */}
       <header
+        className="shop-header"
         style={{
+          minHeight: "64px",
+          padding: "10px 24px",
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
           flexWrap: "wrap",
-          gap: "0.8rem",
-          background: "var(--papel-alto)",
-          padding: "0.8rem 1.2rem",
-          borderRadius: "16px",
-          border: "1px solid var(--linea)",
-          marginBottom: "1rem",
+          gap: "12px",
+          width: "min(1280px, 100%)",
+          margin: "0 auto",
         }}
       >
-        <div style={{ display: "flex", alignItems: "center", gap: "0.8rem" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
           <span
-            className="pastilla pastilla-publicado"
-            style={{ fontSize: "0.95rem", padding: "0.3rem 0.8rem" }}
+            style={{
+              fontSize: "13px",
+              fontWeight: 800,
+              background: "var(--green-light)",
+              color: "var(--green)",
+              padding: "4px 12px",
+              borderRadius: "999px",
+            }}
           >
             Ronda {ronda.indice} / {ronda.total}
           </span>
-          <span style={{ fontWeight: 700, color: "var(--tinta)" }}>{alumno.nombre}</span>
+          <span style={{ fontWeight: 800, fontSize: "15px", color: "var(--ink)" }}>{alumno.nombre}</span>
         </div>
 
-        {/* Barra de progreso colectivo del camión */}
-        <div style={{ display: "flex", alignItems: "center", gap: "0.6rem" }}>
-          <span style={{ fontSize: "1.3rem" }}>🚚</span>
-          <div
-            style={{
-              width: "120px",
-              height: "14px",
-              background: "#eeeeee",
-              borderRadius: "999px",
-              overflow: "hidden",
-            }}
-          >
+        {/* Barra de progreso colectivo del camión estilo tiendita */}
+        <div className={`truck-progress ${itemCompletado ? "box-loaded" : ""}`} style={{ minWidth: "180px" }}>
+          <Camion lleno={progreso.actual > 0} />
+          <div>
+            <span>Reparto colectivo</span>
+            <strong>
+              {progreso.actual}
+              <small> / {progreso.objetivo}</small>
+            </strong>
             <div
-              style={{
-                width: `${pctCamion}%`,
-                height: "100%",
-                background: pctCamion >= 100 ? "var(--verde)" : "var(--naranja)",
-                borderRadius: "999px",
-                transition: "width 0.3s ease",
-              }}
-            />
+              className="progress-track"
+              role="progressbar"
+              aria-label="Avance del reparto colectivo"
+              aria-valuemin={0}
+              aria-valuemax={progreso.objetivo}
+              aria-valuenow={progreso.actual}
+            >
+              <i
+                style={{
+                  width: `${Math.min(progreso.actual / Math.max(1, progreso.objetivo), 1) * 100}%`,
+                }}
+              />
+            </div>
           </div>
-          <span style={{ fontSize: "0.88rem", fontWeight: 700, color: "var(--tinta-suave)" }}>
-            {progreso.actual}/{progreso.objetivo}
-          </span>
         </div>
       </header>
 
-      {/* Notificación cuando el alumno completa el ítem antes que el docente avance */}
-      {itemCompletado && (
-        <div
-          className="aviso"
-          style={{
-            background: "#e8f5e9",
-            borderColor: "#81c784",
-            display: "flex",
-            alignItems: "center",
-            gap: "0.8rem",
-            margin: "0 0 1rem",
-            padding: "0.8rem 1.2rem",
-          }}
-        >
-          <span style={{ fontSize: "1.5rem" }}>⭐</span>
-          <div>
-            <strong>¡Excelente trabajo! Has completado el ítem de esta ronda.</strong>
-            <p style={{ margin: 0, fontSize: "0.92rem", color: "var(--tinta-suave)" }}>
-              Espera a que el docente avance la sala a la siguiente ronda.
+      <main
+        style={{
+          flex: 1,
+          width: "min(1280px, 100%)",
+          margin: "0 auto",
+          padding: "0 16px 16px",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      >
+        {/* Notificación cuando el alumno completa el ítem antes que el docente avance */}
+        {itemCompletado && (
+          <div
+            style={{
+              width: "100%",
+              maxWidth: "860px",
+              background: "var(--green-light)",
+              border: "1px solid #92b8ac",
+              borderRadius: "var(--radius)",
+              display: "flex",
+              alignItems: "center",
+              gap: "12px",
+              margin: "0 0 12px",
+              padding: "12px 18px",
+              color: "var(--green)",
+            }}
+          >
+            <span style={{ fontSize: "24px" }}>⭐</span>
+            <div>
+              <strong style={{ display: "block", fontSize: "15px" }}>¡Excelente trabajo! Has completado el ítem de esta ronda.</strong>
+              <p style={{ margin: 0, fontSize: "13px", color: "var(--muted)" }}>
+                Espera a que el docente avance la sala a la siguiente ronda.
+              </p>
+            </div>
+          </div>
+        )}
+
+        {/* Alerta de fallback si no hay canvas o falló Phaser */}
+        {(sinCanvas || errorPhaser) && (
+          <div
+            className="aviso aviso-error"
+            role="alert"
+            style={{
+              width: "100%",
+              maxWidth: "860px",
+              borderRadius: "14px",
+              padding: "16px",
+              background: "#fff3ef",
+              border: "1px solid #f0b8a7",
+              marginBottom: "12px",
+            }}
+          >
+            <strong>No se pudo cargar el lienzo gráfico (Canvas).</strong>
+            <p style={{ margin: "4px 0" }}>
+              {errorPhaser ??
+                "Tu dispositivo o navegador no soporta aceleración gráfica WebGL/Canvas para mostrar el juego interactivo."}
+            </p>
+            <p style={{ margin: 0, fontSize: "13px", color: "var(--muted)" }}>
+              Intenta abrir la sala desde otro navegador moderno (Chrome, Edge, Firefox, Safari).
             </p>
           </div>
-        </div>
-      )}
+        )}
 
-      {/* Alerta de fallback si no hay canvas o falló Phaser */}
-      {(sinCanvas || errorPhaser) && (
-        <div className="aviso aviso-error" role="alert" style={{ marginBottom: "1rem" }}>
-          <strong>No se pudo cargar el lienzo gráfico (Canvas).</strong>
-          <p>
-            {errorPhaser ??
-              "Tu dispositivo o navegador no soporta aceleración gráfica WebGL/Canvas para mostrar el juego interactivo."}
-          </p>
-          <p className="suave" style={{ margin: 0, fontSize: "0.9rem" }}>
-            Intenta abrir la sala desde otro navegador moderno (Chrome, Edge, Firefox, Safari) o
-            activa la aceleración por hardware.
-          </p>
-        </div>
-      )}
-
-      {/* Contenedor del juego de Phaser */}
-      <div
-        ref={contenedorRef}
-        style={{
-          width: "100%",
-          maxWidth: "800px",
-          aspectRatio: "4 / 3",
-          margin: "0 auto",
-          background: "#ffffff",
-          borderRadius: "18px",
-          border: "2px solid var(--linea)",
-          boxShadow: "var(--sombra)",
-          overflow: "hidden",
-          position: "relative",
-          display: sinCanvas || errorPhaser ? "none" : "block",
-        }}
-      >
-        <style>{`
-          div[ref] canvas,
-          canvas {
-            width: 100% !important;
-            height: 100% !important;
-            display: block;
-            touch-action: none;
-          }
-        `}</style>
-      </div>
-
-      <footer
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          marginTop: "1rem",
-          fontSize: "0.85rem",
-          color: "var(--tinta-suave)",
-        }}
-      >
-        <span>
-          Sala: <strong>{codigo}</strong> · Ítem actual: <code>{ronda.itemId}</code>
-        </span>
-        <button
-          type="button"
-          className="boton boton-fantasma"
-          onClick={manejarSalir}
-          style={{ fontSize: "0.8rem", padding: "0.3rem 0.8rem", minHeight: "32px" }}
+        {/* Contenedor del juego de Phaser */}
+        <div
+          ref={contenedorRef}
+          style={{
+            width: "100%",
+            maxWidth: "860px",
+            aspectRatio: "4 / 3",
+            margin: "0 auto",
+            background: "#fbf7ef",
+            borderRadius: "var(--radius)",
+            border: "2px solid var(--line)",
+            boxShadow: "0 10px 30px #49312614",
+            overflow: "hidden",
+            position: "relative",
+            display: sinCanvas || errorPhaser ? "none" : "block",
+          }}
         >
-          Salir
-        </button>
-      </footer>
+          <style>{`
+            div[ref] canvas,
+            canvas {
+              width: 100% !important;
+              height: 100% !important;
+              display: block;
+              touch-action: none;
+            }
+          `}</style>
+        </div>
+
+        <footer
+          style={{
+            width: "100%",
+            maxWidth: "860px",
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            marginTop: "12px",
+            fontSize: "12px",
+            color: "var(--muted)",
+            fontWeight: 750,
+          }}
+        >
+          <span>
+            Sala: <strong>{codigo}</strong> · Ronda actual: <code>{ronda.itemId}</code>
+          </span>
+          <button
+            type="button"
+            className="text-button"
+            onClick={manejarSalir}
+            style={{ minHeight: "36px", padding: "6px 12px" }}
+          >
+            Salir de la sala
+          </button>
+        </footer>
+      </main>
     </div>
   );
 }

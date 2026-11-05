@@ -10,6 +10,66 @@ import {
   type SesionAlumno,
 } from "../api";
 import { useSesion } from "../sesion";
+import { Icono } from "../../juego/ilustraciones";
+import "../../juego/tienda.css";
+
+const MASCOT = "/juego/tiendita/mascota.png";
+
+function Confeti() {
+  const piezas = [
+    { left: "10%", delay: "0s", color: "#f26a3d", size: 10 },
+    { left: "18%", delay: "0.2s", color: "#1f7a6a", size: 12 },
+    { left: "25%", delay: "0.4s", color: "#ffd166", size: 8 },
+    { left: "33%", delay: "0.1s", color: "#dff2ec", size: 14 },
+    { left: "42%", delay: "0.5s", color: "#d94f24", size: 9 },
+    { left: "50%", delay: "0.0s", color: "#1f7a6a", size: 11 },
+    { left: "58%", delay: "0.3s", color: "#f26a3d", size: 13 },
+    { left: "67%", delay: "0.6s", color: "#ffd166", size: 10 },
+    { left: "75%", delay: "0.2s", color: "#267ea9", size: 8 },
+    { left: "83%", delay: "0.4s", color: "#1f7a6a", size: 12 },
+    { left: "90%", delay: "0.1s", color: "#f26a3d", size: 9 },
+    { left: "14%", delay: "0.7s", color: "#ffd166", size: 11 },
+    { left: "28%", delay: "0.8s", color: "#f26a3d", size: 8 },
+    { left: "45%", delay: "0.6s", color: "#1f7a6a", size: 14 },
+    { left: "62%", delay: "0.9s", color: "#dff2ec", size: 10 },
+    { left: "79%", delay: "0.7s", color: "#d94f24", size: 12 },
+  ];
+  return (
+    <div
+      aria-hidden="true"
+      style={{
+        position: "absolute",
+        inset: 0,
+        overflow: "hidden",
+        pointerEvents: "none",
+        zIndex: 1,
+      }}
+    >
+      <style>{`
+        @keyframes confetti-fall {
+          0% { transform: translateY(-10px) rotate(0deg); opacity: 1; }
+          100% { transform: translateY(320px) rotate(600deg); opacity: 0; }
+        }
+      `}</style>
+      {piezas.map((p, i) => (
+        <span
+          key={i}
+          style={{
+            position: "absolute",
+            top: 0,
+            left: p.left,
+            width: `${p.size}px`,
+            height: `${p.size * 1.4}px`,
+            backgroundColor: p.color,
+            borderRadius: "2px",
+            animation: "confetti-fall 2.4s ease-out infinite",
+            animationDelay: p.delay,
+          }}
+        />
+      ))}
+    </div>
+  );
+}
 
 // --- Almacenamiento Offline en IndexedDB ---
 
@@ -559,276 +619,349 @@ export function Juego() {
 
   return (
     <div className="juego-contenedor">
-      {/* Barra de estado discreta de conectividad y cola */}
-      <aside
-        className="juego-barra-estado"
-        aria-label="Estado de conexión y sincronización"
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          padding: "0.5rem 0.8rem",
-          background: "var(--papel-alto)",
-          border: "1px solid var(--linea)",
-          borderRadius: "12px",
-          marginBottom: "1rem",
-          fontSize: "0.85rem",
-        }}
-      >
-        <span style={{ display: "inline-flex", alignItems: "center", gap: "0.4rem" }}>
-          <span
-            style={{
-              width: "10px",
-              height: "10px",
-              borderRadius: "50%",
-              background: estaOnline ? "#2e7d32" : "#d94f24",
-              display: "inline-block",
-            }}
-          />
-          {estaOnline ? "Conectado" : "Modo sin conexión (offline activo)"}
-        </span>
-        {pendientesCount > 0 && (
-          <span className="pastilla pastilla-borrador" style={{ fontSize: "0.75rem" }}>
-            ⏳ {pendientesCount} intento(s) pendiente(s) por sincronizar
-          </span>
-        )}
-      </aside>
-
-      {/* Pantalla 1: Ingreso del alumno */}
+      {/* Pantalla 1: Ingreso del alumno (Activación) */}
       {pantalla === "ingreso" && esDeActivacion && (
-        <div className="centrado">
-          <section className="tarjeta tarjeta-login" style={{ maxWidth: "440px" }}>
+        <div className="shop-app is-intro">
+          <header className="shop-header">
+            <Link to="/" className="brand-link" aria-label="BRAIN RUSH, página principal">
+              <span className="shop-brand">
+                <svg viewBox="0 0 32 32" fill="none" aria-hidden="true">
+                  <path d="M17 2 6 18h9l-1 12 12-18h-9z" fill="currentColor" />
+                </svg>
+                <span>BRAIN<b>RUSH</b></span>
+              </span>
+            </Link>
+            <Link className="back-school" to="/">
+              Volver a la escuela <Icono nombre="arrow" size={18} />
+            </Link>
+          </header>
+
+          <main className="result-screen">
+            <div className="result-art">
+              <img src={MASCOT} alt="La mascota" />
+            </div>
             <h1>Este juego se juega en el aula</h1>
-            <p className="suave">
-              Es un juego de activación. Tu docente abrirá una sala y te dará su código para
-              entrar desde tu celular.
+            <p style={{ maxWidth: "440px", margin: "1rem auto 2rem", color: "var(--muted)", fontWeight: 700 }}>
+              Es un juego de activación colectiva. Tu docente abrirá una sala y te dará su código para entrar desde tu celular.
             </p>
-          </section>
+            <Link to="/" className="primary-button" style={{ textDecoration: "none" }}>
+              Volver al inicio
+            </Link>
+          </main>
         </div>
       )}
 
+      {/* Pantalla 1: Ingreso del alumno (Complemento carrera - estilo portada tiendita) */}
       {pantalla === "ingreso" && !esDeActivacion && (
-        <div className="centrado">
-          <section className="tarjeta tarjeta-login" style={{ maxWidth: "440px" }}>
-            <p className="etiqueta">Juego de complemento</p>
-            <h1>¡A la carrera! 🏁</h1>
-            <p className="suave">
-              Código de juego: <strong className="enlace-codigo">{codigo.toUpperCase()}</strong>
-            </p>
-            <p>
-              Ingresa tu nombre o alias para comenzar la carrera de conversiones con Reglita.
-            </p>
+        <div className="shop-app is-intro">
+          <header className="shop-header">
+            <Link to="/" className="brand-link" aria-label="BRAIN RUSH, página principal">
+              <span className="shop-brand">
+                <svg viewBox="0 0 32 32" fill="none" aria-hidden="true">
+                  <path d="M17 2 6 18h9l-1 12 12-18h-9z" fill="currentColor" />
+                </svg>
+                <span>BRAIN<b>RUSH</b></span>
+              </span>
+            </Link>
+            <span className="local-label">
+              <span style={{ background: estaOnline ? "#1f7a6a" : "#d94f24" }} />
+              {estaOnline ? "Conectado" : "Sin conexión"}
+            </span>
+            <Link className="back-school" to="/">
+              Volver a la escuela <Icono nombre="arrow" size={18} />
+            </Link>
+          </header>
 
-            {mensajeError && (
-              <div className="aviso aviso-error" role="alert" style={{ marginBottom: "1rem" }}>
-                {mensajeError}
-              </div>
-            )}
+          <main className="shop-intro">
+            <section className="intro-copy">
+              <div className="age-tag">3.º y 4.º de primaria <span>·</span> Carrera de conversiones</div>
+              <h1>¡A la <span>carrera!</span></h1>
+              <p className="intro-description">
+                Multiplica, divide.<br /> Supera cada puerta.
+              </p>
 
-            <form onSubmit={manejarIngreso} style={{ display: "grid", gap: "1rem" }}>
-              <label style={{ display: "grid", gap: "0.4rem", fontWeight: "bold" }}>
-                <span>Nombre del estudiante:</span>
+              {mensajeError && (
+                <div
+                  className="aviso aviso-error"
+                  role="alert"
+                  style={{
+                    borderRadius: "14px",
+                    padding: "12px 16px",
+                    background: "#fff3ef",
+                    border: "1px solid #f0b8a7",
+                    color: "#d94f24",
+                    fontWeight: 700,
+                    marginBottom: "1rem",
+                  }}
+                >
+                  {mensajeError}
+                </div>
+              )}
+
+              <form onSubmit={manejarIngreso} style={{ display: "grid", gap: "1rem", maxWidth: "380px" }}>
                 <input
                   type="text"
                   className="input-nombre"
-                  placeholder="Ej: Lucía, Mateo, Sofía..."
+                  placeholder="Tu nombre aquí…"
                   value={nombreAlumno}
                   onChange={(e) => setNombreAlumno(e.target.value)}
                   maxLength={40}
                   required
                   autoFocus
                   style={{
-                    padding: "0.75rem 1rem",
-                    borderRadius: "10px",
-                    border: "1px solid var(--linea)",
-                    font: "inherit",
-                    fontSize: "1.05rem",
+                    padding: "16px 20px",
+                    borderRadius: "var(--radius)",
+                    border: "2px solid var(--line)",
+                    background: "#fffdf7",
+                    color: "var(--ink)",
+                    fontSize: "18px",
+                    fontWeight: 700,
+                    outline: "none",
+                    boxShadow: "0 3px 6px #4931260a",
                   }}
                 />
-              </label>
 
-              <button
-                type="submit"
-                disabled={cargando || !nombreAlumno.trim()}
-                className="boton boton-primario boton-grande boton-ancho"
-              >
-                {cargando ? "Preparando la pista..." : "¡Comenzar a jugar! ⚡"}
-              </button>
-            </form>
+                <button
+                  type="submit"
+                  disabled={cargando || !nombreAlumno.trim()}
+                  className="primary-button play-button"
+                  style={{ width: "100%" }}
+                >
+                  <Icono nombre="play" /> {cargando ? "Preparando la pista…" : "¡A jugar!"} <Icono nombre="arrow" />
+                </button>
+              </form>
 
-            <small style={{ marginTop: "1rem", display: "block", color: "var(--tinta-suave)" }}>
-              No se solicitan datos personales sensibles. Tu progreso se guardará en este
-              dispositivo y se enviará al docente.
-            </small>
-          </section>
+              <div className="play-method">
+                <Icono nombre="hand" size={20} />
+                <span>Toca ×10 o ÷10 y arrastra a la puerta</span>
+              </div>
+            </section>
+
+            <section className="intro-art" aria-label="La mascota te saluda lista para la carrera">
+              <div className="art-arch">
+                <div className="intro-awning" />
+                <div className="shop-sign">¡META!</div>
+                <div className="art-floor" />
+              </div>
+              <img className="intro-mascot" src={MASCOT} alt="Nuestra mascota te invita a jugar" />
+              <svg className="art-star star-a" viewBox="0 0 40 40" aria-hidden="true"><path d="m20 0 5 15 15 5-15 5-5 15-5-15L0 20l15-5z" fill="currentColor" /></svg>
+              <svg className="art-star star-b" viewBox="0 0 40 40" aria-hidden="true"><path d="m20 0 5 15 15 5-15 5-5 15-5-15L0 20l15-5z" fill="currentColor" /></svg>
+            </section>
+          </main>
         </div>
       )}
 
       {/* Pantalla 2: Ejecución del juego Phaser */}
       {pantalla === "jugando" && (
-        <section
-          className="juego-area"
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            width: "100%",
-          }}
-        >
-          <div
+        <div className="shop-app" style={{ minHeight: "100vh", display: "flex", flexDirection: "column", background: "#fbf7ef" }}>
+          <header
+            className="shop-header"
             style={{
-              width: "100%",
-              maxWidth: "800px",
+              minHeight: "56px",
+              padding: "10px 24px",
               display: "flex",
               justifyContent: "space-between",
               alignItems: "center",
-              marginBottom: "0.6rem",
+              width: "min(1280px, 100%)",
+              margin: "0 auto",
             }}
           >
-            <span style={{ fontWeight: 700, color: "var(--tinta)" }}>
-              Estudiante: <span style={{ color: "var(--naranja)" }}>{nombreAlumno}</span>
-            </span>
-            <span className="pastilla pastilla-publicado">Carrera métrica</span>
-          </div>
+            <div style={{ display: "flex", alignItems: "center", gap: "14px" }}>
+              <Link to="/" className="brand-link" aria-label="BRAIN RUSH, página principal">
+                <span className="shop-brand" style={{ fontSize: "16px" }}>
+                  <svg viewBox="0 0 32 32" fill="none" style={{ width: "22px", height: "26px" }} aria-hidden="true">
+                    <path d="M17 2 6 18h9l-1 12 12-18h-9z" fill="currentColor" />
+                  </svg>
+                  <span>BRAIN<b>RUSH</b></span>
+                </span>
+              </Link>
+              <span
+                style={{
+                  fontSize: "14px",
+                  fontWeight: 800,
+                  color: "var(--ink)",
+                  background: "var(--green-light)",
+                  padding: "4px 12px",
+                  borderRadius: "999px",
+                }}
+              >
+                {nombreAlumno}
+              </span>
+            </div>
 
-          <div
-            ref={phaserContenedorRef}
-            id="phaser-carrera-contenedor"
+            <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+              <span className="local-label" style={{ fontSize: "12px" }}>
+                <span style={{ background: estaOnline ? "#1f7a6a" : "#d94f24" }} />
+                {estaOnline ? "Conectado" : "Sin conexión"}
+              </span>
+              {pendientesCount > 0 && (
+                <span
+                  style={{
+                    fontSize: "11px",
+                    fontWeight: 800,
+                    background: "#fff1d6",
+                    color: "#8a5a00",
+                    padding: "3px 8px",
+                    borderRadius: "8px",
+                  }}
+                >
+                  ⏳ {pendientesCount}
+                </span>
+              )}
+            </div>
+          </header>
+
+          <main
             style={{
-              width: "100%",
-              maxWidth: "800px",
-              aspectRatio: "4 / 3",
-              background: "#e8f5e9",
-              borderRadius: "16px",
-              overflow: "hidden",
-              boxShadow: "0 12px 36px rgba(0,0,0,0.12)",
+              flex: 1,
+              width: "min(1280px, 100%)",
+              margin: "0 auto",
+              padding: "0 16px 16px",
               display: "flex",
-              justifyContent: "center",
+              flexDirection: "column",
               alignItems: "center",
+              justifyContent: "center",
             }}
-          />
-        </section>
+          >
+            <div
+              ref={phaserContenedorRef}
+              id="phaser-carrera-contenedor"
+              style={{
+                width: "100%",
+                maxWidth: "860px",
+                aspectRatio: "4 / 3",
+                maxHeight: "calc(100vh - 84px)",
+                borderRadius: "var(--radius)",
+                overflow: "hidden",
+                border: "2px solid var(--line)",
+                boxShadow: "0 10px 30px #49312614",
+                background: "#fbf7ef",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            />
+          </main>
+        </div>
       )}
 
-      {/* Pantalla 3: Resultado final con aciertos/total y mínimo de logro */}
+      {/* Pantalla 3: Resultado final con aciertos/total y confeti CSS */}
       {pantalla === "resultado" && resultado && (
-        <div className="centrado">
-          <section
-            className="tarjeta"
-            style={{
-              maxWidth: "500px",
-              width: "100%",
-              textAlign: "center",
-              padding: "2rem",
-            }}
-          >
-            <div style={{ fontSize: "4rem", marginBottom: "0.5rem" }}>
-              {resultado.logrado ? "🏆" : "💪"}
+        <div className="shop-app" style={{ minHeight: "100vh", position: "relative" }}>
+          <header className="shop-header">
+            <Link to="/" className="brand-link" aria-label="BRAIN RUSH, página principal">
+              <span className="shop-brand">
+                <svg viewBox="0 0 32 32" fill="none" aria-hidden="true">
+                  <path d="M17 2 6 18h9l-1 12 12-18h-9z" fill="currentColor" />
+                </svg>
+                <span>BRAIN<b>RUSH</b></span>
+              </span>
+            </Link>
+          </header>
+
+          <main className="result-screen" style={{ position: "relative" }}>
+            <Confeti />
+
+            <div className="result-art">
+              <img src={MASCOT} alt="La mascota celebra contigo" />
+              <div className="result-stars">
+                {[0, 1, 2].map((n) => (
+                  <Icono key={n} nombre="star" size={48} />
+                ))}
+              </div>
             </div>
 
-            <p className="etiqueta">
+            <h1 style={{ marginTop: "10px", marginBottom: "4px" }}>
               {resultado.logrado ? "¡Meta alcanzada!" : "¡Buen esfuerzo!"}
-            </p>
-
-            <h1>{resultado.logrado ? "¡Excelente carrera!" : "¡Sigue practicando!"}</h1>
+            </h1>
 
             <div
               style={{
-                background: resultado.logrado ? "var(--verde-claro)" : "#fff1d6",
-                borderRadius: "14px",
-                padding: "1.2rem",
-                margin: "1.2rem 0",
+                fontSize: "clamp(56px, 9vw, 80px)",
+                fontWeight: 1000,
+                lineHeight: 1,
+                color: resultado.logrado ? "var(--green)" : "var(--orange)",
+                margin: "10px 0 6px",
+                fontVariantNumeric: "tabular-nums",
               }}
             >
-              <div
-                style={{
-                  fontSize: "2.2rem",
-                  fontWeight: "bold",
-                  color: resultado.logrado ? "var(--verde)" : "#b25e00",
-                }}
-              >
-                {resultado.aciertos} / {resultado.total}
-              </div>
-              <p
-                style={{
-                  margin: "0.2rem 0 0",
-                  fontWeight: 600,
-                  color: "var(--tinta-suave)",
-                }}
-              >
-                Aciertos obtenidos ({Math.round((resultado.aciertos / (resultado.total || 1)) * 100)}%)
-              </p>
-              <p style={{ margin: "0.4rem 0 0", fontSize: "0.9rem" }}>
-                Mínimo de logro esperado:{" "}
-                <strong>{Math.round(resultado.minimoLogro * 100)}%</strong>
-              </p>
+              {resultado.aciertos} <span style={{ fontSize: "0.55em", color: "var(--muted)", fontWeight: 800 }}>/ {resultado.total}</span>
             </div>
 
-            <p style={{ fontSize: "1.05rem", color: "var(--tinta)", margin: "1rem 0" }}>
+            <p style={{ maxWidth: "420px", fontSize: "17px", fontWeight: 750, color: "var(--muted)", margin: "0 auto 18px", textWrap: "balance" }}>
               {resultado.logrado
-                ? `¡Felicitaciones, ${nombreAlumno}! Has superado el mínimo de logro (${Math.round(
-                    resultado.minimoLogro * 100,
-                  )}%) demostrando un gran dominio en conversiones de longitud.`
-                : `¡Casi lo logras, ${nombreAlumno}! Obtuviste el ${Math.round(
-                    (resultado.aciertos / (resultado.total || 1)) * 100,
-                  )}% de aciertos. Con un poco más de práctica superarás la meta del ${Math.round(
-                    resultado.minimoLogro * 100,
-                  )}%.`}
+                ? `¡Felicitaciones, ${nombreAlumno}! Dominaste las conversiones métricas con la mascota.`
+                : `¡Gran intento, ${nombreAlumno}! Cada carrera te hace más veloz.`}
             </p>
 
             <div
               style={{
-                fontSize: "0.85rem",
-                color: resultado.enviado ? "#2e7d32" : "#d94f24",
-                marginBottom: "1.5rem",
-                fontWeight: 600,
+                fontSize: "13px",
+                fontWeight: 800,
+                color: resultado.enviado ? "var(--green)" : "#d94f24",
+                marginBottom: "24px",
               }}
             >
               {resultado.enviado
-                ? "✓ Intento guardado y enviado con éxito al servidor docente."
-                : "💾 Intento guardado en tu dispositivo. Se enviará automáticamente cuando recuperes la conexión."}
+                ? "✓ Carrera guardada y enviada al docente."
+                : "💾 Guardada en este dispositivo. Se enviará al conectar."}
             </div>
 
-            <div style={{ display: "grid", gap: "0.75rem" }}>
+            <div style={{ display: "flex", flexDirection: "column", gap: "10px", width: "min(100%, 280px)" }}>
               <button
                 type="button"
                 onClick={reiniciarPartida}
-                className="boton boton-primario boton-grande boton-ancho"
+                className="primary-button"
+                style={{ width: "100%" }}
               >
-                Jugar de nuevo 🔄
+                <Icono nombre="play" /> Jugar de nuevo
               </button>
               <button
                 type="button"
                 onClick={cambiarAlumno}
-                className="boton boton-fantasma boton-ancho"
+                className="secondary-button"
+                style={{ width: "100%" }}
               >
-                Cambiar de estudiante / Salir
+                Cambiar de estudiante
               </button>
-              <Link to="/" className="nav-enlace" style={{ textAlign: "center" }}>
+              <Link
+                to="/"
+                className="text-button"
+                style={{ textAlign: "center", textDecoration: "none" }}
+              >
                 Volver al inicio
               </Link>
             </div>
-          </section>
+          </main>
         </div>
       )}
 
       {/* Pantalla 4: Error o entorno sin soporte */}
       {pantalla === "error" && (
-        <div className="centrado">
-          <section className="tarjeta" style={{ maxWidth: "480px", textAlign: "center" }}>
-            <div style={{ fontSize: "3rem", marginBottom: "0.5rem" }}>⚠️</div>
-            <h2>No se pudo iniciar el juego</h2>
-            <div className="aviso aviso-error" style={{ textAlign: "left", margin: "1rem 0" }}>
-              {mensajeError || "El navegador no cumple con los requisitos gráficos para Phaser."}
+        <div className="shop-app">
+          <header className="shop-header">
+            <Link to="/" className="brand-link" aria-label="BRAIN RUSH, página principal">
+              <span className="shop-brand">
+                <svg viewBox="0 0 32 32" fill="none" aria-hidden="true">
+                  <path d="M17 2 6 18h9l-1 12 12-18h-9z" fill="currentColor" />
+                </svg>
+                <span>BRAIN<b>RUSH</b></span>
+              </span>
+            </Link>
+          </header>
+
+          <main className="result-screen">
+            <div className="result-art">
+              <img src={MASCOT} alt="La mascota" />
             </div>
-            <p className="suave">
-              Asegúrate de utilizar un navegador moderno como Google Chrome, Mozilla Firefox o Safari
-              con aceleración por hardware habilitada.
+            <h1>No pudimos abrir la pista</h1>
+            <p style={{ maxWidth: "440px", margin: "1rem auto 1.5rem", color: "var(--muted)", fontWeight: 700 }}>
+              {mensajeError || "El navegador no cumple con los requisitos gráficos para Phaser."}
             </p>
-            <div style={{ display: "flex", gap: "1rem", justifyContent: "center", marginTop: "1.5rem" }}>
+            <div style={{ display: "flex", gap: "12px", justifyContent: "center" }}>
               <button
                 type="button"
-                className="boton boton-primario"
+                className="primary-button"
                 onClick={() => {
                   setMensajeError("");
                   setPantalla("ingreso");
@@ -836,11 +969,11 @@ export function Juego() {
               >
                 Reintentar
               </button>
-              <Link to="/" className="boton boton-fantasma">
+              <Link to="/" className="secondary-button" style={{ textDecoration: "none" }}>
                 Volver al inicio
               </Link>
             </div>
-          </section>
+          </main>
         </div>
       )}
     </div>

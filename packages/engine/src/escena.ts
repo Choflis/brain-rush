@@ -8,7 +8,7 @@ import {
   type EventoRespuesta
 } from "./eventos.ts";
 import { CapaFeedback } from "./feedback.ts";
-import { colorHexANumero, resolverVisual } from "./visuales.ts";
+import { resolverVisual } from "./visuales.ts";
 
 export interface ConfiguracionEscenaBase {
   spec: GameSpec;
@@ -103,30 +103,26 @@ export class EscenaBase extends Phaser.Scene {
   }
 
   /**
-   * Dibuja los elementos base del escenario (color de fondo y personaje).
+   * Dibuja los elementos base del escenario (color de fondo crema y personaje).
    */
   protected crearEscenario(): void {
     if (!this.add) return;
 
     const ancho = this.cameras?.main?.width ?? 800;
     const alto = this.cameras?.main?.height ?? 600;
+    const fuenteSistema = "'Segoe UI', system-ui, -apple-system, 'Helvetica Neue', sans-serif";
 
-    // Fondo del escenario
-    const visualEscenario = resolverVisual(this.spec.escenario.id);
-    const colorFondo = colorHexANumero(visualEscenario.color);
-
+    // Fondo del escenario crema tiendita #fbf7ef
     const bg = this.add.graphics();
-    bg.fillStyle(0xfbfbef, 1);
-    bg.fillRect(0, 0, ancho, alto);
-    bg.fillStyle(colorFondo, 0.15);
+    bg.fillStyle(0xfbf7ef, 1);
     bg.fillRect(0, 0, ancho, alto);
 
-    // Barra superior con título y personaje
+    // Barra superior con título y personaje (tarjeta #fffcf6, borde #e4dccd, radio 18px)
     const barra = this.add.graphics();
     barra.fillStyle(0xfffcf6, 0.95);
-    barra.fillRoundedRect(16, 12, ancho - 32, 50, 10);
+    barra.fillRoundedRect(16, 12, ancho - 32, 50, 18);
     barra.lineStyle(2, 0xe4dccd, 1);
-    barra.strokeRoundedRect(16, 12, ancho - 32, 50, 10);
+    barra.strokeRoundedRect(16, 12, ancho - 32, 50, 18);
 
     // Mascota de tiendita como guía visual
     if (this.textures && this.textures.exists("mascota-tiendita")) {
@@ -134,21 +130,29 @@ export class EscenaBase extends Phaser.Scene {
       mascota.setDisplaySize(40, 40);
       mascota.setOrigin(0.5);
     } else {
-      const visualPersonaje = resolverVisual(this.spec.personaje.id);
-      this.add
-        .text(32, 37, `${visualPersonaje.emoji} ${this.spec.personaje.nombre}`, {
-          fontSize: "18px",
-          color: "#4a5c59",
-          fontStyle: "bold"
-        })
-        .setOrigin(0, 0.5);
+      try {
+        const mascota = this.add.image(46, 37, "mascota-tiendita");
+        mascota.setDisplaySize(40, 40);
+        mascota.setOrigin(0.5);
+      } catch {
+        const visualPersonaje = resolverVisual(this.spec.personaje?.id ?? "personaje-reglita");
+        this.add
+          .text(32, 37, `${visualPersonaje.emoji} ${this.spec.personaje?.nombre ?? ""}`, {
+            fontFamily: fuenteSistema,
+            fontSize: "18px",
+            color: "#4a5c59",
+            fontStyle: "bold"
+          })
+          .setOrigin(0, 0.5);
+      }
     }
 
     this.add
       .text(ancho / 2, 37, this.spec.titulo, {
+        fontFamily: fuenteSistema,
         fontSize: "18px",
         color: "#14201f",
-        fontStyle: "bold"
+        fontStyle: "900"
       })
       .setOrigin(0.5, 0.5);
   }
@@ -168,6 +172,7 @@ export class EscenaBase extends Phaser.Scene {
 
     const ancho = this.cameras?.main?.width ?? 800;
     const alto = this.cameras?.main?.height ?? 600;
+    const fuenteSistema = "'Segoe UI', system-ui, -apple-system, 'Helvetica Neue', sans-serif";
 
     this.tutorialContainer = this.add.container(ancho / 2, alto / 2);
 
@@ -177,18 +182,16 @@ export class EscenaBase extends Phaser.Scene {
     fondoOscuro.fillRect(-ancho / 2, -alto / 2, ancho, alto);
     this.tutorialContainer.add(fondoOscuro);
 
-    // Tarjeta del tutorial
-    const visualAnim = resolverVisual(this.spec.tutorial.animacion);
-    const colorTarjeta = colorHexANumero(visualAnim.color);
-
+    // Tarjeta del tutorial (#fffcf6, borde #1f7a6a, radio 18px)
     const tarjeta = this.add.graphics();
-    tarjeta.fillStyle(0xffffff, 1);
-    tarjeta.fillRoundedRect(-220, -140, 440, 280, 16);
-    tarjeta.lineStyle(4, colorTarjeta, 1);
-    tarjeta.strokeRoundedRect(-220, -140, 440, 280, 16);
+    tarjeta.fillStyle(0xfffcf6, 1);
+    tarjeta.fillRoundedRect(-220, -140, 440, 280, 18);
+    tarjeta.lineStyle(3, 0x1f7a6a, 1);
+    tarjeta.strokeRoundedRect(-220, -140, 440, 280, 18);
     this.tutorialContainer.add(tarjeta);
 
     // Animación / representación visual del tutorial
+    const visualAnim = resolverVisual(this.spec.tutorial.animacion);
     const animEmoji = this.add
       .text(0, -50, visualAnim.emoji, {
         fontSize: "64px",
@@ -212,9 +215,10 @@ export class EscenaBase extends Phaser.Scene {
     // Nombre de la animación o acción
     const labelAnim = this.add
       .text(0, 20, visualAnim.nombre ?? "Tutorial", {
-        fontSize: "18px",
+        fontFamily: fuenteSistema,
+        fontSize: "20px",
         color: "#14201f",
-        fontStyle: "bold",
+        fontStyle: "900",
         align: "center"
       })
       .setOrigin(0.5);
@@ -224,6 +228,7 @@ export class EscenaBase extends Phaser.Scene {
     if (this.spec.tutorial.texto) {
       const textoTutorial = this.add
         .text(0, 60, this.spec.tutorial.texto, {
+          fontFamily: fuenteSistema,
           fontSize: "16px",
           color: "#4a5c59",
           align: "center",
@@ -236,9 +241,10 @@ export class EscenaBase extends Phaser.Scene {
     // Indicador sutil de inicio automático
     const pieTutorial = this.add
       .text(0, 110, "¡Preparados!", {
+        fontFamily: fuenteSistema,
         fontSize: "14px",
-        color: "#4a5c59",
-        fontStyle: "italic",
+        color: "#1f7a6a",
+        fontStyle: "bold",
         align: "center"
       })
       .setOrigin(0.5);

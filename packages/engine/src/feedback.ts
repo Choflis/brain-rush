@@ -105,10 +105,11 @@ export class CapaFeedback {
     // Texto de retroalimentación
     const textoMensaje = this.escena.add
       .text(0, 25, textoMostrar, {
+        fontFamily: "'Segoe UI', system-ui, -apple-system, 'Helvetica Neue', sans-serif",
         fontSize: "18px",
         color: "#ffffff",
-        fontStyle: "bold",
-        stroke: "#000000",
+        fontStyle: "900",
+        stroke: "#14201f",
         strokeThickness: 3,
         align: "center"
       })
