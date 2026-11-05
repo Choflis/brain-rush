@@ -119,13 +119,13 @@ Los scripts de prueba se ejecutan directamente con el motor de pruebas nativo de
 - Capa de feedback vectorial resiliente a la falta de archivos de arte.
 - Escena base con ciclo de tutorial (~3s), cálculo de métricas y métodos de emisión de respuesta y fin.
 
-### Pendiente para C2 (Mecánica Tienda - N1):
-- Subclase `EscenaTienda extends EscenaBase`.
+### Implementado en C2 (Mecánica Tienda - N1, activación):
+- Clase `MecanicaTienda` (con alias `EscenaTienda`) que extiende `EscenaBase`.
 - Sistema interactivo de arrastrar y soltar (Drag & Drop) de productos.
-- Implementación de la acción `clasificar`: drop zones por estantería y verificación de correspondencia `producto.categoria === estanteria.id`.
-- Implementación de la acción `pedido`: drop zone en bolsa/caja registradora y conteo de la cantidad pedida.
-- Regla de negocio de C1: evaluación del ítem contra el spec y emisión de `respuesta` acumulando intentos al resolver.
-- Integración visual de la meta colectiva (`meta.tipo = "camion"`).
+- Implementación de Fase 1 · Clasificación: drop zones por estantería y verificación de correspondencia `producto.categoria === estanteria.id`, emitiendo `respuesta` con `correcto: true` (feedback estrella) o `correcto: false` (feedback pista, reintentable).
+- Implementación de Fase 2 · Pedido: bolsa interactiva con contador y verificación de categoría requerida, emitiendo `respuesta` al completar.
+- Implementación de Fase 3 · Meta colectiva: avance visual de la barra del camión de reparto (`meta.tipo = "camion"`).
+- Emisión de `fin` con aciertos y total coherentes al completar todos los ítems o al cerrar la escena.
 
 ### Pendiente para C3 (Mecánica Carrera - N2):
 - Subclase `EscenaCarrera extends EscenaBase`.
