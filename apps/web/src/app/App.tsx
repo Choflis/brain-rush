@@ -75,7 +75,10 @@ export function App() {
   }
 
   // 3. Aula Virtual Docente con Sidebar dedicado
-  if (ubicacion.pathname.startsWith("/docente")) {
+  if (
+    ubicacion.pathname.startsWith("/docente") &&
+    ubicacion.pathname !== "/docente/login"
+  ) {
     // Si no ha iniciado sesión, mostrar login
     if (!sesion || sesion.rol !== "docente") {
       return (

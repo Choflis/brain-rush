@@ -3,6 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { aulaVirtual, type ClaseAula, type Estudiante, type JuegoAula } from "../../datos/aulaVirtual";
 import { useSesion } from "../../sesion";
 import { IconoAnimado } from "../../componentes/IconoAnimado";
+import { Mosaico } from "../../componentes/Mosaico";
+import { ReglitaInteractiva } from "../../componentes/ReglitaInteractiva";
 import { AvatarReglita } from "../../componentes/AvatarReglita";
 
 export function PortalEstudiante() {
@@ -102,7 +104,7 @@ export function PortalEstudiante() {
               </button>
             </div>
           ) : (
-            <Link to="/login" className="boton boton-fantasma boton-sm">
+            <Link to="/login?rol=alumno" className="boton boton-fantasma boton-sm">
               Ingresar con mi nombre
             </Link>
           )}
@@ -110,6 +112,14 @@ export function PortalEstudiante() {
       </header>
 
       <main className="estudiante-contenido">
+        <section className="aventura-bienvenida-alumno">
+          <div><p className="mini-etiqueta">Tu rincón de descubrimientos</p>
+            <h1>¡Hola{sesion?.rol === "alumno" ? `, ${sesion.nombre.split(" ")[0]}` : ", explorador"}!<br />¿Jugamos a <span>aprender?</span></h1>
+            <p>Elige tu salón, encuentra una aventura y diviértete. Reglita te acompaña en cada paso.</p>
+            <a href="#mis-aventuras" className="boton boton-primario">Ver mis juegos <span aria-hidden="true">↓</span></a>
+          </div>
+          <div className="alumno-mascota"><ReglitaInteractiva /></div>
+        </section>
         {/* Banner de Acción Inmediata: Código de Pizarra */}
         <section className="alumnos-pin-banner">
           <div className="pin-banner-icono">
@@ -122,7 +132,10 @@ export function PortalEstudiante() {
           <form className="pin-banner-form" onSubmit={handleUnirseASala}>
             <input
               type="text"
-              placeholder="EJEMPLO: TIENDA"
+              placeholder="Código de la sala"
+              aria-label="Código de la sala"
+              aria-describedby={errorSala ? "error-codigo-sala" : undefined}
+              aria-invalid={!!errorSala}
               value={codigoSala}
               maxLength={10}
               onChange={(e) => {
@@ -134,7 +147,7 @@ export function PortalEstudiante() {
               ¡Entrar a la Clase! ➔
             </button>
           </form>
-          {errorSala && <p className="mensaje-error-pin">{errorSala}</p>}
+          {errorSala && <p id="error-codigo-sala" role="alert" className="mensaje-error-pin">{errorSala}</p>}
         </section>
 
         {/* Selector de Aula: Botones Grandes y Claros */}
@@ -149,6 +162,7 @@ export function PortalEstudiante() {
                   key={clase.id}
                   type="button"
                   className={`tab-aula-nino ${seleccionada ? "tab-aula-nino-activo" : ""}`}
+                  aria-pressed={seleccionada}
                   onClick={() => setClaseSeleccionadaId(clase.id)}
                 >
                   <span className="tab-icono">{clase.icono}</span>
@@ -180,7 +194,8 @@ export function PortalEstudiante() {
         )}
 
         {/* Catálogo de Juegos: Máxima Atracción, Cero Distracción */}
-        <section className="seccion-juegos-ninos">
+        <section className="seccion-juegos-ninos" id="mis-aventuras">
+          <div className="seccion-titulo-fila"><div><p className="mini-etiqueta">Una aventura a tu ritmo</p><h2>Tus juegos para descubrir</h2></div><span className="contador-aventuras">{juegosDisponibles.length} {juegosDisponibles.length === 1 ? "aventura" : "aventuras"}</span></div>
           {juegosDisponibles.length === 0 ? (
             <div className="aviso-vacio-nino tarjeta">
               <AvatarReglita tamano={64} />
@@ -188,9 +203,9 @@ export function PortalEstudiante() {
               <p>Tu profesor activará los juegos en la próxima clase.</p>
             </div>
           ) : (
-            <div className="grilla-juegos-ninos">
+            <div className="grilla-juegos-ninos" key={claseActual?.id}>
               {juegosDisponibles.map((juego) => (
-                <article key={juego.id} className="tarjeta-juego-nino-directo">
+                <article key={juego.id} className={`tarjeta-juego-nino-directo juego-tema-${juego.mecanica}`}>
                   <div className="tarjeta-juego-icono-area" style={{ backgroundColor: juego.color }}>
                     {resolverIconoMecanica(juego.mecanica)}
                   </div>
@@ -204,7 +219,7 @@ export function PortalEstudiante() {
                       className="boton boton-jugar-destacado"
                       onClick={() => handleLanzarJuego(juego)}
                     >
-                      ¡JUGAR AHORA! ▶
+                      ¡Vamos a jugar! <span aria-hidden="true">→</span>
                     </button>
                   </div>
                 </article>
@@ -212,6 +227,7 @@ export function PortalEstudiante() {
             </div>
           )}
         </section>
+        <div className="recreo-portal"><Mosaico /></div>
       </main>
 
       <footer className="estudiante-pie">

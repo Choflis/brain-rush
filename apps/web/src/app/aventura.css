@@ -1,0 +1,317 @@
+/* Extensión de la identidad original: crema, naranja, verde y objetos de papel. */
+:root { --ease-out: cubic-bezier(.23, 1, .32, 1); --sombra-papel: 0 5px 0 #e8e0d0; }
+body { font-family: 'Nunito Variable', 'Segoe UI', sans-serif; }
+button, input, textarea, select { font-family: inherit; }
+h1, h2, h3 { text-wrap: balance; }
+p { text-wrap: pretty; }
+button, a, input, select, textarea { -webkit-tap-highlight-color: transparent; }
+:where(button, a, input, select, textarea, summary):focus-visible { outline: 3px solid var(--verde, #1f7a6a); outline-offset: 4px; }
+:where(button, input, select, textarea) { max-width: 100%; }
+:where(button:not(:disabled), a) { touch-action: manipulation; }
+:where(button):disabled { cursor: not-allowed; }
+:where(.contenido, .contenido-aula-virtual, .estudiante-contenido) { min-width: 0; }
+.cabecera { width: min(1180px, 100% - 3rem); padding-block: 1.2rem; }
+.marca { letter-spacing: -.04em; font-size: 1.4rem; }
+.marca-icono { width: 38px; height: 38px; transform: rotate(-8deg); box-shadow: 0 3px 0 #b34320; }
+.navegacion .nav-enlace { font-weight: 800; font-size: .9rem; min-height: 44px; display: inline-flex; align-items: center; }
+.contenido { width: min(1180px, 100% - 3rem); }
+.boton { transition: transform 180ms var(--ease-out), background 180ms ease, box-shadow 180ms ease; }
+.boton-primario { background: #d94f24; box-shadow: 0 4px 0 #a73919; border-color: #c5451e; }
+.boton-primario:hover { background: #c5451e; }
+.boton-primario:active { transform: translateY(3px); box-shadow: 0 1px 0 #a73919; }
+.boton-secundario { background: var(--verde-claro); color: #155f51; border: 1px solid #bad9ca; box-shadow: 0 3px 0 #b6cfc0; }
+.boton-grande { min-height: 58px; padding-inline: 1.4rem; font-size: 1.05rem; }
+.boton-fantasma { background: #fffdf7; }
+.mini-etiqueta { display: block; color: #476252; text-transform: uppercase; font-size: .72rem; letter-spacing: .12em; font-weight: 900; margin: 0 0 .65rem; }
+.bienvenida { display: grid; grid-template-columns: 1.1fr 1fr; align-items: center; gap: 1.5rem; padding: 2.6rem 0 4.5rem; }
+.bienvenida-texto { position: relative; z-index: 1; }
+.bienvenida .etiqueta { background: transparent; padding: 0; letter-spacing: .035em; font-size: .72rem; display: flex; align-items: center; gap: .55rem; text-transform: none; }
+.punto-aventura { width: 8px; height: 8px; border-radius: 50%; background: #1f7a6a; box-shadow: 0 0 0 4px #dff2ec; }
+.bienvenida h1 { font-size: clamp(2.8rem, 5.2vw, 4.5rem); line-height: 1.04; font-weight: 950; letter-spacing: -.055em; max-width: 630px; margin: 1rem 0 1.6rem; }
+.palabra-aventura { display: inline-block; position: relative; color: #d94f24; }
+.palabra-aventura svg { position: absolute; left: 0; width: 100%; height: 16px; bottom: -9px; fill: none; stroke: #e9ad43; stroke-width: 7; stroke-linecap: round; z-index: -1; }
+.bienvenida .entradilla { max-width: 440px; font-size: 1.12rem; line-height: 1.7; color: #4a5c59; }
+.acciones-landing { display: flex; flex-wrap: wrap; gap: .9rem; margin-top: 1.8rem; }
+.bienvenida-nota { margin-top: 1.8rem; display: flex; align-items: center; gap: .7rem; font-size: .8rem; line-height: 1.6; color: #516458; }
+.nota-dibujo { color: #b97520; font-size: 2.6rem; line-height: 1; }
+.bienvenida-escena { position: relative; min-width: 0; padding: 1.8rem .4rem .5rem; }
+.bienvenida-escena .reglita-interactiva { width: 98%; z-index: 2; }
+.escena-arco { position: absolute; inset: 2.5rem 2rem 1rem; border-radius: 48% 48% 20px 20px; background: #dfeacf; border: 1px solid #ccd9bd; overflow: hidden; }
+.escena-cuadricula { position: absolute; inset: 0; background-image: linear-gradient(#b9c9a64a 1px, transparent 1px), linear-gradient(90deg, #b9c9a64a 1px, transparent 1px); background-size: 34px 34px; }
+.escena-sol { position: absolute; top: 3%; right: 14%; color: #dca441; font-size: 6rem; line-height: 1; }
+.escena-suelo { position: absolute; bottom: 0; left: 12%; width: 76%; height: 15px; border-radius: 50%; background: #bdcfb5; }
+.pegatina { position: absolute; z-index: 3; padding: .6rem .9rem; border-radius: 9px; background: #fffcf3; box-shadow: 0 4px 0 #dfd6be; font-weight: 900; pointer-events: none; }
+.pegatina-suma { top: 20%; left: -3%; transform: rotate(-9deg); font-size: 1.2rem; color: #41664d; }
+.pegatina-suma b { color: #d94f24; }
+.pegatina-idea { bottom: 19%; right: -1%; transform: rotate(8deg); font-size: .95rem; }
+.pegatina-idea span { color: #d2922e; }
+.seccion { margin-block: 1.5rem 3.5rem; }
+.seccion-titulo-fila { display: flex; align-items: end; justify-content: space-between; gap: 1rem; margin-bottom: 1.5rem; }
+.seccion-titulo-fila h2 { font-size: clamp(1.6rem, 3vw, 2.25rem); font-weight: 900; letter-spacing: -.035em; margin: 0; }
+.enlace-explorar { font-weight: 850; font-size: .9rem; text-decoration: none; min-height: 44px; display: flex; align-items: center; gap: .6rem; white-space: nowrap; }
+.aventuras-grid { gap: 1.3rem; }
+.tarjeta-demo-landing { padding: 0; overflow: hidden; border-radius: 20px; border: 1px solid #ded6c5; box-shadow: var(--sombra-papel); }
+.aventura-ilustracion { position: relative; height: 190px; display: grid; place-items: center; background: #f7e5cb; overflow: hidden; }
+.aventura-ilustracion::before { content: ''; position: absolute; width: 150px; height: 150px; border: 1px dashed #a478424a; border-radius: 50%; }
+.aventura-ilustracion > .icono-lottie { position: relative; margin-top: 1.4rem; }
+.aventura-carrera .aventura-ilustracion { background: #dfece6; }
+.aventura-eco .aventura-ilustracion { background: #e8edcb; }
+.aventura-grado { position: absolute; left: 1rem; top: .9rem; background: #fffdf5e8; border-radius: 6px; padding: .3rem .55rem; font-size: .7rem; color: #425144; font-weight: 850; }
+.aventura-dibujo { position: absolute; bottom: 1rem; right: 1rem; font-size: 1.2rem; transform: rotate(-8deg); color: #3b6246; opacity: .7; font-weight: 950; }
+.aventura-contenido { display: flex; flex-direction: column; flex: 1; padding: 1.4rem; }
+.aventura-tema { font-size: .7rem; letter-spacing: .08em; font-weight: 900; text-transform: uppercase; color: #6d674d; margin-bottom: .5rem; }
+.aventura-contenido h3 { font-size: 1.35rem; letter-spacing: -.03em; }
+.aventura-contenido p { font-size: .95rem; line-height: 1.65; }
+.aventura-contenido .demo-acciones { margin-top: auto; padding-top: .5rem; }
+.demo-acciones .boton { width: 100%; justify-content: space-between; }
+.aventura-carrera .boton-primario { background: #1f7a6a; border-color: #1b695b; box-shadow: 0 4px 0 #145347; }
+.aventura-eco .boton-primario { background: #526b32; border-color: #405829; box-shadow: 0 4px 0 #354a22; }
+.recreo-fila { display: grid; grid-template-columns: .85fr 1.15fr; align-items: center; gap: 3.5rem; margin-block: 4rem; padding: 2.6rem; background: #eee9d9; border-radius: 24px; border: 1px solid #e2dac6; }
+.recreo-invitacion h2 { font-size: clamp(1.8rem, 3vw, 2.7rem); letter-spacing: -.04em; }
+.recreo-invitacion > p:last-child { font-size: .95rem; color: #53604c; max-width: 33ch; margin-bottom: 0; }
+.recreo-flor { display: block; color: #bf782c; font-size: 4rem; line-height: 1; margin-bottom: 1rem; }
+.mosaico { container-type: inline-size; min-width: 0; background: #fffcf4; border: 1px solid #d9d4c4; border-radius: 16px; padding: 1.3rem; box-shadow: 0 5px 0 #d9d3bf; }
+.mosaico-cabecera { display: flex; align-items: center; justify-content: space-between; gap: .5rem; }
+.mosaico .mini-etiqueta { font-size: .6rem; margin-bottom: .3rem; }
+.mosaico h2 { font-size: 1.25rem; letter-spacing: -.02em; }
+.mosaico > p { font-size: .8rem; color: #5b665b; max-width: 45ch; margin-bottom: 1rem; }
+.mosaico-contador { font-size: 1rem; font-weight: 900; color: #275e49; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.mosaico-contador span { font-size: .7rem; color: #5b665b; }
+.mosaico-cuadros { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 5px; }
+.mosaico-casilla { border: 1px solid #d6dfca; background: #e8edde; aspect-ratio: 1; border-radius: 4px; padding: 0; min-width: 0; cursor: crosshair; transition: transform 140ms var(--ease-out), background-color 140ms ease; }
+.mosaico-casilla.pintada { border-color: #00000012; }
+.mosaico-casilla:focus-visible { position: relative; z-index: 1; outline-offset: 2px; }
+.mosaico-herramientas { display: flex; justify-content: space-between; gap: .5rem; margin-top: 1rem; align-items: center; }
+.mosaico-paleta { display: flex; gap: .25rem; }
+.mosaico-color { width: 44px; height: 44px; border: 4px solid #fffcf4; outline: 1px solid transparent; border-radius: 50%; color: white; font-size: 1.1rem; font-weight: 900; cursor: pointer; }
+.mosaico-color[aria-pressed='true'] { outline-color: #476252; }
+.mosaico-color:focus-visible { outline: 3px solid #1f7a6a; }
+.mosaico-borrar { min-height: 44px; padding: .4rem; border: 0; background: transparent; color: #465d4e; text-decoration: underline; text-underline-offset: 3px; font-weight: 800; font-size: .75rem; cursor: pointer; }
+.puente-docente { border-top: 1px solid #ddd5c5; padding-top: 3rem; display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; }
+.puente-docente h2 { font-size: clamp(1.7rem, 3vw, 2.5rem); }
+.puente-docente p { color: #526353; max-width: 46ch; }
+.pasos-visuales { padding: 0; margin: 0; list-style: none; display: grid; gap: 1.5rem; }
+.pasos-visuales li { display: flex; align-items: start; gap: 1.2rem; }
+.pasos-visuales li > span { display: grid; place-items: center; flex-shrink: 0; width: 48px; height: 48px; border: 1px solid #c8d6bd; background: #e5edda; border-radius: 12px; font-weight: 900; color: #3a654b; transform: rotate(-4deg); }
+.pasos-visuales h3 { font-size: 1.1rem; }
+.pasos-visuales p { font-size: .9rem; margin-bottom: 0; }
+/* Zona infantil */
+.portal-estudiante { background: #fbf7ef; min-height: 100dvh; }
+.estudiante-cabecera { background: #fffcf6; padding: 1rem max(1.25rem, calc((100vw - 1160px) / 2)); gap: 1rem; }
+.estudiante-contenido { width: min(1160px, 100% - 3rem); padding-top: .5rem; }
+.aventura-bienvenida-alumno { display: grid; grid-template-columns: 1fr 290px; align-items: center; gap: 2rem; padding: 1.6rem 1.5rem 2.8rem; }
+.aventura-bienvenida-alumno h1 { font-size: clamp(2.25rem, 4.5vw, 3.6rem); letter-spacing: -.045em; line-height: 1.12; }
+.aventura-bienvenida-alumno h1 span { color: #c64b24; }
+.aventura-bienvenida-alumno p:not(.mini-etiqueta) { color: #4c6052; max-width: 43ch; font-size: 1rem; line-height: 1.7; }
+.alumno-mascota { background: #e2ebd5; border-radius: 48% 48% 20px 20px; position: relative; padding: .8rem .5rem; }
+.alumno-mascota .reglita-invitacion { font-size: .75rem; bottom: -10px; }
+.alumnos-pin-banner { background: #e6eee0; border: 1px solid #cbdcc0; border-radius: 16px; padding: 1.15rem; box-shadow: 0 4px 0 #d6e0cb; margin-bottom: 2rem; }
+.pin-banner-info { min-width: 0; flex-basis: 240px; }
+.pin-banner-info strong { color: #295b40; font-size: 1rem; }
+.pin-banner-info span { font-size: .85rem; margin-top: .2rem; }
+.pin-banner-form { flex: 1; min-width: 0; }
+.pin-banner-form input { min-width: 0; flex: 1; width: 160px; min-height: 52px; font-size: 1rem; border: 2px solid #a8c2a0; }
+.boton-entrar-pin { background: #1f7a6a; box-shadow: 0 4px 0 #155447; min-height: 52px; font-size: .95rem; }
+.mensaje-error-pin { flex-basis: 100%; color: #a43422; font-weight: 800; font-size: .9rem; margin: 0; }
+.titulo-selector-aula { font-size: .85rem; text-transform: none; letter-spacing: 0; }
+.tab-aula-nino { min-height: 64px; box-shadow: 0 4px 0 #e2dbc9; font: inherit; flex: 1; justify-content: center; }
+.tab-aula-nino-activo { box-shadow: 0 4px 0 #125248; }
+.tab-icono { font-size: 1.7rem; }
+.seccion-elegir-alumno-rapido { padding: 1.25rem; border: 1px dashed #bdcdb3; background: #fffdf7; }
+.rotulo-alumno { font-size: .95rem; }
+.chip-alumno-boton { padding: .55rem .9rem; min-height: 48px; border-radius: 12px; font: inherit; font-size: .9rem; box-shadow: 0 3px 0 #e9e2d1; }
+.chip-alumno-boton > span { font-size: 1.3rem; }
+.contador-aventuras { font-size: .8rem; color: #476252; font-weight: 800; padding: .35rem .7rem; border-radius: 8px; background: #e7ecdc; white-space: nowrap; }
+.grilla-juegos-ninos { grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 1.5rem; }
+.tarjeta-juego-nino-directo { border-radius: 20px; border: 1px solid #ded6c5; box-shadow: 0 5px 0 #e4dccb; max-width: 570px; }
+.tarjeta-juego-icono-area { height: 175px; position: relative; isolation: isolate; }
+.tarjeta-juego-icono-area::before { content: ''; position: absolute; width: 115px; height: 115px; border-radius: 50%; border: 1px dashed #668d7b66; background: #ffffff40; z-index: -1; }
+.tarjeta-juego-cuerpo { padding: 1.5rem; }
+.tarjeta-juego-cuerpo h2 { font-weight: 900; font-size: 1.45rem; }
+.mision-juego-nino { font-size: 1rem; line-height: 1.65; }
+.boton-jugar-destacado { min-height: 56px; box-shadow: 0 4px 0 #125347; justify-content: space-between; text-transform: none; }
+.recreo-portal { margin: 3rem auto 1rem; max-width: 600px; }
+.recreo-portal .mosaico { padding: 1.6rem; }
+.estudiante-badge { border-radius: 14px; }
+.estudiante-textos { display: flex; flex-direction: column; }
+/* Acceso y superficies de trabajo */
+.centrado { padding-top: 1.2rem; }
+.tarjeta-login { position: relative; max-width: 620px; margin-inline: auto; border-radius: 24px; box-shadow: 0 7px 0 #e5ddcb; padding: 2rem; }
+.login-reglita { width: 125px; margin: -1rem auto .7rem; }
+.tarjeta-login > h1 { font-size: 2.3rem; text-align: center; }
+.tarjeta-login > .etiqueta { display: block; text-align: center; background: transparent; font-size: .65rem; }
+.tarjeta-login > .suave { text-align: center; }
+.boton-alumno-login, .chip-clase-login { min-height: 48px; }
+.boton-alumno-login { background: #fffcf3; box-shadow: 0 3px 0 #e7dfce; font-size: .95rem; }
+.btn-rol { min-height: 56px; font: inherit; font-weight: 850; }
+.selector-clases-login { gap: .6rem; }
+.chip-clase-login { padding: .6rem .8rem; }
+.sidebar-docente { height: 100dvh; }
+.sidebar-item { min-height: 48px; }
+.contenido-aula-virtual { max-width: 1600px; width: 100%; margin-inline: auto; }
+.panel-subcabecera h1 { font-size: clamp(1.8rem, 3vw, 2.6rem); font-weight: 900; }
+.tarjeta { box-shadow: 0 4px 0 #e9e2d3; }
+.kpi-numero { font-variant-numeric: tabular-nums; }
+.tabla-envoltura { max-width: 100%; overflow-x: auto; overscroll-behavior-x: contain; }
+.rejilla-tarjetas-juegos { grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); }
+.rejilla-juegos-permisos { grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); }
+.modal-telon, .modal-telon-completo { padding: 1rem; }
+.modal-contenido { max-width: 100%; max-height: calc(100dvh - 2rem); overflow-y: auto; }
+.modal-previsualizador { width: 100%; max-width: 1400px; max-height: calc(100dvh - 2rem); }
+.modal-cabecera { gap: .75rem; }
+.boton-cerrar-flotante, .boton-enviar-flotante { width: 44px; height: 44px; flex-shrink: 0; }
+.reglita-flotante-form input, .chat-ia-formulario input { min-width: 0; font-size: 1rem; }
+.reglita-tarjeta-flotante { width: min(380px, calc(100vw - 2rem)); max-height: calc(100dvh - 110px); }
+.chip-flotante { min-height: 44px; }
+@media (hover: hover) and (pointer: fine) {
+  .aventura-ilustracion .icono-lottie { transition: transform 220ms var(--ease-out); }
+  .tarjeta-demo-landing:hover .aventura-ilustracion .icono-lottie { transform: translateY(-5px) rotate(-4deg); }
+  .tarjeta-demo-landing { transition: transform 220ms var(--ease-out), box-shadow 220ms ease; }
+  .tarjeta-demo-landing:hover { transform: translateY(-4px); box-shadow: 0 9px 0 #e8e0d0; }
+  .mosaico-casilla:hover { transform: scale(1.12); }
+}
+@media (max-width: 1050px) {
+  .bienvenida h1 { font-size: clamp(2.8rem, 5.5vw, 4rem); }
+  .pegatina-suma { left: 0; }
+  .recreo-fila { gap: 2rem; padding: 2rem; }
+  .kpis-docente { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .panel-subcabecera { flex-wrap: wrap; }
+}
+@media (max-width: 900px) {
+  .sidebar-docente { height: auto; padding: .8rem 1rem; display: grid; grid-template-columns: 1fr auto; gap: .5rem; }
+  .sidebar-cabecera { border: 0; padding: 0; }
+  .sidebar-marca { margin: 0; }
+  .sidebar-perfil-tarjeta, .sidebar-widget-resumen, .sidebar-seccion-titulo { display: none; }
+  .sidebar-menu { grid-column: 1 / -1; grid-row: 2; flex-direction: row; flex-wrap: wrap; gap: .4rem; padding: .5rem 0 0; margin: 0; }
+  .sidebar-item { flex: 1; justify-content: center; font-size: .8rem; padding: .6rem; }
+  .sidebar-pie { border: 0; padding: 0; margin: 0; display: flex; align-items: center; gap: .6rem; }
+  .sidebar-pie .boton-enlace-estudiante { font-size: .75rem; padding: .5rem; margin: 0; }
+  .boton-salir-sidebar { width: auto; font-size: .7rem; }
+  .aventura-bienvenida-alumno { grid-template-columns: 1fr 220px; padding-inline: 0; }
+  .bienvenida { gap: .4rem; }
+  .bienvenida-escena .pegatina { font-size: .8rem; }
+  .bienvenida .entradilla { font-size: 1rem; }
+  .puente-docente { gap: 2.5rem; }
+  .aventuras-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .8rem; }
+  .aventura-contenido { padding: 1.1rem; }
+  .aventura-contenido .boton { font-size: .85rem; padding-inline: .7rem; }
+}
+@media (max-width: 700px) {
+  .cabecera, .contenido { width: calc(100% - 2rem); }
+  .cabecera { flex-wrap: wrap; padding-block: 1rem; gap: .6rem; }
+  .navegacion { gap: .3rem; flex-wrap: wrap; justify-content: end; }
+  .nav-enlace { padding-inline: .5rem; }
+  .navegacion .nav-enlace { font-size: .8rem; }
+  .navegacion .boton { padding-inline: .8rem; font-size: .8rem; }
+  .bienvenida { grid-template-columns: 1fr; padding: 1.7rem 0 2rem; gap: 1.2rem; }
+  .bienvenida h1 { font-size: clamp(2.75rem, 10vw, 4rem); max-width: 540px; }
+  .bienvenida .entradilla { max-width: 40ch; }
+  .bienvenida-escena { max-width: 370px; width: 100%; justify-self: center; padding-top: .3rem; }
+  .bienvenida-escena .reglita-interactiva { width: 93%; margin-inline: auto; }
+  .bienvenida-nota { margin-top: 1.4rem; }
+  .escena-arco { inset: 1rem 2rem .5rem; }
+  .pegatina-suma { top: 17%; left: 0; }
+  .pegatina-idea { bottom: 15%; right: 0; }
+  .aventuras-grid { grid-template-columns: 1fr; gap: 1.4rem; }
+  .aventura-contenido { padding: 1.4rem; }
+  .aventura-contenido .boton { font-size: 1rem; }
+  .aventura-ilustracion { height: 170px; }
+  .recreo-fila { grid-template-columns: 1fr; padding: 1.3rem; gap: 1.4rem; margin-block: 2.5rem; }
+  .recreo-invitacion h2 br { display: none; }
+  .recreo-flor { float: right; font-size: 3rem; }
+  .recreo-invitacion > p:last-child { max-width: 100%; }
+  .puente-docente { grid-template-columns: 1fr; gap: 2rem; padding-top: 2rem; }
+  .aventura-bienvenida-alumno { grid-template-columns: 1fr 150px; gap: .7rem; padding: 1.5rem 0 2rem; }
+  .aventura-bienvenida-alumno h1 { font-size: 2.15rem; }
+  .aventura-bienvenida-alumno p:not(.mini-etiqueta) { font-size: .9rem; }
+  .aventura-bienvenida-alumno .mini-etiqueta { font-size: .6rem; }
+  .alumno-mascota .reglita-invitacion { display: none; }
+  .estudiante-contenido { width: calc(100% - 2rem); }
+  .estudiante-cabecera { flex-wrap: wrap; padding: 1rem; gap: .7rem; }
+  .marca-estudiante { font-size: 1.15rem; flex-wrap: wrap; }
+  .pastilla-alumnos { font-size: .6rem; }
+  .estudiante-usuario-widget { margin-left: auto; }
+  .alumnos-pin-banner { display: grid; grid-template-columns: 44px minmax(0, 1fr); gap: .8rem; padding: 1rem; }
+  .pin-banner-form { grid-column: 1 / -1; display: grid; grid-template-columns: 1fr auto; }
+  .pin-banner-form input { width: 100%; }
+  .mensaje-error-pin { grid-column: 1 / -1; }
+  .tab-aula-nino { min-width: 0; padding: .65rem; gap: .4rem; }
+  .tab-nombre { font-size: .8rem; }
+  .tab-icono { font-size: 1.2rem; }
+  .aulas-tabs-ninos { gap: .5rem; }
+  .tarjeta-login { padding: 1.4rem; }
+  .tarjeta-login > h1 { font-size: 2rem; }
+  .modal-cabecera { flex-wrap: wrap; }
+  .modal-previsualizador .previsualizador-pantalla { min-height: 300px; height: 300px; }
+  .reglita-flotante-ancla { right: 1rem; bottom: 1rem; }
+}
+@media (max-width: 440px) {
+  .cabecera .navegacion { width: 100%; justify-content: space-between; border-top: 1px solid #e4dccd; padding-top: .5rem; }
+  .bienvenida .etiqueta { font-size: .65rem; }
+  .acciones-landing { gap: .7rem; }
+  .acciones-landing .boton { font-size: .95rem; padding-inline: 1rem; flex: 1; white-space: nowrap; }
+  .bienvenida h1 { margin-top: .8rem; }
+  .seccion-titulo-fila { align-items: start; gap: .75rem; flex-wrap: wrap; }
+  .seccion-titulo-fila h2 { font-size: 1.65rem; }
+  .enlace-explorar { font-size: .8rem; }
+  .recreo-fila { padding: 1rem .7rem; }
+  .mosaico { padding: .9rem; }
+  .mosaico h2 { font-size: 1.05rem; }
+  .mosaico-contador { font-size: .85rem; }
+  .mosaico-borrar { font-size: .7rem; padding-inline: 0; }
+  .mosaico-herramientas { gap: .2rem; }
+  .aventura-bienvenida-alumno { grid-template-columns: minmax(0, 1fr) 110px; }
+  .aventura-bienvenida-alumno h1 { font-size: 1.85rem; }
+  .aventura-bienvenida-alumno .mini-etiqueta { letter-spacing: .06em; }
+  .aventura-bienvenida-alumno .boton { font-size: .9rem; }
+  .pin-banner-form { grid-template-columns: 1fr; }
+  .pin-banner-form .boton { width: 100%; }
+  .sidebar-docente { grid-template-columns: 1fr; }
+  .sidebar-pie { grid-row: 3; justify-content: space-between; }
+  .sidebar-menu { gap: .25rem; }
+  .sidebar-item { font-size: .7rem; gap: .3rem; padding: .5rem .25rem; }
+  .sidebar-item .icono-lottie { display: none !important; }
+  .kpis-docente { gap: .6rem; }
+  .kpi-tarjeta { padding: .8rem; flex-wrap: wrap; }
+  .kpi-etiqueta { font-size: .7rem; }
+  .kpi-numero { font-size: 1.8rem; }
+  .panel-subcabecera .acciones-cabecera { flex-wrap: wrap; }
+  .cabecera-tarjeta-flex, .clase-dashboard-header, .clase-dashboard-footer { flex-wrap: wrap; }
+  .clase-dashboard-titulos { min-width: 0; }
+  .tarjeta-riesgo-metricas { flex-wrap: wrap; }
+  .resumen-kpis-mini { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .migas-pan { flex-wrap: wrap; }
+  .modal-telon, .modal-telon-completo { padding: .5rem; }
+  .modal-contenido { padding: 1rem; max-height: calc(100dvh - 1rem); }
+  .modal-previsualizador { padding: 0; }
+  .boton-fab-reglita { width: 54px; height: 54px; }
+  .reglita-cabecera-info { min-width: 0; gap: .5rem; }
+  .reglita-cabecera-info strong { font-size: .8rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
+  .icono-lottie:hover, .tarjeta-juego-nino-directo:hover, .tab-aula-nino:hover { transform: none; }
+}
+/* Portadas del portal con la misma paleta que la bienvenida. */
+.juego-tema-tienda .tarjeta-juego-icono-area { background: #f7e5cb !important; }
+.juego-tema-carrera .tarjeta-juego-icono-area { background: #dfece6 !important; }
+.juego-tema-ecosistema .tarjeta-juego-icono-area { background: #e8edcb !important; }
+.aventura-contenido .enlace-texto-chico { display: inline-flex; align-items: center; min-height: 44px; font-size: .8rem; }
+.rejilla-sesiones { grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr)); }
+.modal-contenido.modal-ancho { max-width: 950px; }
+.boton-cerrar { min-width: 44px; min-height: 44px; flex-shrink: 0; }
+.previsualizador-cabecera .boton-cerrar { width: auto; border-radius: 10px; padding: .5rem .75rem; }
+@media (max-width: 700px) {
+  .previsualizador-cabecera { flex-wrap: wrap; padding: 1rem; gap: .8rem; }
+  .previsualizador-cabecera .cabecera-info { min-width: 0; gap: .6rem; }
+  .previsualizador-cabecera .cabecera-acciones { display: flex; flex-wrap: wrap; gap: .5rem; }
+  .subida-formulario, .chat-subida-panel { min-width: 0; }
+  .formulario-fila, .form-fila { flex-wrap: wrap; }
+}
+/* El lienzo responde a su propio ancho: conserva casillas táctiles de 44 px. */
+.mosaico-herramientas { flex-wrap: wrap; }
+@container (min-width: 240px) { .mosaico-cuadros { grid-template-columns: repeat(5, minmax(0, 1fr)); } }
+@container (min-width: 289px) { .mosaico-cuadros { grid-template-columns: repeat(6, minmax(0, 1fr)); } }
+@container (min-width: 485px) { .mosaico-cuadros { grid-template-columns: repeat(10, minmax(0, 1fr)); } }
+@container (min-width: 590px) { .mosaico-cuadros { grid-template-columns: repeat(12, minmax(0, 1fr)); } }

@@ -1,3 +1,4 @@
+import { ReglitaInteractiva } from "../componentes/ReglitaInteractiva";
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { aulaVirtual, type ClaseAula, type Estudiante } from "../datos/aulaVirtual";
@@ -41,10 +42,11 @@ export function Login({ destino }: { destino?: string }) {
   return (
     <div className="centrado">
       <section className="tarjeta tarjeta-login">
-        <p className="etiqueta">Acceso al Aula Virtual · hack4edu 2026</p>
-        <h1>Iniciar Sesión en BRAIN RUSH</h1>
+        <div className="login-reglita"><ReglitaInteractiva compacta /></div>
+        <p className="etiqueta">Tu próxima aventura empieza aquí</p>
+        <h1>¡Qué bueno verte!</h1>
         <p className="suave">
-          Selecciona tu rol para acceder al entorno correspondiente:
+          Elige cómo quieres entrar. ¡Tenemos mucho por descubrir!
         </p>
 
         {/* Selector de Rol */}
@@ -52,6 +54,7 @@ export function Login({ destino }: { destino?: string }) {
           <button
             type="button"
             className={`btn-rol ${tabRol === "docente" ? "btn-rol-activo" : ""}`}
+            aria-pressed={tabRol === "docente"}
             onClick={() => setTabRol("docente")}
           >
             <IconoAnimado tipo="docente" tamano={20} /> Docente
@@ -59,6 +62,7 @@ export function Login({ destino }: { destino?: string }) {
           <button
             type="button"
             className={`btn-rol ${tabRol === "alumno" ? "btn-rol-activo" : ""}`}
+            aria-pressed={tabRol === "alumno"}
             onClick={() => setTabRol("alumno")}
           >
             <IconoAnimado tipo="estudiante" tamano={20} /> Estudiante

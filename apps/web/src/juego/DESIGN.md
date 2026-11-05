@@ -6,7 +6,7 @@ La tiendita es un juego de clasificación y conteo para primero y segundo de pri
 
 La tienda continúa la identidad de la landing: crema `#fbf7ef`, naranja `#f26a3d`, verde `#1f7a6a`, verde claro `#dff2ec` y tinta `#14201f`. Los bordes principales usan radio de 18 px, las líneas `#e4dccd` y el texto secundario `#4a5c59`. El naranja identifica la entrada y las acciones principales; el verde acompaña instrucciones, foco y estados aceptados. La madera miel conecta estantes, bandeja y bolsa con la tienda física. La mascota verde original se presenta recortada y expresiva. Sus imágenes locales son `/juego/tiendita/mascota.png` y `/juego/tiendita/tienda-fondo-calido.png`.
 
-La tipografía comparte la misma familia de la landing: `Segoe UI`, `system-ui`, `-apple-system`, `Helvetica Neue`, `sans-serif`. Los títulos tienen peso alto, interlínea compacta y espaciado ligeramente cerrado; instrucciones y controles mantienen un tamaño cómodo. Las cantidades usan numerales tabulares para que el progreso sea estable.
+La portada general usa Nunito Variable local. La tienda conserva `Segoe UI`, `system-ui`, `-apple-system`, `Helvetica Neue`, `sans-serif` en su entrada independiente. Los títulos tienen peso alto, interlínea compacta y espaciado ligeramente cerrado; instrucciones y controles mantienen un tamaño cómodo. Las cantidades usan numerales tabulares para que el progreso sea estable.
 
 El modo de esta superficie es **Experience**: la tienda ocupa el escenario y los controles acompañan el juego. No se usa una composición de panel administrativo. Los bloques representan objetos del mundo: el pedido es un recibo, el destino es una estantería o una bolsa, los productos descansan en un mostrador de madera. Se evitan gradientes, emojis, fondos fotográficos para envases y decoraciones que parezcan objetivos interactivos.
 
@@ -43,3 +43,7 @@ La verificación visual en navegador debe cubrir portada, clasificación de tres
 ## Registro para docentes
 
 El informe docente usa un `details` al final de la página, en el flujo normal y fuera del área de juego. Su resumen ocupa al menos 56 px; el cuerpo presenta las métricas C1 y C2 en una tabla semántica, con numerales tabulares y encabezados verdes suaves. El pie agrupa las acciones de exportación. En móviles la tabla admite texto partido y el pie se apila. No se añaden contadores docentes, paneles flotantes ni instrucciones administrativas dentro de la partida.
+
+## Interacción de bienvenida · noviembre 2026
+
+La mascota original de portada permite saludar con toque, clic o teclado. Sus pupilas acompañan el cursor con desplazamiento limitado; la preferencia de movimiento reducido mantiene la mirada centrada y elimina el salto del saludo. La interacción se limita a la portada y no interviene en las reglas ni los controles de la partida.

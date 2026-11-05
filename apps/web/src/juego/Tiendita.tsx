@@ -1,3 +1,4 @@
+import { ReglitaInteractiva } from "../app/componentes/ReglitaInteractiva";
 import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from "react";
 import type { CSSProperties, PointerEvent as ReactPointerEvent } from "react";
 import fixture from "../../../../fixtures/juegos/n1-tienda.json";
@@ -289,7 +290,7 @@ export function Tiendita() {
       <section className="intro-art" aria-label="La mascota te da la bienvenida a la tienda">
         <div className="art-arch"><div className="intro-awning" /><div className="shop-sign">¡ABIERTO!</div><div className="art-floor" /></div>
         <div className="intro-shelf"><Producto categoria="aguas" /><Producto categoria="jugos" /><Producto categoria="gaseosas" /></div>
-        <img className="intro-mascot" src={MASCOT} alt="Nuestra mascota verde te saluda" />
+        <ReglitaInteractiva className="intro-mascot" compacta />
         <div className="order-ticket"><span>Un pedido para ti</span><div><b>3</b><span>×</span><Producto categoria="aguas" /></div></div>
         <div className="intro-truck"><Camion /><span>¡Preparamos el reparto!</span></div>
         <svg className="art-star star-a" viewBox="0 0 40 40" aria-hidden="true"><path d="m20 0 5 15 15 5-15 5-5 15-5-15L0 20l15-5z" fill="currentColor" /></svg>

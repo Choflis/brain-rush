@@ -3,7 +3,7 @@ import fixture from "../../../fixtures/juegos/n1-tienda.json" with { type: "json
 import { mkdir } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 
-const shots = fileURLToPath(new URL("../../../docs/qa/tiendita/", import.meta.url));
+const shots = process.env.BRAINRUSH_SCREENSHOT_DIR ?? fileURLToPath(new URL("../../../docs/qa/tiendita/", import.meta.url));
 type BrowserEvent = { tipo: string; itemId?: string; intentos?: number; completado?: boolean; total?: number };
 const rounds = fixture.niveles.flatMap(n => n.items);
 
@@ -46,7 +46,7 @@ test("portada y recursos reales, luego partida completa de 12 actividades", asyn
   const errors: string[] = [];
   page.on("pageerror", e => errors.push(e.message));
   await open(page);
-  await expect.poll(() => page.locator(".intro-mascot").evaluate((el: HTMLImageElement) => el.naturalWidth)).toBeGreaterThan(0);
+  await expect.poll(() => page.locator(".intro-mascot img").evaluate((el: HTMLImageElement) => el.naturalWidth)).toBeGreaterThan(0);
   await page.screenshot({ path: `${shots}/portada-desktop.png`, fullPage: true });
   await start(page);
   await expect(page.locator('.world-canvas[data-ready="true"]')).toBeAttached();

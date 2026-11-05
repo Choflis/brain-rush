@@ -1,3 +1,4 @@
+import { ReglitaInteractiva } from "../componentes/ReglitaInteractiva";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import Phaser from "phaser";
@@ -703,6 +704,7 @@ export function Juego() {
                   type="text"
                   className="input-nombre"
                   placeholder="Tu nombre aquí…"
+                  aria-label="Tu nombre para jugar"
                   value={nombreAlumno}
                   onChange={(e) => setNombreAlumno(e.target.value)}
                   maxLength={40}
@@ -716,7 +718,6 @@ export function Juego() {
                     color: "var(--ink)",
                     fontSize: "18px",
                     fontWeight: 700,
-                    outline: "none",
                     boxShadow: "0 3px 6px #4931260a",
                   }}
                 />
@@ -743,7 +744,7 @@ export function Juego() {
                 <div className="shop-sign">¡META!</div>
                 <div className="art-floor" />
               </div>
-              <img className="intro-mascot" src={MASCOT} alt="Nuestra mascota te invita a jugar" />
+              <ReglitaInteractiva className="intro-mascot" compacta />
               <svg className="art-star star-a" viewBox="0 0 40 40" aria-hidden="true"><path d="m20 0 5 15 15 5-15 5-5 15-5-15L0 20l15-5z" fill="currentColor" /></svg>
               <svg className="art-star star-b" viewBox="0 0 40 40" aria-hidden="true"><path d="m20 0 5 15 15 5-15 5-5 15-5-15L0 20l15-5z" fill="currentColor" /></svg>
             </section>

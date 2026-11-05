@@ -1,0 +1,14 @@
+.reglita-interactiva { position: relative; width: 100%; aspect-ratio: 1300 / 1189; isolation: isolate; }
+.reglita-saludo { display: block; width: 100%; height: 100%; padding: 0; border: 0; background: transparent; cursor: pointer; -webkit-tap-highlight-color: transparent; transition: transform 180ms ease-out; border-radius: 24px; }
+.reglita-figura { display: block; position: relative; width: 100%; height: 100%; }
+.reglita-figura img, .reglita-mirada { display: block; width: 100%; height: 100%; object-fit: contain; }
+.reglita-figura img { filter: drop-shadow(0 16px 12px #244e2920); user-select: none; }
+.reglita-mirada { position: absolute; inset: 0; pointer-events: none; }
+.reglita-bocadillo { position: absolute; z-index: 4; left: 50%; top: 1%; transform: translate(-50%, 6px); width: max-content; max-width: 94%; padding: .7rem 1rem; border-radius: 16px 16px 16px 2px; background: white; box-shadow: 0 5px 0 #d0dfcb; color: #21533b; font: 800 clamp(.8rem, 2vw, 1rem)/1.3 'Nunito Variable', sans-serif; opacity: 0; pointer-events: none; transition: opacity 180ms ease-out, transform 180ms ease-out; }
+.reglita-bocadillo.visible { opacity: 1; transform: translate(-50%, -4px); }
+.reglita-invitacion { position: absolute; left: 50%; bottom: -8px; transform: translateX(-50%) rotate(-3deg); width: max-content; max-width: 100%; padding: .4rem .9rem; border: 1px solid #e4dccd; background: #fffdf7; border-radius: 8px; font-size: .85rem; font-weight: 800; color: #315b48; pointer-events: none; }
+.reglita-celebra .reglita-figura { animation: reglita-high-five 600ms ease-out; }
+@keyframes reglita-high-five { 0%, 100% { transform: translateY(0) rotate(0); } 35% { transform: translateY(-12px) rotate(-5deg); } 65% { transform: translateY(-5px) rotate(4deg); } }
+.reglita-saludo:focus-visible { outline: 4px solid #1f7a6a; outline-offset: 5px; }
+@media (prefers-reduced-motion: reduce) { .reglita-interactiva *, .reglita-interactiva { animation: none !important; transition: none !important; } }
+.intro-art > .reglita-interactiva.intro-mascot { animation: none; filter: none; }
