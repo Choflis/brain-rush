@@ -138,7 +138,7 @@ describe("MecanicaCarrera (N2, complemento)", () => {
     assert.equal(escena.aciertos, 1);
   });
 
-  it("un error emite respuesta con correcto: false", () => {
+  it("el primer error da pista y reintento sin emitir respuesta", () => {
     const emisor = new EmisorEventosMotor();
     const eventos: EventoMotor[] = [];
     emisor.suscribir((e) => eventos.push(e));
@@ -150,10 +150,27 @@ describe("MecanicaCarrera (N2, complemento)", () => {
     });
 
     assert.equal(escena.itemActual?.id, "f1");
+    assert.equal(escena.arrastrarAPuerta(999), false);
 
-    // Enviar una respuesta incorrecta (ej. 999)
-    const acierto = escena.arrastrarAPuerta(999);
-    assert.equal(acierto, false);
+    assert.equal(eventos.length, 0);
+    assert.equal(escena.itemActual?.id, "f1");
+    assert.equal(escena.intentosItemActual, 2);
+    assert.equal(escena.aciertos, 0);
+  });
+
+  it("el segundo error emite respuesta correcto: false con intentos: 2 y avanza", () => {
+    const emisor = new EmisorEventosMotor();
+    const eventos: EventoMotor[] = [];
+    emisor.suscribir((e) => eventos.push(e));
+
+    const escena = new MecanicaCarrera({
+      spec: fixtureCarrera,
+      versionId: "v1",
+      emisor
+    });
+
+    escena.arrastrarAPuerta(999);
+    escena.arrastrarAPuerta(998);
 
     assert.equal(eventos.length, 1);
     const respuesta = eventos[0];
@@ -162,9 +179,18 @@ describe("MecanicaCarrera (N2, complemento)", () => {
       assert.equal(respuesta.itemId, "f1");
       assert.equal(respuesta.criterio, "C3");
       assert.equal(respuesta.correcto, false);
-      assert.equal(respuesta.intentos, 1);
+      assert.equal(respuesta.intentos, 2);
       assert.ok(typeof respuesta.tiempoMs === "number");
     }
+    assert.equal(escena.aciertos, 0);
+    assert.equal(escena.itemActual?.id, "f2");
+  });
+
+  it("un valor igual al índice de la opción correcta no cuenta como acierto", () => {
+    const escena = new MecanicaCarrera(fixtureCarrera, "v1");
+
+    // f1: opciones [0.2, 20, 2], correcta = 1. El valor 1 no es ninguna opción.
+    assert.equal(escena.arrastrarAPuerta(1), false);
     assert.equal(escena.aciertos, 0);
   });
 

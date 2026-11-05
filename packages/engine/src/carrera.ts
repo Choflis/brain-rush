@@ -5,6 +5,9 @@ import { UNIDADES } from "@brain-rush/gamespec";
 import { EscenaBase, type ConfiguracionEscenaBase } from "./escena.ts";
 import { colorHexANumero, resolverVisual } from "./visuales.ts";
 
+/** Intentos por ítem antes de revelar la respuesta (ver docs/especificacion/08-contrato.md, sección 7). */
+const MAX_INTENTOS_CARRERA = 2;
+
 /**
  * Redondea un valor numérico a 6 decimales para evitar artefactos
  * de punto flotante en multiplicaciones y divisiones sucesivas.
@@ -255,18 +258,14 @@ export class MecanicaCarrera extends EscenaBase {
     valorEvaluado?: number,
     opciones?: { avanzar?: boolean }
   ): boolean {
-    if (!this.itemActual) {
+    if (!this.itemActual || this.itemResuelto) {
       return false;
     }
 
     const item = this.itemActual;
     const valor = valorEvaluado !== undefined ? valorEvaluado : this.valorActual;
     const valorEsperado = item.opciones[item.correcta] ?? 0;
-
-    // Criterio de acierto: coincide numéricamente con opciones[correcta] o es el índice exacto
-    const esCorrecto =
-      Math.abs(valor - valorEsperado) < 1e-5 ||
-      (Number.isInteger(valor) && valor === item.correcta);
+    const esCorrecto = Math.abs(valor - valorEsperado) < 1e-5;
 
     const tiempoMs =
       this.tiempoInicioItem > 0 ? Math.max(0, Date.now() - this.tiempoInicioItem) : 0;
@@ -298,29 +297,37 @@ export class MecanicaCarrera extends EscenaBase {
       });
 
       return true;
-    } else {
+    }
+
+    // Primer error: pista y un reintento sin penalización. La respuesta aún no se registra.
+    if (this.intentosItemActual < MAX_INTENTOS_CARRERA) {
+      this.intentosItemActual++;
       this.feedback.mostrarError(
         `Pista: de ${item.desde} a ${item.hasta}, observa la escalera.`
       );
-
-      this.emitirRespuesta({
-        itemId: item.id,
-        criterio: item.criterio,
-        correcto: false,
-        tiempoMs,
-        intentos
-      });
-
-      this.intentosItemActual++;
-
-      this.animarErrorPuerta(() => {
-        if (avanzar) {
-          this.siguienteItem();
-        }
-      });
-
+      this.animarErrorPuerta(() => undefined);
       return false;
     }
+
+    // Segundo error: se muestra la respuesta, se registra como incorrecta y se avanza.
+    this.itemResuelto = true;
+    this.feedback.mostrarError(`La respuesta era ${valorEsperado} ${item.hasta}.`);
+
+    this.emitirRespuesta({
+      itemId: item.id,
+      criterio: item.criterio,
+      correcto: false,
+      tiempoMs,
+      intentos
+    });
+
+    this.animarErrorPuerta(() => {
+      if (avanzar) {
+        this.siguienteItem();
+      }
+    });
+
+    return false;
   }
 
   /**
@@ -389,7 +396,9 @@ export class MecanicaCarrera extends EscenaBase {
       .text(-310, 22, visualObjeto.nombre ?? "Objeto", {
         fontSize: "11px",
         color: "#555555",
-        fontStyle: "bold"
+        fontStyle: "bold",
+        align: "center",
+        wordWrap: { width: 110 }
       })
       .setOrigin(0.5);
     tarjeta.add(nombreObj);
@@ -502,7 +511,7 @@ export class MecanicaCarrera extends EscenaBase {
       if (esOrigen) {
         const tagInicio = this.add
           .text(xPaso, 27, "Inicio", {
-            fontSize: "10px",
+            fontSize: "11px",
             color: "#1565c0",
             fontStyle: "bold"
           })
@@ -512,7 +521,7 @@ export class MecanicaCarrera extends EscenaBase {
       if (esMeta) {
         const tagMeta = this.add
           .text(xPaso, 27, "🎯 Meta", {
-            fontSize: "10px",
+            fontSize: "11px",
             color: "#2e7d32",
             fontStyle: "bold"
           })
@@ -525,14 +534,14 @@ export class MecanicaCarrera extends EscenaBase {
         const flechaX = xPaso + 50;
         const flechaDer = this.add
           .text(flechaX, -8, "➔ ×10", {
-            fontSize: "9px",
+            fontSize: "11px",
             color: "#1565c0",
             fontStyle: "bold"
           })
           .setOrigin(0.5);
         const flechaIzq = this.add
           .text(flechaX, 14, "⬅ ÷10", {
-            fontSize: "9px",
+            fontSize: "11px",
             color: "#7b1fa2",
             fontStyle: "bold"
           })

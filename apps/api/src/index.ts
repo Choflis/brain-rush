@@ -9,7 +9,7 @@ import { rutasPanel } from "./rutas/panel.ts";
 import { rutasSalas } from "./rutas/salas.ts";
 import type { AppEnv } from "./tipos.ts";
 
-const ORIGENES = /^http:\/\/(localhost|127\.0\.0\.1|192\.168\.\d{1,3}\.\d{1,3}|10\.\d{1,3}\.\d{1,3}\.\d{1,3}):5173$/;
+const ORIGENES = /^http:\/\/(localhost|127\.0\.0\.1|192\.168\.\d{1,3}\.\d{1,3}|10\.\d{1,3}\.\d{1,3}\.\d{1,3}):(5173|4173)$/;
 
 export const app = new Hono<AppEnv>();
 

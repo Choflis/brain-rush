@@ -8,6 +8,12 @@ import "./app/estilos.css";
 const raiz = document.getElementById("root");
 if (!raiz) throw new Error("Falta el contenedor #root en index.html");
 
+if ("serviceWorker" in navigator && import.meta.env.PROD) {
+  window.addEventListener("load", () => {
+    void navigator.serviceWorker.register("/sw.js");
+  });
+}
+
 createRoot(raiz).render(
   <StrictMode>
     <BrowserRouter>

@@ -434,6 +434,9 @@ export function Juego() {
     try {
       juegoInstancia = new Phaser.Game(config);
       phaserJuegoRef.current = juegoInstancia;
+      if (import.meta.env.DEV) {
+        (window as unknown as { __brainRushJuego?: Phaser.Game }).__brainRushJuego = juegoInstancia;
+      }
     } catch (errPhaser) {
       console.error("Error al iniciar Phaser:", errPhaser);
       setMensajeError(

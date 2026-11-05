@@ -75,6 +75,7 @@ export class CapaFeedback {
     const y = opciones?.y ?? altoCamara / 2;
 
     const contenedor = this.escena.add.container(x, y);
+    contenedor.setDepth(1000);
 
     // Fondo y borde vectoriales
     const colorNum = colorHexANumero(conf.colorHex);
