@@ -204,6 +204,7 @@ export function Juego() {
   const [sesionAlumno, setSesionAlumno] = useState<SesionAlumno | null>(null);
   const [resultado, setResultado] = useState<InfoResultado | null>(null);
   const [pendientesCount, setPendientesCount] = useState(0);
+  const [esDeActivacion, setEsDeActivacion] = useState(false);
   const [estaOnline, setEstaOnline] = useState(() =>
     typeof navigator !== "undefined" ? navigator.onLine : true,
   );
@@ -218,6 +219,19 @@ export function Juego() {
   useEffect(() => {
     sesionAlumnoRef.current = sesionAlumno;
   }, [sesionAlumno]);
+
+  // Este enlace solo sirve para complementos de carrera; las activaciones se juegan en sala.
+  useEffect(() => {
+    if (!codigo) return;
+    api
+      .obtenerJuegoPublicado(codigo)
+      .then((datos) => {
+        setEsDeActivacion(datos.spec.tipo !== "complemento" || datos.spec.mecanica !== "carrera");
+      })
+      .catch(() => {
+        // Sin conexión o juego inexistente: se deja el flujo normal de ingreso.
+      });
+  }, [codigo]);
 
   // Actualizar conteo de pendientes en IndexedDB
   const refrescarPendientes = useCallback(async () => {
@@ -565,7 +579,19 @@ export function Juego() {
       </aside>
 
       {/* Pantalla 1: Ingreso del alumno */}
-      {pantalla === "ingreso" && (
+      {pantalla === "ingreso" && esDeActivacion && (
+        <div className="centrado">
+          <section className="tarjeta tarjeta-login" style={{ maxWidth: "440px" }}>
+            <h1>Este juego se juega en el aula</h1>
+            <p className="suave">
+              Es un juego de activación. Tu docente abrirá una sala y te dará su código para
+              entrar desde tu celular.
+            </p>
+          </section>
+        </div>
+      )}
+
+      {pantalla === "ingreso" && !esDeActivacion && (
         <div className="centrado">
           <section className="tarjeta tarjeta-login" style={{ maxWidth: "440px" }}>
             <p className="etiqueta">Juego de complemento</p>
