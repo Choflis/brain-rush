@@ -199,7 +199,7 @@ POST /api/sesiones           { "titulo", "area", "grado", "competencia", "criter
 GET /api/sesiones/:id
 ```
 
-La forma de la sesión extraída es la del prompt `packages/prompts/extraccion/v1.md`. La API no inventa criterios: si la sesión no los trae, responde `400 VALIDACION` con `detalles.errores: ["criterios: la sesión no declara criterios"]`.
+La forma de la sesión extraída es la del prompt `packages/prompts/extraccion/v2.md`. La API no inventa criterios: si la sesión no los trae, responde `400 VALIDACION` con `detalles.errores: ["criterios: la sesión no declara criterios"]`.
 
 ## 4. Alumno y juego de complemento
 

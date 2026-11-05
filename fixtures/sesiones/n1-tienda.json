@@ -7,7 +7,16 @@
   "desempenos": [
     "Expresa con diversas representaciones y números, su comprensión del número como cardinal hasta 10 objetos."
   ],
-  "criterios": [],
+  "criterios": [
+    {
+      "id": "C1",
+      "texto": "Organiza productos u objetos de la tiendita al clasificarlos de acuerdo a su categoría o distintos criterios."
+    },
+    {
+      "id": "C2",
+      "texto": "Representa las clases de dichos productos u objetos a través de números hasta 10."
+    }
+  ],
   "instrumento": "Escala de valoración",
   "proposito": "Hoy vamos a organizar los objetos de la tienda en grupos y en subgrupos. A través de esto van a aprender a representar el número hasta el 10.",
   "momentos": {

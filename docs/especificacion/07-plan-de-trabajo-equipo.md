@@ -58,9 +58,9 @@ Cada ruta tiene un único dueño. Si alguien necesita cambiar un archivo ajeno, 
 
 | ID | Tarea | Horas | Prioridad | Depende de |
 |---|---|---|---|---|
-| U1 | Contrato v1 | 1 | H1 | — |
-| U2 | Esqueleto de `apps/web` (Vite, React, rutas, login demo) | 1 | H1 | — |
-| U3 | Re-extraer la sesión de 1.º con sus criterios de evidencia y regenerar el juego N1 | 1 | H1 | — |
+| U1 | Contrato v1 | 1 | H1 | ✅ Hecho |
+| U2 | Esqueleto de `apps/web` (Vite, React, rutas, login demo) | 1 | H1 | ✅ Hecho |
+| U3 | Re-extraer la sesión de 1.º con sus criterios de evidencia y regenerar el juego N1 | 1 | H1 | ✅ Hecho |
 | U3b | Extraer la sesión de N3 (ecosistemas) y generar su juego con el mismo flujo, cuando se confirme la opción A | 1.5 | H2 | Confirmación de la opción |
 | U4 | D1: esquema y migraciones. Worker con rutas de juegos, versiones, intentos y panel | 4 | H1 | U1 |
 | U5 | Pipeline de Mistral: ejecución real, caché y registro de tokens | 2 | H2 (credenciales al final) | U4 |

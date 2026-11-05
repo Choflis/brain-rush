@@ -32,4 +32,4 @@ Los juegos son de dos tipos:
 
 ## Estado
 
-**Etapa actual: especificación.** Esta versión reemplaza la idea anterior de un juego en Roblox. Aún no hay código de producción. El prototipo de ejemplo en `docs/examples/index.html` es solo una maqueta de referencia.
+**Etapa actual: implementación del MVP.** La especificación está cerrada y el contrato API v1 publicado. Ya existen el validador de GameSpec, los prompts, dos juegos generados (N1 tienda y N2 carrera) y el esqueleto del panel docente. El motor Phaser, la API y la sala están en construcción. Todo corre en localhost; las credenciales de Cloudflare y Mistral se integran al final.

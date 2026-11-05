@@ -18,11 +18,11 @@ Tres juegos, uno por nivel (decisión del equipo):
 
 | Nivel | Grados | Juego | Tipo | Mecánica | Sesión | Estado |
 |---|---|---|---|---|---|---|
-| **N1** | 1.º y 2.º | Juego 1 | Activación | Trivia | Pendiente | ⏳ Falta sesión de 1.º o 2.º |
-| **N2** | 3.º y 4.º | Juego 2 | Complemento | Recorrido | «Unidades de longitud» (3.º) | ✅ Generado y validado |
-| **N3** | 5.º y 6.º | Juego 3 | Activación | Trivia | Pendiente | ⏳ Falta sesión de 5.º o 6.º |
+| **N1** | 1.º y 2.º | La tiendita | Activación | Tienda | «Elaboran el cartel con los precios» (1.º) | ✅ Generado y validado |
+| **N2** | 3.º y 4.º | Carrera del patio | Complemento | Carrera | «Unidades de longitud» (3.º) | ✅ Generado y validado |
+| **N3** | 5.º y 6.º | El jardín en equilibrio | Activación | Clasificación y relaciones (por implementar) | «Ecosistemas» (5.º) | ⏳ Sesión y diseño confirmados |
 
-Sesiones disponibles en `docs/sesiones/nivel-4/` (todas de 3.º de primaria, nivel N2): «Unidades de longitud», «Pictogramas», «Prevención de enfermedades respiratorias» e «Historieta». Por ahora se usa la primera para el juego N2. Las otras tres quedan disponibles para más juegos de ese nivel o para probar el pipeline.
+Sesiones disponibles en `docs/sesiones/nivel-4/` (todas de 3.º de primaria, nivel N2): «Unidades de longitud», «Pictogramas», «Prevención de enfermedades respiratorias» e «Historieta». Por ahora se usa la primera para el juego N2. Las otras tres quedan disponibles para más juegos de ese nivel o para probar el pipeline. En `docs/sesiones/nivel-5/` están las dos sesiones de 5.º; el MVP usa la de Ecosistemas.
 
 **Criterio de éxito del MVP:** los tres juegos existen como GameSpec válidos, se juegan en el navegador, el de activación se juega en sala con varios alumnos, el de complemento se juega sin conexión, y el panel muestra los resultados de los tres.
 
@@ -33,16 +33,18 @@ Sesiones disponibles en `docs/sesiones/nivel-4/` (todas de 3.º de primaria, niv
 | Esquema GameSpec (Zod), con reglas de texto, criterios, assets y ×10/÷10 | ✅ | `packages/gamespec/src/schema.ts`, `validate.ts` |
 | Validador por línea de comandos | ✅ | `node packages/gamespec/src/cli.ts <juego.json>` |
 | Catálogo de assets (N1 a N3, parcial) | ✅ parcial | `packages/assets/catalogo.json` |
-| Prompts versionados (extracción, generación) | ✅ | `packages/prompts/extraccion/v1.md`, `generacion/v1.md` |
+| Prompts versionados (extracción, generación) | ✅ | `packages/prompts/extraccion/v2.md`, `generacion/v1.md` |
 | Renderizador de prompt por nivel | ✅ | `packages/prompts/src/cli.ts` |
 | Cliente de Mistral y pipeline de generación con reintento | ✅ listo, sin ejecutar | `apps/api/src/ai/` |
-| Juego N2 generado y validado | ✅ | `fixtures/juegos/n2-unidades-longitud.json` |
-| Motor de juego (trivia y recorrido) en Phaser | ⏳ | `packages/engine/` |
+| Juegos N1 y N2 generados y validados | ✅ | `fixtures/juegos/n1-tienda.json`, `n2-carrera-unidades-longitud.json` |
+| Contrato API v1 (rutas, eventos, offline) | ✅ | `docs/especificacion/08-contrato.md` |
+| Esqueleto web con rutas y login demo | ✅ | `apps/web/` |
+| Motor de juego (tienda y carrera) en Phaser | ⏳ | `packages/engine/` |
 | Sala de activación | ⏳ | — |
 | Juego de complemento con progreso sin conexión | ⏳ | — |
 | Impresión y escaneo | ⏳ (opcional en MVP) | `packages/print/` |
-| Panel docente | ⏳ | `apps/web/` |
-| API en Worker, D1, R2 y despliegue | ⏳ | `apps/api/` |
+| Panel docente | ⏳ (esqueleto listo) | `apps/web/src/app/` |
+| API en Worker, D1, R2 | ⏳ | `apps/api/` |
 
 ## 4. Flujo de generación de un juego
 
@@ -51,7 +53,7 @@ El mismo flujo sirve para Mistral y para subagentes. Lo único que cambia es qui
 ```
 1. Sesión (.docx / texto)
       │
-2. Extracción → JSON de sesión (extraccion/v1)      → fixtures/sesiones/<id>.json
+2. Extracción → JSON de sesión (extraccion/v2)      → fixtures/sesiones/<id>.json
       │
 3. Renderizado del prompt por nivel y mecánica       → node packages/prompts/src/cli.ts ...
       │
@@ -75,8 +77,9 @@ Cada paquete indica archivos y criterio de terminado. Las horas son estimaciones
 
 `packages/engine/src/`:
 
-- **`trivia.ts`** (N1 y N3): pregunta con imagen grande y opciones con pictograma, barra de tiempo, estrella o pista según la respuesta. Emite `inicio`, `respuesta`, `fin`.
-- **`recorrido.ts`** (N2): escalera de unidades. El alumno elige la opción y Reglita avanza. Tutorial con `anim-tutorial-escalera`.
+- **`tienda.ts`** (N1): arrastrar productos a su estantería, pedido en la bolsa y barra colectiva del camión. Tutorial con `anim-tutorial-tienda`.
+- **`carrera.ts`** (N2): Reglita corre por el patio, botones ×10 y ÷10, escalera animada y arrastre del resultado a la puerta. Tutorial con `anim-tutorial-escalera`.
+- **`jardin.ts`** (N3, después de H1): clasificar componentes bióticos y abióticos, unir relaciones con una flecha y simular la sequía. Reutiliza la clasificación de `tienda.ts`.
 - **`tutorial.ts`** y **`feedback.ts`**: animación corta sin texto y respuestas visuales.
 
 **Criterio:** los juegos de `fixtures/juegos/` se juegan completos en celular y en computadora.
@@ -140,8 +143,8 @@ Versión con polling (sin WebSocket):
 Para cada juego pendiente (N1 y N3) el procedimiento es el mismo que para el N2:
 
 1. Recibir la sesión (`.docx` o texto) en `docs/sesiones/`.
-2. Extraer el JSON de la sesión con `extraccion/v1` y guardarlo en `fixtures/sesiones/`.
-3. Renderizar el prompt: `node packages/prompts/src/cli.ts --sesion <json> --nivel N1|N3 --tipo activacion --mecanica trivia --duracion 8`.
+2. Extraer el JSON de la sesión con `extraccion/v2` y guardarlo en `fixtures/sesiones/`.
+3. Renderizar el prompt: `node packages/prompts/src/cli.ts --sesion <json> --nivel N1|N2|N3 --tipo activacion|complemento --mecanica tienda|carrera --duracion 8`.
 4. Generar el GameSpec (subagente o Mistral).
 5. Validar con `node packages/gamespec/src/cli.ts <juego.json>`.
 6. Guardar en `fixtures/juegos/` y el intento en `fixtures/juegos/intentos/`.
@@ -150,9 +153,9 @@ Para cada juego pendiente (N1 y N3) el procedimiento es el mismo que para el N2:
 
 | Juego | Sesión | Paso alcanzado |
 |---|---|---|
-| N2 complemento (recorrido) | Unidades de longitud | ✅ Validado en el primer intento |
-| N1 activación (trivia) | Pendiente | Esperando sesión de 1.º o 2.º |
-| N3 activación (trivia) | Pendiente | Esperando sesión de 5.º o 6.º |
+| N1 activación (tienda) | Elaboran el cartel con los precios (1.º) | ✅ Extracción corregida y juego validado |
+| N2 complemento (carrera) | Unidades de longitud (3.º) | ✅ Validado en el primer intento |
+| N3 activación (jardín) | Ecosistemas (5.º) | ⏳ Opción A confirmada; falta el motor y la generación |
 
 Las sesiones de nivel N2 restantes (Pictogramas, Enfermedades respiratorias, Historieta) pueden usarse para generar juegos de prueba del pipeline o para versiones alternativas del N2. Esto no cambia el alcance de tres juegos salvo que el equipo lo decida.
 
@@ -165,13 +168,13 @@ Hoy es 4 de noviembre y la entrega del hackathon es el 5 a las 23:59. Prioridade
 | **P0** | Motor de juego (WP-A) con el juego N2 | Juego N2 ya validado |
 | **P0** | Juego N2 de complemento sin red (WP-C) | WP-A |
 | **P0** | Panel mínimo con resultados del juego N2 (WP-E parcial) | Resultados guardados |
-| **P1** | Trivia para N1 y N3 (WP-A) | Sesiones de 1.º–2.º y 5.º–6.º |
-| **P1** | Sala de activación (WP-B) | Trivia |
+| **P1** | Mecánica tienda para N1 (WP-A) | Juego N1 validado |
+| **P1** | Sala de activación (WP-B) | Tienda |
 | **P1** | API y despliegue (WP-D) | Pantallas listas |
 | **P2** | Impresión y escaneo (WP-F) | Juego N2 |
 | **P2** | Pruebas con Mistral (WP-G) | Clave de Mistral |
 
-Si las sesiones de N1 y N3 no llegan a tiempo, el hackathon se presenta con un juego de activación real (N2 en modo proyección) y dos juegos de activación más en estado «en preparación», explicándolo con honestidad en el pitch.
+El hackathon se presenta con N1 y N2 jugables y N3 en preparación. Si el motor no llega para ambos, se prioriza el juego de activación N1 (sala) y el complemento N2 se muestra con su GameSpec y el panel.
 
 ## 8. Riesgos
 

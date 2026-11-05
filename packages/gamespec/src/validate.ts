@@ -101,6 +101,10 @@ export function validarGameSpec(input: unknown, opts: OpcionesValidacion = {}): 
         if (new Set(estanteriaIds).size !== estanteriaIds.length) {
           errores.push(`${ruta}: ids de estantería repetidos`);
         }
+        const estanteriaAssets = t.estanterias.map((e) => e.asset);
+        if (new Set(estanteriaAssets).size !== estanteriaAssets.length) {
+          errores.push(`${ruta}: dos estanterías usan el mismo asset; el niño no puede distinguirlas`);
+        }
         t.estanterias.forEach((e) => assetsUsados.push([`${ruta}.estanterias.${e.id}`, e.asset]));
         const productoIds = t.productos.map((p) => p.id);
         if (new Set(productoIds).size !== productoIds.length) {
