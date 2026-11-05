@@ -164,7 +164,7 @@ export function Proyeccion() {
           <button
             type="button"
             className="boton boton-primario"
-            onClick={iniciarDocente}
+            onClick={() => iniciarDocente()}
             style={{ fontWeight: 800 }}
           >
             Entrar como docente
