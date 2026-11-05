@@ -17,3 +17,5 @@ CHROME_PATH=/usr/bin/google-chrome-stable BRAINRUSH_SCREENSHOT_DIR=/tmp/brain-ru
 ```
 
 `teacher.spec.ts` comprueba filtros del resumen, búsqueda y vistas de sesiones, selección de alumnos, switches persistidos, referencia documental y guardado, contadores reactivos, navegación plegable, búsqueda global, foco/Escape y ayuda de Reglita, así como nombre docente y reflujo móvil/tablet/escritorio.
+
+`game-design.spec.ts` comprueba tamaño y presencia de Reglita en partida, pasos y celebración, pausa y movimiento reducido; verifica también tamaño/movimiento en Carrera y reversión rápida de conversiones sin perder la unidad visual. La suite de interfaz contiene 34 pruebas.

@@ -12,3 +12,11 @@
 .reglita-saludo:focus-visible { outline: 4px solid #1f7a6a; outline-offset: 5px; }
 @media (prefers-reduced-motion: reduce) { .reglita-interactiva *, .reglita-interactiva { animation: none !important; transition: none !important; } }
 .intro-art > .reglita-interactiva.intro-mascot { animation: none; filter: none; }
+/* Marioneta con la imagen original: piernas independientes durante los pasos. */
+.reglita-caminando .reglita-torso { clip-path: inset(0 0 18% 0); }
+.reglita-figura img.reglita-pierna { position: absolute; inset: 0; pointer-events: none; filter: none; }
+.reglita-pierna-izquierda { clip-path: polygon(20% 77%, 51% 77%, 51% 100%, 20% 100%); transform-origin: 39% 79%; animation: reglita-paso-izquierdo 380ms ease-in-out infinite alternate; }
+.reglita-pierna-derecha { clip-path: polygon(51% 77%, 85% 77%, 85% 100%, 51% 100%); transform-origin: 65% 79%; animation: reglita-paso-derecho 380ms ease-in-out infinite alternate; }
+@keyframes reglita-paso-izquierdo { from { transform: rotate(-6deg) translateY(-1%); } to { transform: rotate(6deg) translateY(1%); } }
+@keyframes reglita-paso-derecho { from { transform: rotate(6deg) translateY(1%); } to { transform: rotate(-6deg) translateY(-1%); } }
+@media (prefers-reduced-motion: reduce) { .reglita-caminando .reglita-torso { clip-path: none; } .reglita-figura img.reglita-pierna { display: none; } }

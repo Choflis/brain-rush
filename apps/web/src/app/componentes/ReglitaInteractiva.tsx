@@ -1,10 +1,10 @@
 import { useEffect, useId, useRef, useState } from 'react';
 import './reglita-interactiva.css';
 
-type Props = { className?: string; compacta?: boolean; leyendo?: boolean; posicionLectura?: number; interactiva?: boolean };
+type Props = { className?: string; compacta?: boolean; leyendo?: boolean; posicionLectura?: number; interactiva?: boolean; caminando?: boolean };
 
 /** La imagen original se conserva; la mirada se dibuja en su misma coordenada. */
-export function ReglitaInteractiva({ className = '', compacta = false, leyendo = false, posicionLectura = 0, interactiva = true }: Props) {
+export function ReglitaInteractiva({ className = '', compacta = false, leyendo = false, posicionLectura = 0, interactiva = true, caminando = false }: Props) {
   const figura = useRef<HTMLButtonElement>(null);
   const ojos = useRef<SVGGElement>(null);
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -64,10 +64,11 @@ export function ReglitaInteractiva({ className = '', compacta = false, leyendo =
   }
 
   return (
-    <div className={`reglita-interactiva ${compacta ? 'reglita-compacta' : ''} ${className}`} data-estado={leyendo ? 'leyendo' : 'esperando'} aria-hidden={!interactiva || undefined}>
+    <div className={`reglita-interactiva ${compacta ? 'reglita-compacta' : ''} ${caminando ? 'reglita-caminando' : ''} ${className}`} data-estado={leyendo ? 'leyendo' : 'esperando'} aria-hidden={!interactiva || undefined}>
       <button ref={figura} type="button" className={`reglita-saludo ${saludo ? 'reglita-celebra' : ''}`} onClick={saludar} disabled={!interactiva} aria-label="Saludar a Reglita">
         <span className="reglita-figura">
-          <img src="/juego/tiendita/mascota.png" alt="Reglita, tu compañera verde de aventuras" draggable={false} />
+          <img src="/juego/tiendita/mascota.png" alt="Reglita, tu compañera verde de aventuras" draggable={false} className={caminando ? "reglita-torso" : undefined} />
+          {caminando && <><img className="reglita-pierna reglita-pierna-izquierda" src="/juego/tiendita/mascota.png" alt="" draggable={false} /><img className="reglita-pierna reglita-pierna-derecha" src="/juego/tiendita/mascota.png" alt="" draggable={false} /></>}
           <svg viewBox="0 0 1300 1189" className="reglita-mirada" aria-hidden="true">
             <defs>
               <radialGradient id={`${id}-iris`}><stop offset=".5" stopColor="#1c5136" /><stop offset=".85" stopColor="#509766" /><stop offset="1" stopColor="#244f35" /></radialGradient>
@@ -87,7 +88,7 @@ export function ReglitaInteractiva({ className = '', compacta = false, leyendo =
           </svg>
         </span>
       </button>
-      <span className={`reglita-bocadillo ${saludo ? 'visible' : ''}`} role="status" aria-live="polite">{saludo ? '¡Chócala! Aprendamos juntos.' : ''}</span>
+      <span className={`reglita-bocadillo ${saludo ? 'visible' : ''}`} role={saludo ? "status" : undefined} aria-live="polite">{saludo ? '¡Chócala! Aprendamos juntos.' : ''}</span>
       {!compacta && <span className="reglita-invitacion">Soy Reglita. ¡Toca mi mano!</span>}
     </div>
   );

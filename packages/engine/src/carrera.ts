@@ -484,14 +484,14 @@ export class MecanicaCarrera extends EscenaBase {
     // Marco exterior de la escalera (#fffcf6, borde #e4dccd, radio 18px)
     const fondo = this.add.graphics();
     fondo.fillStyle(COLOR_PAPEL, 0.98);
-    fondo.fillRoundedRect(-360, -45, 720, 90, 18);
+    fondo.fillRoundedRect(-360, -45, 720, 138, 18);
     fondo.lineStyle(2, COLOR_LINEA, 1);
-    fondo.strokeRoundedRect(-360, -45, 720, 90, 18);
+    fondo.strokeRoundedRect(-360, -45, 720, 138, 18);
     contenedorEscalera.add(fondo);
 
     // Título de la escalera métrica (peso 900, tinta #14201f)
     const titulo = this.add
-      .text(0, -32, "🪜 Escalera de Unidades de Longitud", {
+      .text(0, -38, "Escalera de Unidades de Longitud", {
         fontFamily: FUENTE_SISTEMA,
         fontSize: "13px",
         color: COLOR_TINTA,
@@ -527,7 +527,7 @@ export class MecanicaCarrera extends EscenaBase {
       // Indicadores de Inicio y Meta
       if (esOrigen) {
         const tagInicio = this.add
-          .text(xPaso, 27, "Inicio", {
+          .text(xPaso, -20, "Inicio", {
             fontFamily: FUENTE_SISTEMA,
             fontSize: "11px",
             color: COLOR_VERDE,
@@ -538,7 +538,7 @@ export class MecanicaCarrera extends EscenaBase {
       }
       if (esMeta) {
         const tagMeta = this.add
-          .text(xPaso, 27, "🎯 Meta", {
+          .text(xPaso, -20, "Meta", {
             fontFamily: FUENTE_SISTEMA,
             fontSize: "11px",
             color: COLOR_VERDE,
@@ -572,22 +572,22 @@ export class MecanicaCarrera extends EscenaBase {
       }
     }
 
-    // Mascota de tiendita colocada sobre la unidad activa (con setDisplaySize(40, 40))
+    // La compañera camina bajo las unidades, con espacio propio y proporción original.
     const xReglita = xBase + this.unidadActualIndex * pasoX;
     if (this.textures && this.textures.exists("mascota-tiendita")) {
-      const mascota = this.add.image(xReglita, -6, "mascota-tiendita");
-      mascota.setDisplaySize(40, 40);
+      const mascota = this.add.image(xReglita, 49, "mascota-tiendita");
+      mascota.setDisplaySize(82, 75);
       mascota.setOrigin(0.5);
       this.spriteReglita = mascota;
     } else {
       try {
-        const mascota = this.add.image(xReglita, -6, "mascota-tiendita");
-        mascota.setDisplaySize(40, 40);
+        const mascota = this.add.image(xReglita, 49, "mascota-tiendita");
+        mascota.setDisplaySize(82, 75);
         mascota.setOrigin(0.5);
         this.spriteReglita = mascota;
       } catch {
         this.spriteReglita = this.add
-          .text(xReglita, -6, "📏", { fontSize: "28px" })
+          .text(xReglita, 49, "Reglita", { fontSize: "18px", color: COLOR_VERDE })
           .setOrigin(0.5);
       }
     }
@@ -975,15 +975,16 @@ export class MecanicaCarrera extends EscenaBase {
       const pasoX = 100;
       const destinoX = xBase + this.unidadActualIndex * pasoX;
 
-      if (this.tweens) {
-        this.tweens.add({
-          targets: this.spriteReglita,
-          x: destinoX,
-          duration: 220,
-          ease: "Sine.easeOut"
-        });
+      const reducir = typeof window !== "undefined" && window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+      const figura = this.spriteReglita;
+      this.tweens?.killTweensOf?.(figura);
+      figura.y = 49;
+      figura.angle = 0;
+      if (this.tweens && !reducir && figura.x !== destinoX) {
+        this.tweens.add({ targets: figura, x: destinoX, duration: 420, ease: "Cubic.easeOut" });
+        this.tweens.add({ targets: figura, y: 46, angle: -4, duration: 70, yoyo: true, repeat: 2, ease: "Sine.easeInOut", onComplete: () => { figura.y = 49; figura.angle = 0; } });
       } else {
-        this.spriteReglita.x = destinoX;
+        figura.x = destinoX;
       }
     }
   }
@@ -1068,6 +1069,7 @@ export class MecanicaCarrera extends EscenaBase {
    * Remueve y destruye los contenedores gráficos del ítem anterior.
    */
   private limpiarContenidoItem(): void {
+    if (this.spriteReglita) this.tweens?.killTweensOf?.(this.spriteReglita);
     for (const z of this.zonasDrop) {
       try {
         z.destroy();

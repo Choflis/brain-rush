@@ -1,3 +1,5 @@
+import { CompaneraReglita } from "./CompaneraReglita";
+import "./tienda-viva.css";
 import { ReglitaInteractiva } from "../app/componentes/ReglitaInteractiva";
 import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from "react";
 import type { CSSProperties, PointerEvent as ReactPointerEvent } from "react";
@@ -190,7 +192,7 @@ export function Tiendita() {
     const result = controller.drop(id, destination);
     setSelected(null);
     if (result.kind === "correct") {
-      clearHint(); chime(); feedback(result.completed ? (isPedido ? "¡Pedido listo! Ahora cuenta." : "¡Ordenado! Ahora cuenta.") : "¡Eso es!");
+      setWrongId(null); clearHint(); chime(); feedback(result.completed ? (isPedido ? "¡Pedido listo! Ahora cuenta." : "¡Ordenado! Ahora cuenta.") : "¡Eso es!");
     } else if (result.kind === "wrong") {
       setWrongId(id); if (controller.getSnapshot().attempts >= 3) { support.current[item.id] = (support.current[item.id] ?? 0) + 1; showHint(isPedido ? item.pedido!.categoria : item.productos.find(p => p.id === id)!.categoria); } feedback(isPedido ? "Mira el producto del pedido." : "Busca el mismo dibujo en el estante.");
     }
@@ -266,7 +268,7 @@ export function Tiendita() {
 
   if (assetError) return <main className="result-screen" role="alert"><Marca /><h1>No pudimos abrir la tienda.</h1><p>Falta un recurso de la tienda. Vuelve a intentarlo.</p>{debug && <code>{assetError}</code>}<button className="primary-button" onClick={() => location.reload()}>Volver a intentar</button></main>;
 
-  return <div className={`shop-app ${screen === "intro" ? "is-intro" : ""}`}>
+  return <div className={`shop-app tienda-viva ${screen === "intro" ? "is-intro" : ""}`}>
     <header className="shop-header">
       <a href="/" className="brand-link" aria-label="BRAIN RUSH, página principal" onClick={e => { if (active) { e.preventDefault(); clearDrag(); controller.pause(); } }}><Marca /></a>
       <span className="local-label"><span /> Prueba local</span>
@@ -311,7 +313,7 @@ export function Tiendita() {
       <section className={`game-stage ${isPedido ? "is-order" : "is-sort"} ${numberActive ? "is-number" : ""}`} data-paused={state.phase === "paused" || state.phase === "help" ? "true" : "false"} aria-label={isPedido ? "Preparar el pedido" : "Clasificar productos"}>
         <div className="world-canvas" ref={stage} aria-hidden="true" />
         <div className="store-awning" aria-hidden="true" />
-        <div className="guide-caption"><img src={MASCOT} alt="" /><span>{message || (selected ? "Ahora toca su destino." : isPedido ? "¡Contamos juntos!" : "¡Cada uno a su casita!")}</span></div>
+        <CompaneraReglita ronda={state.itemIndex} colocados={state.placedIds.length} seleccionado={!!selected} error={!!wrongId} completa={numberSolved} pausada={state.phase === "paused" || state.phase === "help" || !!tutorial} pedido={isPedido} contando={numberActive} />
         <div className="play-layout">
           <div className="round-instruction"><span className="action-symbol"><Icono nombre="hand" size={19} /></span><span>{numberActive ? "Elige un número y pega la etiqueta." : isPedido ? "Lleva el pedido a la bolsa." : "Lleva cada producto a su estante."}</span></div>
           {isPedido ? <div className="order-scene">

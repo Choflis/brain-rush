@@ -18,7 +18,7 @@ La portada de escritorio combina dos columnas: el nombre «La tiendita», una in
 
 La cabecera agrupa ayuda, sonido y pausa. El camión comunica actividades resueltas y se etiqueta como prueba local. La barra no representa tiempo restante ni competencia.
 
-El canvas Phaser llena todo `.game-stage` y no recibe eventos de puntero. El contenido DOM accesible se superpone a él. En escritorio, el 20 % izquierdo se reserva para la mascota del canvas y su frase; estantes, pedido y mostrador ocupan el espacio restante. El toldo tiene un área propia arriba para que no cubra instrucciones. La escena crece con el contenido.
+El canvas Phaser llena todo `.game-stage` y no recibe eventos de puntero. Conserva el fondo y las partículas; el personaje se presenta en una compañera DOM accesible. En escritorio tiene una columna propia de 230–310 px y una figura de aproximadamente 260 px de alto; estantes, pedido y mostrador ocupan la otra columna. En móvil vertical aparece junto a su frase con más de 100 px de alto. En horizontal bajo asoma en la cabecera y el tablero utiliza todo el ancho. El toldo conserva su área propia y las fichas no quedan tapadas.
 
 Dos o tres estantes se reconocen mediante la forma del envase, el pictograma, el nombre y el color de categoría. Agua, gaseosa y jugo mantienen sus colores azul, rojo y naranja respectivamente. Los productos colocados aparecen en su estante y conservan una marca de aceptación en el origen. Selección, pista y error tienen señales adicionales al color.
 
@@ -36,7 +36,7 @@ El tutorial enseña en un recorrido repetido el movimiento del producto y la man
 
 ## Adaptación y revisión
 
-El diseño contempla escritorio de 1366 × 768 y teléfono de 390 × 844 y 360 × 800. Bajo 720 píxeles desaparece el margen reservado al personaje del canvas y la frase incluye una miniatura de mascota. El contenido conserva su tamaño táctil; se permite desplazamiento vertical antes que ocultar funciones.
+El diseño contempla escritorio de 1366 × 768 y teléfono de 390 × 844 y 360 × 800. Bajo 720 píxeles, la compañera se coloca encima del tablero con su figura grande y la frase al lado. El contenido conserva su tamaño táctil; se permite desplazamiento vertical antes que ocultar funciones.
 
 La verificación visual en navegador debe cubrir portada, clasificación de tres categorías y diez productos, pedido de siete productos, tutorial, pausa y resultado. La comprobación técnica de CSS no sustituye probar arrastre en un teléfono real ni observar comprensión infantil. Esta documentación describe decisiones implementadas en la hoja de estilo, no certifica esas pruebas de uso.
 
@@ -46,4 +46,12 @@ El informe docente usa un `details` al final de la página, en el flujo normal y
 
 ## Interacción de bienvenida · noviembre 2026
 
-La mascota original de portada permite saludar con toque, clic o teclado. Sus pupilas acompañan el cursor con desplazamiento limitado; la preferencia de movimiento reducido mantiene la mirada centrada y elimina el salto del saludo. La interacción se limita a la portada y no interviene en las reglas ni los controles de la partida.
+La mascota original de portada permite saludar con toque, clic o teclado. Sus pupilas acompañan el cursor con desplazamiento limitado; la preferencia de movimiento reducido mantiene la mirada centrada y elimina el salto del saludo. El saludo de portada no interviene en las reglas ni los controles de la partida. La compañera del juego reutiliza la misma mirada y saludo.
+
+## Compañera durante la partida · noviembre 2026
+
+Reglita da pasos breves al comenzar cada actividad. La imagen original se compone en capas CSS para mover las piernas sin cambiar el archivo fuente; después vuelve a la imagen completa. El personaje observa cuando se selecciona un producto, ofrece una frase amable al corregir y salta brevemente al aceptar un producto. Las estrellas son feedback decorativo, sin puntos nuevos ni recompensas que alteren los criterios.
+
+Ayuda y pausa detienen las animaciones del escenario. `prefers-reduced-motion` deja la imagen completa y elimina pasos y saltos. Cada temporizador de la compañera se limpia al cambiar de actividad o desmontar. La partida mantiene clasificación, pedidos, conteo, eventos y registro de evidencias.
+
+Los estantes y productos aumentan su presencia; las fichas conservan un mínimo de 56 px. En pantallas de hasta 360 px los diez productos se distribuyen en cuatro columnas. A 720–844 × 390 se conserva la composición compacta horizontal: personaje en cabecera, diez fichas en una fila y once etiquetas numéricas visibles, sin recortar controles.

@@ -1,0 +1,147 @@
+/* Reglita toma su propio lugar en la tienda. El mostrador sigue siendo el juego. */
+.tienda-viva { --ease-shop: cubic-bezier(.23, 1, .32, 1); }
+.tienda-viva .shop-header { width: min(1420px, 100%); }
+.tienda-viva .play-screen { width: min(1420px, 100%); }
+.tienda-viva .game-heading { margin-bottom: 20px; }
+.tienda-viva .heading-main h1 { font-size: clamp(25px, 3vw, 38px); letter-spacing: -.035em; }
+.tienda-viva .game-stage { display: grid; grid-template-columns: clamp(230px, 25vw, 310px) minmax(0, 1fr); gap: 24px; min-height: 540px; padding: 65px 26px 30px; background: #eee5d2; border: 1px solid #dfd0b5; box-shadow: 0 7px 0 #dfd4be, 0 15px 35px #6551360d; border-radius: 24px; }
+.tienda-viva .play-layout { margin-left: 0; gap: 20px; align-self: center; }
+.tienda-viva .world-canvas { opacity: .65; }
+.tienda-viva .store-awning { height: 38px; border-radius: 23px 23px 0 0; }
+.tienda-viva .round-instruction { font-size: 17px; padding: 4px 0; }
+.tienda-viva .action-symbol { width: 38px; height: 38px; box-shadow: 0 3px 0 #bfd6bf; }
+.companera-reglita { min-width: 0; align-self: center; position: relative; z-index: 1; }
+.companera-nombre { text-align: center; color: #64714c; font-size: 12px; font-weight: 650; margin-bottom: 3px; }
+.companera-nombre strong { display: block; color: #3e643d; font-size: 23px; letter-spacing: -.03em; margin-top: 2px; }
+.companera-punto { display: inline-block; width: 6px; height: 6px; background: #628d48; border-radius: 50%; margin-right: 5px; }
+.companera-escenario { position: relative; min-height: 300px; display: flex; align-items: end; justify-content: center; isolation: isolate; }
+.companera-escenario::before { content: ''; position: absolute; inset: 24% 7% 4%; border-radius: 48% 48% 12px 12px; background: #dce4c5b8; border: 1px solid #b9c79780; z-index: -1; }
+.companera-paseo { position: relative; width: 92%; z-index: 2; transform-origin: center bottom; }
+.companera-reglita .reglita-figura img { filter: drop-shadow(0 8px 5px #47613a1a); }
+.companera-reglita .reglita-figura img.reglita-pierna { filter: none; }
+.companera-sombra { position: absolute; left: 16%; right: 16%; bottom: 1%; height: 12px; background: #8b9d6b55; border-radius: 50%; }
+.companera-pasos { position: absolute; bottom: 0; width: 90%; display: flex; justify-content: space-between; pointer-events: none; }
+.companera-pasos i { width: 17px; height: 10px; border-radius: 50%; background: #9eaa7f55; transform: rotate(-20deg); }
+.companera-pasos i:nth-child(2) { transform: translateY(-10px) rotate(20deg); }
+.companera-dialogo { position: relative; margin: 14px auto 0; padding: 15px 17px; border: 1px solid #cad5b6; border-radius: 17px; background: #fffdf4; box-shadow: 0 4px 0 #cbd4b5; color: #365b3b; font-size: 17px; font-weight: 800; text-align: center; line-height: 1.45; text-wrap: balance; max-width: 290px; }
+.companera-dialogo::before { content: ''; position: absolute; width: 14px; height: 14px; top: -8px; left: calc(50% - 7px); border-left: 1px solid #cad5b6; border-top: 1px solid #cad5b6; background: #fffdf4; transform: rotate(45deg); }
+.companera-brillo { position: absolute; color: #d0a039; pointer-events: none; opacity: 0; transition: opacity 180ms ease-out; }
+.companera-brillo-a { top: 20%; left: 0; transform: rotate(-12deg); }
+.companera-brillo-b { top: 9%; right: 6%; transform: rotate(12deg); }
+.companera-reglita[data-accion='celebrar'] .companera-brillo { opacity: 1; }
+.companera-reglita[data-accion='celebrar'] .companera-paseo { animation: companera-alegre 700ms var(--ease-shop); }
+.companera-reglita[data-accion='caminar'] .companera-paseo { animation: companera-caminar 1600ms ease-in-out; }
+.companera-reglita[data-accion='observar'] .companera-dialogo { background: #edf4de; border-color: #a8c28b; }
+.companera-reglita[data-accion='observar'] .companera-dialogo::before { background: #edf4de; border-color: #a8c28b; }
+.companera-reglita[data-accion='ayudar'] .companera-dialogo { background: #fff3d9; border-color: #d7bd80; color: #765a2f; }
+.companera-reglita[data-accion='ayudar'] .companera-dialogo::before { background: #fff3d9; border-color: #d7bd80; }
+.companera-reglita[data-pausa='true'] *, .companera-reglita[data-pausa='true'] *::before { animation-play-state: paused !important; }
+@keyframes companera-caminar { 0% { transform: translateX(-10px); } 25% { transform: translateX(-5px) translateY(-3px) rotate(-2deg); } 50% { transform: translateX(0) rotate(2deg); } 75% { transform: translateX(5px) translateY(-3px) rotate(-2deg); } 100% { transform: translateX(0) rotate(0); } }
+@keyframes companera-alegre { 0%, 100% { transform: translateY(0) rotate(0); } 30% { transform: translateY(-16px) rotate(-4deg); } 60% { transform: translateY(-3px) rotate(4deg); } 80% { transform: translateY(-7px) rotate(-2deg); } }
+.tienda-viva .shelf { height: 195px; border-color: #d4a56e; border-radius: 15px 15px 7px 7px; box-shadow: inset 0 6px 12px #b8875312, 0 6px 0 #af7e4840; }
+.tienda-viva .shelf-label { font-size: 17px; min-height: 58px; padding-inline: 12px; }
+.tienda-viva .shelf-space { min-height: 85px; }
+.tienda-viva .shelf-silhouette > svg { height: 82px; }
+.tienda-viva .shelved-products > svg { height: 76px; }
+.tienda-viva .product-counter { padding: 13px 14px 20px; border: 1px solid #c99a61; background: #e6bf8d; box-shadow: inset 0 -6px 0 #bc874e, 0 7px 0 #b18a5940; }
+.tienda-viva .counter-caption { font-size: 13px; padding-bottom: 12px; }
+.tienda-viva .product-token { min-height: 90px; height: 90px; border-radius: 15px; border-color: #fff8e8; box-shadow: 0 4px 0 #c9a172; }
+.tienda-viva .product-token > .product-art { height: 80px; width: 58px; }
+.tienda-viva .product-token.is-placed { box-shadow: none; }
+.tienda-viva .product-token.is-selected { border-color: #44784d; box-shadow: 0 6px 0 #7e9d67; }
+.tienda-viva .number-challenge { background: #fff9e9; border-color: #d4c29b; box-shadow: 0 4px 0 #dac9a1; padding: 20px; }
+.tienda-viva .number-prompt { font-size: 20px; }
+.tienda-viva .number-token { font-size: 25px; }
+.tienda-viva .round-success { z-index: 3; top: 38%; left: 65%; border: 2px solid #a0bb82; font-size: 25px; }
+.tienda-viva .feedback-bubble { z-index: 4; max-width: 60%; font-size: 14px; border: 1px solid #c7d7b4; }
+.tienda-viva .intro-mascot { width: 92%; height: 94%; left: -3%; bottom: 0; }
+.tienda-viva .intro-art { max-height: 640px; }
+.tienda-viva .intro-description { color: #345a39; }
+.tienda-viva .result-art { width: min(300px, 80vw); height: auto; aspect-ratio: 1; }
+.tienda-viva .result-art > img { width: 100%; height: 100%; object-fit: contain; }
+@media (max-width: 1099px) and (min-width: 720px) {
+  .tienda-viva .game-stage { grid-template-columns: 220px minmax(0, 1fr); gap: 18px; padding-inline: 18px; }
+  .companera-escenario { min-height: 225px; }
+  .companera-dialogo { font-size: 15px; padding: 12px; }
+  .tienda-viva .shelf-label { padding-inline: 5px; font-size: 14px; }
+}
+@media (max-width: 719px) {
+  .tienda-viva .shop-header { padding-inline: 14px; }
+  .tienda-viva .play-screen { padding-inline: 12px; }
+  .tienda-viva .game-heading { gap: 8px; }
+  .tienda-viva .heading-main h1 { font-size: 24px; }
+  .tienda-viva .game-stage { display: block; padding: 40px 10px 22px; min-height: 0; border-radius: 20px; }
+  .tienda-viva .store-awning { height: 28px; border-radius: 19px 19px 0 0; }
+  .companera-reglita { display: grid; grid-template-columns: 132px minmax(0, 1fr); align-items: center; column-gap: 12px; margin-bottom: 15px; }
+  .companera-nombre { grid-column: 2; grid-row: 1; margin: 0; text-align: left; align-self: end; font-size: 10px; }
+  .companera-nombre strong { display: inline; font-size: 16px; margin-left: 4px; }
+  .companera-escenario { width: 132px; min-height: 132px; grid-column: 1; grid-row: 1 / 3; }
+  .companera-paseo { width: 100%; }
+  .companera-dialogo { grid-column: 2; grid-row: 2; align-self: start; font-size: 14px; padding: 10px 11px; margin: 5px 0 0; border-radius: 12px; text-align: left; }
+  .companera-dialogo::before { width: 10px; height: 10px; top: 13px; left: -6px; transform: rotate(-45deg); }
+  .companera-brillo-a { left: -2px; top: 17%; }
+  .companera-brillo-b { right: -4px; top: 2%; }
+  .tienda-viva .play-layout { gap: 15px; }
+  .tienda-viva .round-instruction { font-size: 14px; }
+  .tienda-viva .action-symbol { width: 30px; height: 30px; }
+  .tienda-viva .shelf { height: 164px; }
+  .tienda-viva .shelf-label { font-size: 12px; min-height: 46px; padding-inline: 3px; }
+  .tienda-viva .shelf-space { min-height: 70px; }
+  .tienda-viva .shelf-label > svg { width: 22px; height: 34px; }
+  .tienda-viva .shelved-products > svg { height: 54px; }
+  .tienda-viva .product-counter { padding: 11px 8px 17px; }
+  .tienda-viva .counter-caption { font-size: 11px; padding-bottom: 8px; }
+  .tienda-viva .product-token { min-height: 78px; height: 78px; border-radius: 12px; }
+  .tienda-viva .product-token > .product-art { height: 69px; width: 49px; }
+  .tienda-viva .round-success { left: 50%; font-size: 20px; }
+  .tienda-viva .feedback-bubble { max-width: calc(100% - 16px); font-size: 12px; }
+  .tienda-viva .number-challenge { padding: 14px 8px; }
+  .tienda-viva .number-prompt { font-size: 16px; }
+  .tienda-viva .number-token { font-size: 22px; }
+  .tienda-viva .intro-mascot { width: 94%; height: 98%; left: -1%; }
+}
+@media (max-width: 360px) {
+  .companera-reglita { grid-template-columns: 112px minmax(0, 1fr); gap: 8px; }
+  .companera-escenario { width: 112px; min-height: 116px; }
+  .companera-dialogo { font-size: 13px; padding: 8px; }
+  .companera-nombre { font-size: 9px; }
+  .companera-nombre strong { font-size: 14px; }
+  .tienda-viva .product-tray { grid-template-columns: repeat(4, minmax(56px, 1fr)); }
+  .tienda-viva .heading-main h1 { font-size: 21px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .companera-reglita *, .companera-reglita *::before { animation: none !important; transition: none !important; }
+  .tienda-viva .product-token, .tienda-viva .shelf, .tienda-viva .number-token { transition: none; }
+}
+/* En horizontal bajo, Reglita asoma por la cabecera y el tablero gana todo el ancho. */
+@media (min-width: 720px) and (max-height: 500px) {
+  .tienda-viva .shop-header { min-height: 56px; padding: 0 20px; }
+  .tienda-viva .play-screen { padding: 2px 16px 0; }
+  .tienda-viva .game-heading { margin-bottom: 3px; }
+  .tienda-viva .heading-main h1 { font-size: 20px; margin: 0; }
+  .tienda-viva .game-stage { display: block; min-height: 0; padding: 24px 12px 9px; border-radius: 18px; }
+  .tienda-viva .store-awning { height: 18px; border-radius: 17px 17px 0 0; }
+  .tienda-viva .play-layout { gap: 4px; }
+  .companera-reglita { position: absolute; left: 43%; top: -72px; width: 75px; height: 70px; display: block; margin: 0; }
+  .companera-escenario { min-height: 70px; width: 75px; }
+  .companera-paseo { width: 100%; }
+  .companera-nombre, .companera-dialogo, .companera-escenario::before, .companera-pasos, .companera-brillo { display: none; }
+  .tienda-viva .round-instruction { min-height: 22px; font-size: 12px; padding: 0; }
+  .tienda-viva .action-symbol { width: 22px; height: 22px; box-shadow: none; }
+  .tienda-viva .shelf { height: 86px; padding-bottom: 5px; border-width: 5px; border-bottom: 0; }
+  .tienda-viva .shelf-label { min-height: 28px; font-size: 12px; padding-inline: 8px; }
+  .tienda-viva .shelf-label > svg { width: 20px; height: 27px; }
+  .tienda-viva .shelf-space { min-height: 0; }
+  .tienda-viva .shelf-silhouette > svg { width: 30px; height: 43px; }
+  .tienda-viva .shelved-products > svg { width: 24px; height: 40px; }
+  .tienda-viva .product-counter { padding: 4px 8px 6px; }
+  .tienda-viva .counter-caption { padding-bottom: 3px; font-size: 11px; }
+  .tienda-viva .product-tray { display: grid; grid-template-columns: repeat(10, minmax(56px, 1fr)); gap: 4px; min-height: 56px; }
+  .tienda-viva .product-token { height: 58px; min-height: 58px; padding: 1px; }
+  .tienda-viva .product-token > .product-art { width: 38px; height: 52px; }
+  .tienda-viva .number-challenge { gap: 4px; padding: 3px 0; }
+  .tienda-viva .number-prompt { font-size: 14px; }
+  .tienda-viva .number-labels { grid-template-columns: repeat(11, minmax(56px, 1fr)); padding: 0; gap: 7px; }
+  .tienda-viva .number-token { min-height: 56px; font-size: 24px; }
+  .tienda-viva .number-target { min-height: 56px; padding: 8px 15px; }
+}

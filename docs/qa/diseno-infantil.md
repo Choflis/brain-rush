@@ -42,3 +42,11 @@ Los contadores se actualizan al guardar datos del aula local. El formulario admi
 Las ventanas administran foco, Escape y retorno al botón de apertura. Desde el iframe de juego, Escape conserva sus acciones propias y Tab permite llegar al cierre exterior. Los temporizadores de los asistentes se limpian al desmontar; cancelar una preparación evita que se guarde después de cerrar. El movimiento reducido se respeta también durante el estado de respuesta de Reglita.
 
 Validación: 19 pruebas de regresión de interfaz y 11 del escritorio docente, 66 pruebas de motor/GameSpec, revisión de tipos, compilación y revisión independiente. Capturas temporales de escritorio, móvil, clases, sesiones y acceso en `/tmp/brain-rush-teacher-*.png`.
+
+## Reglita durante la partida
+
+La Tiendita incorpora una compañera DOM visible en escritorio y móvil, con figura grande, mirada, saludo, pasos articulados mediante capas CSS de la imagen original, mensajes al seleccionar/corregir y celebraciones al colocar productos. La figura tiene su propia columna en escritorio y una franja de bienvenida sobre el tablero en móvil. Phaser conserva fondo y partículas; ya no dibuja una segunda mascota. Los estantes, productos y etiquetas mantienen destinos reconocibles y controles táctiles amplios.
+
+En horizontal bajo, el tablero ocupa todo el ancho y Reglita asoma en la cabecera. Se verificaron fichas y etiquetas visibles a 720/800/844 × 390. La animación no tapa los destinos y se detiene con pausa/ayuda o movimiento reducido. Carrera duplica la presencia del personaje a 82 × 75 píxeles lógicos y añade pasos al convertir, conservando la proporción original y la posición correcta incluso al invertir operaciones antes del primer frame.
+
+Validación final: 34 pruebas de interfaz, 10 pruebas de navegador de La Tiendita (incluida partida completa de 12 actividades), 66 pruebas de motor/GameSpec, tipos y compilación. La revisión independiente detectó y verificó la corrección del diseño horizontal y del tween al invertir conversiones. Capturas temporales: `/tmp/brain-rush-tienda-live-desktop.png`, `/tmp/brain-rush-tienda-live-mobile.png`, `/tmp/brain-rush-carrera-final-game.png` y `/tmp/brain-rush-ti/`. La configuración de despliegue permanece intacta.
