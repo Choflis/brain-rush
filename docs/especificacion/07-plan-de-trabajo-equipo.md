@@ -22,7 +22,7 @@ Cada ruta tiene un único dueño. Si alguien necesita cambiar un archivo ajeno, 
 |---|---|
 | `packages/gamespec/`, `packages/prompts/`, `packages/assets/` | U |
 | `apps/api/` (Worker, D1, R2, Mistral, salas en el servidor) | U |
-| `fixtures/`, `docs/sesiones/` (local), `docs/especificacion/07-contrato.md` | U |
+| `fixtures/`, `docs/sesiones/` (local), `docs/especificacion/08-contrato.md` | U |
 | `apps/web/src/app/` (shell, rutas, login demo), `apps/web/src/main.tsx` | U |
 | `apps/web/src/docente/` (panel docente) | U |
 | `wrangler.toml`, `package.json` raíz, `tsconfig.base.json` | U |
@@ -32,14 +32,14 @@ Cada ruta tiene un único dueño. Si alguien necesita cambiar un archivo ajeno, 
 | `packages/print/` y `apps/web/src/escaner/` (impresión y escaneo) | C |
 
 **Reglas de convivencia:**
-1. El **contrato** (`07-contrato.md`, que escribe U en la primera hora) es la única forma en que se hablan el backend y el frontend. Si cambia, se versiona y los dos lo aprueban.
+1. El **contrato** (`08-contrato.md`, que escribe U en la primera hora) es la única forma en que se hablan el backend y el frontend. Si cambia, se versiona y los dos lo aprueban.
 2. Cambios en archivos ajenos solo por PR o issue.
 3. Ramas: `feat/u-<tarea>` y `feat/c-<tarea>`. Se integra a `main` por PR. No se reescribe el historial publicado.
 4. Sincronización de 15 minutos al inicio de cada bloque, para decir qué se integró y qué se bloquea.
 
 ## 3. Contrato (primera tarea del equipo)
 
-**U1 · Contrato v1 (1 h, U).** Documento `docs/especificacion/07-contrato.md` con:
+**U1 · Contrato v1 (1 h, U).** ✅ Publicado en `docs/especificacion/08-contrato.md`. Contiene:
 
 - **GameSpec:** referencia a `packages/gamespec` como fuente. Congelado en v2.
 - **API:** rutas y formas de petición y respuesta de:

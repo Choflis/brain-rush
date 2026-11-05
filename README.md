@@ -18,6 +18,7 @@ Los juegos son de dos tipos:
 | [05 · Plan de implementación del MVP](docs/especificacion/05-plan-implementacion-mvp.md) | Tres juegos (uno por nivel), conexión con Mistral, paquetes de trabajo y calendario. |
 | [06 · Diseño de los juegos](docs/especificacion/06-diseno-de-juegos.md) | Características de cada juego: dinámicos, interactivos y sin preguntas tipo quiz. Confirmado. |
 | [07 · Plan de trabajo del equipo](docs/especificacion/07-plan-de-trabajo-equipo.md) | Reparto de tareas entre dos personas sin solapamiento, horizontes de entrega y cronograma. |
+| [08 · Contrato API v1](docs/especificacion/08-contrato.md) | Rutas, autenticación demo, eventos del motor, modo sin conexión y panel. Congelado para H1. |
 | [Dirección de arte](docs/arte-conceptual.md) | Estilo visual basado en la referencia de diseño. |
 | [Retos de hack4edu 2026](docs/bases/retos-hack4edu-2026.md) | Los 29 retos publicados, con descripciones y distintivo «Reto ProFuturo». |
 | [Cobertura de retos](docs/bases/cobertura-retos.md) | Qué retos cubre el sistema, con qué grado y con qué límites. |
