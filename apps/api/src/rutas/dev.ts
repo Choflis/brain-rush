@@ -24,10 +24,22 @@ export function rutasDev(app: Hono<AppEnv>) {
 
     for (const sesion of datos.sesiones) {
       await c.env.DB.prepare(
-        `INSERT OR REPLACE INTO sessions
+        `INSERT INTO sessions
           (id, school_id, titulo, area, grado, competencia, capacidad, desempenos, criterios,
            instrumento, proposito, momentos, materiales, creado_en)
-         VALUES (?, NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+         VALUES (?, NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+         ON CONFLICT(id) DO UPDATE SET
+           titulo = excluded.titulo,
+           area = excluded.area,
+           grado = excluded.grado,
+           competencia = excluded.competencia,
+           capacidad = excluded.capacidad,
+           desempenos = excluded.desempenos,
+           criterios = excluded.criterios,
+           instrumento = excluded.instrumento,
+           proposito = excluded.proposito,
+           momentos = excluded.momentos,
+           materiales = excluded.materiales`,
       )
         .bind(
           sesion.id,
@@ -56,11 +68,20 @@ export function rutasDev(app: Hono<AppEnv>) {
       const versionId = `v1-${juego.id}`;
 
       await c.env.DB.batch([
-        c.env.DB.prepare("DELETE FROM game_versions WHERE game_id = ?").bind(juego.id),
         c.env.DB.prepare(
-          `INSERT OR REPLACE INTO games
+          `INSERT INTO games
             (id, session_id, titulo, tipo, mecanica, nivel, grados, estado, version_actual, codigo, creado_en)
-           VALUES (?, ?, ?, ?, ?, ?, ?, 'publicado', 1, ?, ?)`,
+           VALUES (?, ?, ?, ?, ?, ?, ?, 'publicado', 1, ?, ?)
+           ON CONFLICT(id) DO UPDATE SET
+             session_id = excluded.session_id,
+             titulo = excluded.titulo,
+             tipo = excluded.tipo,
+             mecanica = excluded.mecanica,
+             nivel = excluded.nivel,
+             grados = excluded.grados,
+             estado = 'publicado',
+             version_actual = 1,
+             codigo = excluded.codigo`,
         ).bind(
           juego.id,
           juego.sessionId ?? null,
@@ -75,7 +96,13 @@ export function rutasDev(app: Hono<AppEnv>) {
         c.env.DB.prepare(
           `INSERT INTO game_versions
             (id, game_id, numero, spec, origen_generacion, publicada, publicada_en, creada_en)
-           VALUES (?, ?, 1, ?, ?, 1, ?, ?)`,
+           VALUES (?, ?, 1, ?, ?, 1, ?, ?)
+           ON CONFLICT(game_id, numero) DO UPDATE SET
+             id = excluded.id,
+             spec = excluded.spec,
+             origen_generacion = excluded.origen_generacion,
+             publicada = 1,
+             publicada_en = excluded.publicada_en`,
         ).bind(
           versionId,
           juego.id,
