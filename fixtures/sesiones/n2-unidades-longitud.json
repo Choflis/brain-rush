@@ -1,0 +1,33 @@
+{
+  "titulo": "UNIDADES DE LONGITUD",
+  "grado": 3,
+  "area": "MAT",
+  "competencia": "RESUELVE PROBLEMAS DE FORMA, MOVIMIENTO Y LOCALIZACIÓN",
+  "capacidad": "Modela objetos con formas geométricas y sus transformaciones; Comunica su comprensión sobre las formas y relaciones geométricas; Usa estrategias y procedimientos para orientarse en el espacio; Argumenta afirmaciones sobre relaciones geométricas",
+  "desempenos": [
+    "Mide y estima la longitud de objetos de su entorno utilizando unidades convencionales y no convencionales; además, establece equivalencias y realiza conversiones entre las unidades de longitud empleando el esquema de ×10 y ÷10."
+  ],
+  "criterios": [
+    { "id": "C1", "texto": "Identifica las unidades de longitud." },
+    { "id": "C2", "texto": "Reconoce múltiplos y submúltiplos del metro." },
+    { "id": "C3", "texto": "Realiza conversiones usando ×10 y ÷10." },
+    { "id": "C4", "texto": "Resuelve problemas de longitud y explica su procedimiento." }
+  ],
+  "instrumento": "Lista de cotejo",
+  "proposito": "Hoy descubriremos cómo podemos pasar de una unidad de longitud a otra de manera rápida y correcta.",
+  "momentos": {
+    "inicio": "Bienvenida, control de asistencia y normas de convivencia; situación comunicativa con objetos del aula (¿cómo medir la mesa?); motivación «¿Con qué lo medirías?» (cm, m, mm, km); saberes previos y conflicto cognitivo: cuántos centímetros hay en 7 metros.",
+    "desarrollo": "Familiarización con el problema de la cuerda de 7 m; exploración de unidades no convencionales (palmo, pie, codo, etc.) y del metro como unidad fundamental; múltiplos y submúltiplos del metro; esquema de conversión km-hm-dam-m-dm-cm-mm con ×10 y ÷10; ejemplo 7 m = 700 cm; actividad guiada en parejas; socialización de estrategias; formalización del organizador; problemas 1 a 4 (cinta de 5 m, carretera de 3 km, lápiz de 15 cm, cuerda de 200 cm).",
+    "cierre": "Ficha de aplicación individual evaluada con lista de cotejo; preguntas de metacognición sobre lo aprendido y las estrategias usadas en las conversiones."
+  },
+  "materiales": [
+    "Regla",
+    "Cinta métrica",
+    "Objetos del aula",
+    "Tarjetas de unidades",
+    "Plumones",
+    "Pizarra",
+    "Ficha de aplicación",
+    "Material visual basado en las imágenes proporcionadas"
+  ]
+}

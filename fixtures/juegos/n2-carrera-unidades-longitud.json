@@ -1,0 +1,133 @@
+{
+  "specVersion": "1.0",
+  "titulo": "Carrera del patio: unidades de longitud",
+  "tipo": "complemento",
+  "nivel": "N2",
+  "grados": [3, 4],
+  "duracionMin": 8,
+  "mecanica": "carrera",
+  "origen": { "sesion": "UNIDADES DE LONGITUD", "grado": 3, "area": "Matemática", "competencia": "Resuelve problemas de forma, movimiento y localización" },
+  "criterios": [
+    { "id": "C3", "texto": "Realiza conversiones usando ×10 y ÷10." }
+  ],
+  "personaje": { "id": "personaje-reglita", "nombre": "Reglita" },
+  "escenario": { "id": "escenario-patio", "tema": "patio" },
+  "tutorial": { "animacion": "anim-tutorial-escalera" },
+  "niveles": [
+    {
+      "dificultad": "facil",
+      "items": [
+        {
+          "id": "f1",
+          "criterio": "C3",
+          "enunciado": { "asset": "puerta-guardian" },
+          "cantidad": 2,
+          "desde": "m",
+          "hasta": "dm",
+          "opciones": [0.2, 20, 2],
+          "correcta": 1,
+          "retro": { "ok": "estrella", "error": "pista" }
+        },
+        {
+          "id": "f2",
+          "criterio": "C3",
+          "enunciado": { "asset": "objeto-lapiz" },
+          "cantidad": 15,
+          "desde": "cm",
+          "hasta": "mm",
+          "opciones": [15, 150, 1500],
+          "correcta": 1,
+          "retro": { "ok": "estrella", "error": "pista" }
+        },
+        {
+          "id": "f3",
+          "criterio": "C3",
+          "enunciado": { "asset": "objeto-cuerda" },
+          "cantidad": 300,
+          "desde": "dm",
+          "hasta": "m",
+          "opciones": [3000, 3, 30],
+          "correcta": 2,
+          "retro": { "ok": "estrella", "error": "pista" }
+        }
+      ]
+    },
+    {
+      "dificultad": "medio",
+      "items": [
+        {
+          "id": "m1",
+          "criterio": "C3",
+          "enunciado": { "asset": "puerta-guardian" },
+          "cantidad": 3,
+          "desde": "m",
+          "hasta": "cm",
+          "opciones": [30, 3000, 300],
+          "correcta": 2,
+          "retro": { "ok": "estrella", "error": "pista" }
+        },
+        {
+          "id": "m2",
+          "criterio": "C3",
+          "enunciado": { "asset": "objeto-pizarra" },
+          "cantidad": 250,
+          "desde": "cm",
+          "hasta": "m",
+          "opciones": [2.5, 25, 0.25],
+          "correcta": 0,
+          "retro": { "ok": "estrella", "error": "pista" }
+        },
+        {
+          "id": "m3",
+          "criterio": "C3",
+          "enunciado": { "asset": "puerta-guardian" },
+          "cantidad": 800,
+          "desde": "dm",
+          "hasta": "dam",
+          "opciones": [80, 8, 0.8],
+          "correcta": 1,
+          "retro": { "ok": "estrella", "error": "pista" }
+        }
+      ]
+    },
+    {
+      "dificultad": "avanzado",
+      "items": [
+        {
+          "id": "a1",
+          "criterio": "C3",
+          "enunciado": { "asset": "puerta-guardian" },
+          "cantidad": 1500,
+          "desde": "m",
+          "hasta": "km",
+          "opciones": [15, 1.5, 150],
+          "correcta": 1,
+          "retro": { "ok": "aplauso", "error": "pista" }
+        },
+        {
+          "id": "a2",
+          "criterio": "C3",
+          "enunciado": { "asset": "objeto-cuerda" },
+          "cantidad": 2500,
+          "desde": "cm",
+          "hasta": "dam",
+          "opciones": [25, 2.5, 0.25],
+          "correcta": 1,
+          "retro": { "ok": "aplauso", "error": "pista" }
+        },
+        {
+          "id": "a3",
+          "criterio": "C3",
+          "enunciado": { "asset": "objeto-cuerda" },
+          "cantidad": 12,
+          "desde": "dam",
+          "hasta": "cm",
+          "opciones": [120, 1200, 12000],
+          "correcta": 2,
+          "retro": { "ok": "aplauso", "error": "pista" }
+        }
+      ]
+    }
+  ],
+  "evaluacion": { "minimoLogro": 0.6 }
+}

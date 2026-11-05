@@ -1,0 +1,29 @@
+{
+  "titulo": "Elaboran el cartel con los precios de los productos y sus nombres",
+  "grado": 1,
+  "area": "Matemática",
+  "competencia": "Resuelve problemas de cantidad",
+  "capacidad": "Comunica su comprensión sobre los números y las operaciones.",
+  "desempenos": [
+    "Expresa con diversas representaciones y números, su comprensión del número como cardinal hasta 10 objetos."
+  ],
+  "criterios": [],
+  "instrumento": "Escala de valoración",
+  "proposito": "Hoy vamos a organizar los objetos de la tienda en grupos y en subgrupos. A través de esto van a aprender a representar el número hasta el 10.",
+  "momentos": {
+    "inicio": "En grupo clase: dialogar sobre la sesión anterior con los materiales recolectados. Presentar el problema: ¿De qué manera podríamos organizar todos los productos de la tienda? Plantear preguntas de familiarización (qué vamos a hacer, cómo ordenar los objetos en grupos, qué grupos deberían ir juntos) y establecer el propósito de organizar los objetos de la tienda en grupos y subgrupos para representar el número hasta el 10.",
+    "desarrollo": "En grupos pequeños: colocar los grupos de objetos en cajas, una por grupo de estudiantes. Clasificar los productos en grupos (bebidas) y subgrupos (gaseosa, agua, jugos, etc.). Contar los objetos de cada grupo y organizarlos en subgrupos; por ejemplo, un grupo de 9 bebidas, de las cuales 5 son gaseosas y 4 son jugos. Escribir o copiar en etiquetas los nombres de los grupos y colocarlas en los productos. Grupo clase: plasmar en el cuaderno lo trabajado mediante dibujo y escritura (por ejemplo, 4 botellas: 3 de gaseosa y 1 de jugo) y compartirlo usando los términos grupos y subgrupos. Formalización: ¿si juntamos gaseosa y jugos obtenemos un grupo de bebidas?; dentro de un grupo de 4 puede haber un grupo de 1 y otro de 3. Individual: actividades de las páginas 13 y 15 del Cuaderno de Trabajo de Matemática 1.",
+    "cierre": "En grupo clase: leer la pregunta del problema, comentar cómo lo resolvieron y los grupos y subgrupos que formaron con los objetos de la tienda. Preguntar: si juntamos todos los objetos, ¿podrían formar otros subgrupos? ¿Cuáles?"
+  },
+  "materiales": [
+    "Papel reusable",
+    "Etiquetas para escribir los nombres de los grupos de productos",
+    "Cartulina y papelote",
+    "Tijeras",
+    "Plumones delgados o lápiz de color",
+    "Hilo, pabilo o lana",
+    "Perforador para hacer hueco a las etiquetas",
+    "Cajas (una por grupo de estudiantes)",
+    "Cuaderno de Trabajo de Matemática 1"
+  ]
+}

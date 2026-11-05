@@ -1,0 +1,216 @@
+{
+  "specVersion": "1.0",
+  "titulo": "La tiendita",
+  "tipo": "activacion",
+  "nivel": "N1",
+  "grados": [1, 2],
+  "duracionMin": 10,
+  "mecanica": "tienda",
+  "origen": { "sesion": "primer-grado-u1-s9", "grado": 1, "area": "Matemática", "competencia": "Resuelve problemas de cantidad" },
+  "criterios": [{ "id": "C1", "texto": "Organiza productos de la tienda en grupos y subgrupos" }],
+  "personaje": { "id": "personaje-reglita", "nombre": "Reglita" },
+  "escenario": { "id": "escenario-tiendita", "tema": "tienda" },
+  "tutorial": { "animacion": "anim-tutorial-tienda" },
+  "meta": { "tipo": "camion", "objetivo": 10 },
+  "niveles": [
+    {
+      "dificultad": "facil",
+      "items": [
+        {
+          "id": "f1",
+          "criterio": "C1",
+          "accion": "clasificar",
+          "estanterias": [
+            { "id": "gaseosas", "asset": "estanteria-bebidas" },
+            { "id": "jugos", "asset": "estanteria-bebidas" }
+          ],
+          "productos": [
+            { "id": "p1", "asset": "producto-gaseosa", "categoria": "gaseosas" },
+            { "id": "p2", "asset": "producto-jugo", "categoria": "jugos" },
+            { "id": "p3", "asset": "producto-gaseosa", "categoria": "gaseosas" },
+            { "id": "p4", "asset": "producto-jugo", "categoria": "jugos" }
+          ],
+          "retro": { "ok": "estrella", "error": "pista" }
+        },
+        {
+          "id": "f2",
+          "criterio": "C1",
+          "accion": "pedido",
+          "consigna": { "asset": "producto-gaseosa", "texto": "2" },
+          "estanterias": [
+            { "id": "gaseosas", "asset": "estanteria-bebidas" },
+            { "id": "jugos", "asset": "estanteria-bebidas" }
+          ],
+          "productos": [
+            { "id": "p1", "asset": "producto-gaseosa", "categoria": "gaseosas" },
+            { "id": "p2", "asset": "producto-jugo", "categoria": "jugos" },
+            { "id": "p3", "asset": "producto-gaseosa", "categoria": "gaseosas" },
+            { "id": "p4", "asset": "producto-gaseosa", "categoria": "gaseosas" }
+          ],
+          "pedido": { "categoria": "gaseosas", "cantidad": 2 },
+          "retro": { "ok": "aplauso", "error": "pista" }
+        },
+        {
+          "id": "f3",
+          "criterio": "C1",
+          "accion": "clasificar",
+          "estanterias": [
+            { "id": "gaseosas", "asset": "estanteria-bebidas" },
+            { "id": "jugos", "asset": "estanteria-bebidas" }
+          ],
+          "productos": [
+            { "id": "p1", "asset": "producto-gaseosa", "categoria": "gaseosas" },
+            { "id": "p2", "asset": "producto-gaseosa", "categoria": "gaseosas" },
+            { "id": "p3", "asset": "producto-gaseosa", "categoria": "gaseosas" },
+            { "id": "p4", "asset": "producto-jugo", "categoria": "jugos" }
+          ],
+          "retro": { "ok": "estrella", "error": "pista" }
+        }
+      ]
+    },
+    {
+      "dificultad": "medio",
+      "items": [
+        {
+          "id": "m1",
+          "criterio": "C1",
+          "accion": "clasificar",
+          "estanterias": [
+            { "id": "gaseosas", "asset": "estanteria-bebidas" },
+            { "id": "aguas", "asset": "estanteria-bebidas" },
+            { "id": "jugos", "asset": "estanteria-bebidas" }
+          ],
+          "productos": [
+            { "id": "p1", "asset": "producto-gaseosa", "categoria": "gaseosas" },
+            { "id": "p2", "asset": "producto-agua", "categoria": "aguas" },
+            { "id": "p3", "asset": "producto-jugo", "categoria": "jugos" },
+            { "id": "p4", "asset": "producto-gaseosa", "categoria": "gaseosas" },
+            { "id": "p5", "asset": "producto-agua", "categoria": "aguas" },
+            { "id": "p6", "asset": "producto-jugo", "categoria": "jugos" }
+          ],
+          "retro": { "ok": "estrella", "error": "pista" }
+        },
+        {
+          "id": "m2",
+          "criterio": "C1",
+          "accion": "pedido",
+          "consigna": { "asset": "producto-gaseosa", "texto": "3" },
+          "estanterias": [
+            { "id": "gaseosas", "asset": "estanteria-bebidas" },
+            { "id": "aguas", "asset": "estanteria-bebidas" },
+            { "id": "jugos", "asset": "estanteria-bebidas" }
+          ],
+          "productos": [
+            { "id": "p1", "asset": "producto-gaseosa", "categoria": "gaseosas" },
+            { "id": "p2", "asset": "producto-gaseosa", "categoria": "gaseosas" },
+            { "id": "p3", "asset": "producto-gaseosa", "categoria": "gaseosas" },
+            { "id": "p4", "asset": "producto-agua", "categoria": "aguas" },
+            { "id": "p5", "asset": "producto-jugo", "categoria": "jugos" },
+            { "id": "p6", "asset": "producto-agua", "categoria": "aguas" }
+          ],
+          "pedido": { "categoria": "gaseosas", "cantidad": 3 },
+          "retro": { "ok": "aplauso", "error": "pista" }
+        },
+        {
+          "id": "m3",
+          "criterio": "C1",
+          "accion": "pedido",
+          "consigna": { "asset": "producto-agua", "texto": "2" },
+          "estanterias": [
+            { "id": "gaseosas", "asset": "estanteria-bebidas" },
+            { "id": "aguas", "asset": "estanteria-bebidas" },
+            { "id": "jugos", "asset": "estanteria-bebidas" }
+          ],
+          "productos": [
+            { "id": "p1", "asset": "producto-agua", "categoria": "aguas" },
+            { "id": "p2", "asset": "producto-agua", "categoria": "aguas" },
+            { "id": "p3", "asset": "producto-gaseosa", "categoria": "gaseosas" },
+            { "id": "p4", "asset": "producto-jugo", "categoria": "jugos" },
+            { "id": "p5", "asset": "producto-jugo", "categoria": "jugos" },
+            { "id": "p6", "asset": "producto-gaseosa", "categoria": "gaseosas" }
+          ],
+          "pedido": { "categoria": "aguas", "cantidad": 2 },
+          "retro": { "ok": "estrella", "error": "pista" }
+        }
+      ]
+    },
+    {
+      "dificultad": "avanzado",
+      "items": [
+        {
+          "id": "a1",
+          "criterio": "C1",
+          "accion": "clasificar",
+          "estanterias": [
+            { "id": "gaseosas", "asset": "estanteria-bebidas" },
+            { "id": "aguas", "asset": "estanteria-bebidas" },
+            { "id": "jugos", "asset": "estanteria-bebidas" }
+          ],
+          "productos": [
+            { "id": "p1", "asset": "producto-gaseosa", "categoria": "gaseosas" },
+            { "id": "p2", "asset": "producto-gaseosa", "categoria": "gaseosas" },
+            { "id": "p3", "asset": "producto-gaseosa", "categoria": "gaseosas" },
+            { "id": "p4", "asset": "producto-gaseosa", "categoria": "gaseosas" },
+            { "id": "p5", "asset": "producto-gaseosa", "categoria": "gaseosas" },
+            { "id": "p6", "asset": "producto-jugo", "categoria": "jugos" },
+            { "id": "p7", "asset": "producto-jugo", "categoria": "jugos" },
+            { "id": "p8", "asset": "producto-jugo", "categoria": "jugos" },
+            { "id": "p9", "asset": "producto-agua", "categoria": "aguas" },
+            { "id": "p10", "asset": "producto-agua", "categoria": "aguas" }
+          ],
+          "retro": { "ok": "estrella", "error": "pista" }
+        },
+        {
+          "id": "a2",
+          "criterio": "C1",
+          "accion": "pedido",
+          "consigna": { "asset": "producto-jugo", "texto": "4" },
+          "estanterias": [
+            { "id": "gaseosas", "asset": "estanteria-bebidas" },
+            { "id": "aguas", "asset": "estanteria-bebidas" },
+            { "id": "jugos", "asset": "estanteria-bebidas" }
+          ],
+          "productos": [
+            { "id": "p1", "asset": "producto-jugo", "categoria": "jugos" },
+            { "id": "p2", "asset": "producto-jugo", "categoria": "jugos" },
+            { "id": "p3", "asset": "producto-jugo", "categoria": "jugos" },
+            { "id": "p4", "asset": "producto-jugo", "categoria": "jugos" },
+            { "id": "p5", "asset": "producto-gaseosa", "categoria": "gaseosas" },
+            { "id": "p6", "asset": "producto-gaseosa", "categoria": "gaseosas" },
+            { "id": "p7", "asset": "producto-gaseosa", "categoria": "gaseosas" },
+            { "id": "p8", "asset": "producto-agua", "categoria": "aguas" },
+            { "id": "p9", "asset": "producto-agua", "categoria": "aguas" }
+          ],
+          "pedido": { "categoria": "jugos", "cantidad": 4 },
+          "retro": { "ok": "aplauso", "error": "pista" }
+        },
+        {
+          "id": "a3",
+          "criterio": "C1",
+          "accion": "pedido",
+          "consigna": { "asset": "producto-gaseosa", "texto": "5" },
+          "estanterias": [
+            { "id": "gaseosas", "asset": "estanteria-bebidas" },
+            { "id": "aguas", "asset": "estanteria-bebidas" },
+            { "id": "jugos", "asset": "estanteria-bebidas" }
+          ],
+          "productos": [
+            { "id": "p1", "asset": "producto-gaseosa", "categoria": "gaseosas" },
+            { "id": "p2", "asset": "producto-gaseosa", "categoria": "gaseosas" },
+            { "id": "p3", "asset": "producto-gaseosa", "categoria": "gaseosas" },
+            { "id": "p4", "asset": "producto-gaseosa", "categoria": "gaseosas" },
+            { "id": "p5", "asset": "producto-gaseosa", "categoria": "gaseosas" },
+            { "id": "p6", "asset": "producto-jugo", "categoria": "jugos" },
+            { "id": "p7", "asset": "producto-jugo", "categoria": "jugos" },
+            { "id": "p8", "asset": "producto-jugo", "categoria": "jugos" },
+            { "id": "p9", "asset": "producto-jugo", "categoria": "jugos" },
+            { "id": "p10", "asset": "producto-agua", "categoria": "aguas" }
+          ],
+          "pedido": { "categoria": "gaseosas", "cantidad": 5 },
+          "retro": { "ok": "estrella", "error": "pista" }
+        }
+      ]
+    }
+  ],
+  "evaluacion": { "minimoLogro": 0.6 }
+}
