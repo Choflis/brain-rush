@@ -48,7 +48,7 @@ Todo corre en el plan gratuito o de bajo costo de Cloudflare durante el piloto. 
 ## 3. Estructura del repositorio (propuesta)
 
 ```
-brain-rush/                       (renombrar al nombre definitivo)
+brain-rush/                       (raíz del repositorio)
 ├─ apps/
 │  ├─ web/                        React: panel docente, panel alumno, reproductor
 │  └─ api/                        Worker: Hono + rutas + servicios

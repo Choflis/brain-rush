@@ -1,125 +1,102 @@
-# Cobertura de retos · Aula Conecta
+# Cobertura de retos · BRAIN RUSH
 
-Este documento indica qué retos de hack4edu 2026 cubre el sistema, con qué grado y con qué justificación. Las descripciones de los retos están en [retos-hack4edu-2026.md](retos-hack4edu-2026.md). Los requisitos se citan con su identificador de [02 · Requisitos](../especificacion/02-requisitos.md) y el alcance del MVP está en [04 · MVP](../especificacion/04-mvp-hack4edu.md).
+Este documento define qué retos de hack4edu 2026 cubre BRAIN RUSH. La base es el MVP descrito en [02 · Requisitos](../especificacion/02-requisitos.md), no los ejemplos de `docs/examples/`. El corte que se entrega el 5 de noviembre está en [04 · MVP](../especificacion/04-mvp-hack4edu.md).
 
-## Regla de declaración
+Se reclaman **cuatro retos como máximo**: uno principal y tres secundarios.
 
-Las bases piden inscribir al grupo con **el problema en que van a trabajar** (singular). El premio transversal se concede al proyecto que «dé respuesta a uno de los retos» con distintivo ProFuturo (Base 7.c).
+## Reto principal
 
-Por eso el sistema se declara con **un reto principal**, que es el que se inscribe y el que opta al premio. Los demás retos se citan como **cobertura secundaria**: el sistema contribuye a ellos, pero no se presenta como su solución completa.
+**11 · Una segunda oportunidad para aprender** (✅ Reto ProFuturo)
 
-**Reto principal declarado: 11 · Una segunda oportunidad para aprender** (✅ Reto ProFuturo).
+Es el reto que se inscribe y el que opta al Premio Retos ProFuturo de 1.000 €. Las bases piden inscribir el grupo con un solo problema (Base 3), así que solo este reto se declara como principal.
 
-## Niveles de cobertura
+**Qué pide:** identificar dificultades concretas de aprendizaje, proponer actividades de recuperación personalizadas (con juegos educativos, IA o sistemas adaptativos), funcionar con conectividad limitada y permitir que el docente supervise si hay mejoras.
 
-| Nivel | Significado |
-|---|---|
-| **Principal** | El sistema resuelve el núcleo del reto y se demuestra en el MVP. |
-| **Secundaria** | El sistema aporta una parte concreta del reto, con funcionalidad que se puede demostrar. No resuelve el reto completo. |
-| **Tangencial** | Relación de contexto sin funcionalidad propia. No se reclama. |
+**Cómo lo cubre BRAIN RUSH:**
+
+- **Identificar dificultades.** Cada ítem del juego está ligado a un criterio de evaluación de la sesión (RF-25). El panel muestra aciertos por criterio y por alumno (RF-61) y una lista de alumnos en riesgo (RF-62).
+- **Recuperación personalizada.** El juego sale de la sesión y tiene tres niveles de dificultad (RF-24). El docente lo ajusta con un pedido en lenguaje natural, que crea una nueva versión (RF-30, RF-31).
+- **Juegos educativos.** Es el producto principal: juegos de recorrido, emparejar y clasificar generados desde el currículo (RF-22).
+- **Conectividad limitada.** El juego guarda el progreso sin conexión y lo envía después (RF-42). La versión impresa se escanea desde el celular, sin dispositivo para el alumno (RF-50 a RF-55).
+- **Supervisión docente.** El docente revisa el juego antes de publicarlo (RN-05), confirma las hojas escaneadas (RF-53) y ve los resultados en el panel (RF-60 a RF-62).
+
+**Límites que deben decirse en el pitch:**
+
+- El reto menciona lectura, escritura y matemáticas. El MVP cubre solo **matemática** (conversiones de longitud, en el caso de demostración).
+- El sistema **no demuestra mejora de aprendizaje**. Solo registra resultados. Para medir mejora haría falta una evaluación inicial y otra final.
+
+## Retos secundarios
+
+### 14 · Aprender jugando, progresar de verdad
+
+No tiene distintivo ProFuturo, así que no suma al premio. Se declara como enfoque secundario porque es el reto más directo para el motor de juegos.
+
+**Qué pide:** juegos que demuestren aprendizaje y no solo participación, con dificultad adaptada, retroalimentación personalizada y medición de lo aprendido.
+
+**Cómo lo cubre BRAIN RUSH:**
+
+- **Medir aprendizaje.** La puntuación se da por criterio de la sesión (RF-25), no por puntos de juego. El panel separa participación (RF-60) de aciertos por criterio (RF-61).
+- **Retroalimentación.** Cada respuesta tiene un gesto visual de acierto o de pista, sin texto obligatorio (RF-26, RF-45).
+- **Dificultad.** Tres niveles definidos en el juego (RF-24).
+
+**Límites:**
+
+- La dificultad **no se adapta sola** al desempeño del alumno. El docente elige el nivel. La adaptación automática no está en los requisitos actuales.
+- El modo de activación en clase (RF-44) está fuera del corte del hackathon.
+
+### 02 · Aprender sin conexión
+
+Tiene distintivo ProFuturo. Se declara como secundario porque la versión impresa es la respuesta directa al caso del alumno sin dispositivo ni conexión en casa, que el producto debe atender desde el inicio.
+
+**Qué pide:** una experiencia que funcione sin conexión estable y se sincronice después.
+
+**Cómo lo cubre BRAIN RUSH:**
+
+- El juego se juega sin conexión y guarda el progreso en el dispositivo (RF-42, RNF-04).
+- La hoja impresa funciona sin dispositivo ni red. Se escanea después y el resultado queda registrado (RF-50 a RF-55).
+
+**Límites:**
+
+- Generar juegos y ver el panel requieren conexión. Solo el juego y la hoja impresa funcionan sin red.
+- En el corte del hackathon, la sincronización se prueba solo con desconexión simple.
+
+### 13 · La escuela que aprende de sus datos
+
+Tiene distintivo ProFuturo. Se declara como secundario porque el panel docente convierte los resultados en información comprensible.
+
+**Qué pide:** transformar los datos educativos en información comprensible para decidir mejor, sin decisiones automáticas sobre alumnos y con privacidad.
+
+**Cómo lo cubre BRAIN RUSH:**
+
+- El panel muestra participación, aciertos por criterio, mapa de calor y lista de riesgo con una explicación de cada indicador (RF-60 a RF-62, RF-66).
+- El sistema solo muestra alertas. Las decisiones quedan en el docente (RN-05, RN-06).
+- La minimización de datos de menores (RNF-08) limita lo que se recoge.
+
+**Límites:**
+
+- El análisis es por aula y por criterio. No cruza datos de otras fuentes, como asistencia oficial o formación docente.
+- La comparación entre aulas (RF-63) queda fuera del corte del hackathon.
+
+## Retos no reclamados
+
+Estos retos tienen relación con algún aspecto del producto, pero no se reclaman en el pitch, porque el MVP no lo resuelve de forma directa:
+
+- **24 · IA para ayudar a los más pequeños:** coincide con el público de primer grado, pero el MVP apunta a 1.º a 6.º. Podría ser un candidato si el equipo decide enfocarse en los más pequeños.
+- **03 · Un contenido, muchas formas de aprender:** el juego ofrece formatos visuales, pero no convierte materiales de terceros ni genera audio o subtítulos.
+- **10 · Tecnología que encuentre a quien estamos dejando atrás:** el panel no registra conectividad, discapacidad ni idioma, por minimización de datos.
+- **05 · Detectar antes de que sea demasiado tarde:** la lista de riesgo es básica y no usa tendencias ni modelos predictivos.
+
+Los demás retos no tienen relación con el MVP.
 
 ## Resumen
 
-| Reto | Distintivo | Nivel | Funcionalidades que lo sostienen |
+| Reto | Distintivo ProFuturo | Rol | Justificación central |
 |---|---|---|---|
-| **11 · Una segunda oportunidad para aprender** | ✅ | **Principal** | RF-20, RF-22, RF-24, RF-25, RF-61, RF-62, RF-42, RF-50 a RF-55 |
-| **14 · Aprender jugando, progresar de verdad** | | **Principal** (dentro del MVP) | RF-22, RF-24, RF-25, RF-45, RF-61 |
-| 02 · Aprender sin conexión | ✅ | Secundaria | RF-42, RF-50 a RF-55, RNF-04 |
-| 24 · IA para ayudar a los más pequeños | | Secundaria | RF-26, RNF-02, RF-43 |
-| 13 · La escuela que aprende de sus datos | ✅ | Secundaria | RF-60 a RF-64, RN-06 |
-| 03 · Un contenido, muchas formas de aprender | ✅ | Secundaria | RF-26 (audio e imagen), RNF-01, RNF-02 |
-| 10 · Tecnología que encuentre a quien estamos dejando atrás | ✅ | Secundaria | RF-62, RF-63, RNF-08 |
-| 05 · Detectar antes de que sea demasiado tarde | | Secundaria | RF-62 (alumnos en riesgo), RN-06 |
-| 20 · Que ningún talento pase desapercibido | ✅ | Tangencial | — |
-| 26 · Cada uno con su ritmo | | Tangencial | — |
-| Resto de retos (01, 04, 06–09, 12, 15–19, 21–23, 25, 27–29) | Varios | Sin cobertura | — |
-
-## Justificación por reto
-
-### 11 · Una segunda oportunidad para aprender (principal)
-
-Pide identificar dificultades concretas, proponer actividades de recuperación personalizadas con juegos educativos, funcionar con conectividad limitada y permitir que el docente supervise si hay mejoras.
-
-- **Identificar dificultades:** cada ítem del juego está ligado a un criterio de la sesión (RF-25). Los aciertos se agregan por criterio y por alumno (RF-61). Los alumnos con aciertos bajos en un criterio aparecen en la lista de riesgo (RF-62, HU-6).
-- **Actividades de recuperación personalizadas:** el juego se genera desde la sesión y tiene tres niveles de dificultad (RF-24). El docente puede ajustarlo con un pedido en lenguaje natural (RF-30).
-- **Juegos educativos:** el motor de mecánicas de juego (RF-22).
-- **Conectividad limitada:** el juego guarda el progreso sin conexión y lo envía después (RF-42), y existe una versión impresa que se escanea (RF-50 a RF-55).
-- **Supervisión docente:** el docente revisa cada juego antes de publicarlo (RN-05), confirma las hojas escaneadas (RF-53) y ve los resultados en el panel (RF-60 a RF-62).
-- **Comprobar mejoras:** la comparación entre intentos y entre juegos del mismo criterio permite ver si un alumno mejora. **Limitación del MVP:** sin una evaluación previa y otra posterior no se mide mejora de aprendizaje. Se debe presentar como una capacidad del sistema y no como un resultado demostrado.
-
-**Límite del reto:** el texto menciona lectura, escritura y matemáticas. El MVP cubre solo matemática (conversiones de longitud). La cobertura de lectura y escritura queda como trabajo futuro, y el pitch no debe presentarla como hecha.
-
-### 14 · Aprender jugando, progresar de verdad (principal dentro del MVP)
-
-Pide que el juego demuestre aprendizaje y no solo participación: adaptar la dificultad, retroalimentar, medir lo aprendido y distinguir participación de aprendizaje real.
-
-- **Medir aprendizaje:** los aciertos se registran por criterio y no por puntos (RF-25, RF-61). El panel separa participación (RF-60) de aciertos (RF-61).
-- **Retroalimentación:** cada respuesta tiene una respuesta visual de acierto o pista (RF-26, [arte](../arte-conceptual.md)).
-- **Dificultad adaptada:** tres niveles (RF-24). **Limitación del MVP:** la dificultad no cambia sola según el desempeño del alumno. Se hace por nivel elegido por el docente, por lo que la adaptación automática queda como trabajo futuro.
-- **Distinguir juego de aprendizaje:** las insignias (RF-45) no sustituyen las métricas del panel. El alumno ve insignias y el docente ve criterios.
-
-**Por qué no tiene distintivo:** el reto 14 no está marcado como ProFuturo. Es secundario para el premio, pero es el reto más cercano a la propuesta y conviene mencionarlo en el pitch.
-
-### 02 · Aprender sin conexión (secundaria, con distintivo)
-
-Pide una experiencia offline-first que sincronice cuando vuelva la red.
-
-- El juego se juega sin conexión, guarda el progreso localmente y lo envía después (RF-42, RNF-04, HU-4).
-- La versión impresa funciona sin dispositivo ni red (RF-50 a RF-55, HU-5).
-- **Limitación:** en el MVP la sincronización se prueba con desconexión simple. No se garantiza el funcionamiento offline de la generación de juegos ni del panel, que requieren conexión.
-
-### 24 · IA para ayudar a los más pequeños (secundaria)
-
-Pide instrucciones sencillas, visuales y con audio para niños pequeños, con actividades con materiales cotidianos y recursos limitados.
-
-- Las instrucciones son animadas y con texto máximo de 12 palabras para grados 1.º a 3.º (RF-26, RNF-02). El tutorial no requiere lectura (RF-43, HU-3).
-- **Limitación:** el audio es opcional y depende de la voz del navegador (ver 01, sección 5). Las actividades con materiales cotidianos (por ejemplo, usar una regla de casa) no están en el MVP. Se pueden añadir como actividades de la hoja impresa.
-
-### 13 · La escuela que aprende de sus datos (secundaria, con distintivo)
-
-Pide transformar datos escolares en información comprensible para docentes y directores, sin decisiones automáticas sobre alumnos y con privacidad.
-
-- El panel convierte los resultados en tablas, mapas de calor y listas de riesgo con una explicación (RF-60 a RF-62, RF-66).
-- Las decisiones quedan en el docente (RN-05, RN-06). El sistema solo muestra alertas, no decide.
-- **Limitación:** el análisis es a nivel de aula y criterio. No incluye analítica de la escuela completa ni datos de otras fuentes (asistencia oficial, formación docente).
-
-### 03 · Un contenido, muchas formas de aprender (secundaria, con distintivo)
-
-Pide convertir un recurso en formatos accesibles.
-
-- Un mismo juego se presenta como pantalla digital, hoja impresa y, en la biblioteca de assets, con texto reducido e ilustraciones (RF-26, RNF-01, RNF-02).
-- **Limitación:** no convierte materiales de terceros ni genera audio ni subtítulos automáticos en el MVP. La cobertura es la del formato de juego, no la del reto completo.
-
-### 10 · Tecnología que encuentre a quien estamos dejando atrás (secundaria, con distintivo)
-
-Pide detectar brechas de acceso y aprendizaje sin identificar individualmente de forma discriminatoria.
-
-- El panel identifica alumnos con bajo desempeño por criterio, y los compara entre aulas (RF-62, RF-63).
-- La versión impresa llega a quien no tiene dispositivo (RF-50 a RF-55).
-- **Limitación:** el sistema no registra conectividad, discapacidad ni idioma de los alumnos. Por el principio de minimización (RNF-08) no los recoge. Solo ve el resultado, no la causa de la brecha. Por eso la cobertura es parcial.
-
-### 05 · Detectar antes de que sea demasiado tarde (secundaria)
-
-Pide señales tempranas de dificultad y explicar qué factores provocan cada alerta, sin etiquetar al alumno.
-
-- La lista de riesgo indica el criterio con bajo desempeño (RF-62, HU-6), que es la explicación de la alerta.
-- **Limitación:** la alerta se basa en pocos juegos y no en tendencias de largo plazo. No hay modelo predictivo. El reto menciona señales de participación y progreso, que el MVP solo cubre en parte.
-
-## Retos tangenciales y sin cobertura
-
-- **20 · Que ningún talento pase desapercibido:** los juegos miden criterios de matemática, no habilidades como creatividad o liderazgo. No se reclama.
-- **26 · Cada uno con su ritmo:** el sistema no sigue la explicación del docente en tiempo real. La activación en sala (RF-44) queda como trabajo futuro. No se reclama.
-- **Otros retos:** no tienen relación con la funcionalidad del MVP (por ejemplo, 22 sobre comunicación para personas con discapacidad auditiva, o 17 sobre laboratorios virtuales).
-
-## Qué declarar en el pitch
-
-1. **Reto principal:** 11. El MVP demuestra identificación de dificultades por criterio, juego de recuperación y supervisión docente.
-2. **Reto 14:** citado como enfoque de medición de aprendizaje, no como premio.
-3. **Cobertura secundaria:** 02, 24, 13, 03, 10 y 05, cada uno con una frase que indique lo que el MVP aporta y lo que no.
-4. **Límites:** lectura y escritura no están cubiertas, no hay medición de mejora real, la dificultad no se adapta sola y la conectividad no se registra.
-
-Declarar límites reduce el riesgo de que el jurado perciba la propuesta como exagerada.
+| 11 · Una segunda oportunidad para aprender | ✅ | Principal | Juegos de recuperación desde la sesión, identificación por criterio y supervisión docente. |
+| 14 · Aprender jugando, progresar de verdad | | Secundario | Juegos que miden aprendizaje por criterio, no por puntos. |
+| 02 · Aprender sin conexión | ✅ | Secundario | Juego sin conexión y versión impresa para quien no tiene dispositivo. |
+| 13 · La escuela que aprende de sus datos | ✅ | Secundario | Panel docente con explicaciones y sin decisiones automáticas. |
 
 ## Punto a confirmar con la coordinación
 
-Las bases hablan de un problema por equipo, así que se debe confirmar si el proyecto puede citar varios retos. Este documento asume que solo el principal se inscribe y que los secundarios se mencionan como cobertura parcial.
+Confirmar que el premio transversal depende solo del reto declarado como principal (11), y que los secundarios se pueden mencionar en el pitch sin inscribirse en ellos.

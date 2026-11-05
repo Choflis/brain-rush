@@ -44,7 +44,7 @@ Cada punto del texto corresponde a una parte de nuestro proyecto:
 | El docente supervisa | Revisión obligatoria antes de publicar (RN-05), panel de métricas y confirmación de hojas escaneadas. |
 | Comprobar mejoras | Comparación de aciertos por criterio entre juegos de una misma competencia. |
 
-El **Reto 14** («Aprender jugando, progresar de verdad») es muy cercano, pero no tiene distintivo ProFuturo. Lo mencionamos en el pitch como parte de nuestra propuesta, sin presentarnos a él.
+La cobertura completa, con los cuatro retos declarados como máximo (11 principal; 14, 02 y 13 secundarios) y sus límites, está en [cobertura de retos](../bases/cobertura-retos.md). Solo el Reto 11 se inscribe.
 
 **Rúbrica del Premio Retos ProFuturo** (Base 6.c, jurado internacional): impacto social en contextos vulnerables (25 %), enfoque inclusivo y equitativo (25 %), sostenibilidad y escalabilidad (25 %) y uso ético y responsable de la IA (25 %). Los argumentos del pitch deben apoyarse en estos cuatro puntos.
 
@@ -178,7 +178,7 @@ Si al final de la mañana M4 o M8 no funcionan, se recorta a una demo con juego 
 
 | # | Decisión | Opciones | Recomendación |
 |---|---|---|---|
-| D1 | Nombre del producto | Aula Conecta / otro | Mantener «Aula Conecta» para el hackathon y revisar después. |
+| D1 | Nombre del producto | — | **Resuelto:** el MVP se llama BRAIN RUSH. |
 | D2 | Modalidad | Innovadora / senior | **Innovadora** (ya decidida). Ver sección 2. |
 | D3 | Reto | Reto 11 / Reto 14 / otro | **Reto 11** (distintivo ProFuturo, encaje directo). |
 | D4 | Motor de juego | Phaser / PixiJS | Phaser (más rápido de montar). |

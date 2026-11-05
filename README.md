@@ -1,8 +1,6 @@
-# Aula Conecta · Motor de juegos educativos desde la sesión de clase
+# BRAIN RUSH · Motor de juegos educativos desde la sesión de clase
 
-> Nombre de trabajo. El nombre definitivo está pendiente de decisión.
-
-**Aula Conecta** es una plataforma B2B para colegios de primaria. Convierte las sesiones de aprendizaje que ya escribe cada docente en **videojuegos educativos generados con IA**, que se pueden jugar en la web, imprimir en papel y revisar desde un panel de métricas.
+**BRAIN RUSH** es una plataforma B2B para colegios de primaria. Convierte las sesiones de aprendizaje que ya escribe cada docente en **videojuegos educativos generados con IA**, que se pueden jugar en la web, imprimir en papel y revisar desde un panel de métricas.
 
 Los juegos son de dos tipos:
 

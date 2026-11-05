@@ -218,18 +218,6 @@ Diseña una solución basada en IA que funcione offline y que permita ser usada 
 
 ---
 
-## Retos afines a nuestro proyecto
+## Cobertura de BRAIN RUSH
 
-Nuestro proyecto convierte la sesión de clase en juegos educativos, con versión impresa para quienes no tienen dispositivo y con métricas para el docente.
-
-| Reto | Afinidad | Motivo |
-|---|---|---|
-| **11 · Una segunda oportunidad para aprender** (✅ ProFuturo) | **Alta** | Pide juegos educativos para recuperar aprendizajes en matemáticas y lectura, con supervisión docente y funcionamiento con conectividad limitada. Es el encaje principal. |
-| 14 · Aprender jugando, progresar de verdad | Alta | Pide juegos que midan aprendizaje real y no solo participación. Es el reto más directo, pero **no tiene el distintivo ProFuturo**. |
-| 24 · IA para ayudar a los más pequeños | Alta | Instrucciones visuales y con audio para niños pequeños, con recursos limitados. No tiene distintivo. |
-| 02 · Aprender sin conexión (✅ ProFuturo) | Media | Versión impresa y sincronización posterior. |
-| 13 · La escuela que aprende de sus datos (✅ ProFuturo) | Media | Panel de métricas para el docente. |
-| 20 · Que ningún talento pase desapercibido (✅ ProFuturo) | Media | Identificar fortalezas más allá de las notas, con juegos. |
-| 26 · Cada uno con su ritmo | Baja | Seguimiento en tiempo real de la clase. |
-
-**Recomendación:** presentarse al **Reto 11**. Tiene distintivo ProFuturo, así que el proyecto opta también al Premio de 1.000 €. Además, su texto coincide con nuestro MVP: juegos educativos, supervisión docente y funcionamiento en escuelas con conectividad limitada. Hay que enfocar el MVP en la recuperación de aprendizajes en Matemática (conversiones de longitud) y dejar claro cómo el docente supervisa la mejora.
+BRAIN RUSH declara cuatro retos como máximo: **11** (principal, ProFuturo), **14**, **02** y **13** (estos dos últimos con distintivo ProFuturo, pero secundarios). La justificación, con sus límites, está en [cobertura-retos.md](cobertura-retos.md).

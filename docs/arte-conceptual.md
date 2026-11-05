@@ -1,4 +1,4 @@
-# Dirección de arte · Aula Conecta
+# Dirección de arte · BRAIN RUSH
 
 Referencia visual: `docs/design/idea.jpeg`.
 
@@ -12,7 +12,7 @@ Referencia visual: `docs/design/idea.jpeg`.
 
 ## Qué no tomamos
 
-- **Personajes de otras obras.** La referencia muestra personajes de una película de animación. No se usan ni se imitan sus personajes, su nombre ni su logotipo. Las mascotas de Aula Conecta son originales.
+- **Personajes de otras obras.** La referencia muestra personajes de una película de animación. No se usan ni se imitan sus personajes, su nombre ni su logotipo. Las mascotas de BRAIN RUSH son originales.
 - **Texto en la referencia.** Los textos de la imagen están en otro idioma y se usan solo como guía de estilo, no como contenido.
 
 ## Principios para niños que aún no leen

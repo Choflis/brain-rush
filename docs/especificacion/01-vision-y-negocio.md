@@ -9,7 +9,7 @@
 
 ## 2. Propuesta de valor
 
-Para **colegios de primaria** que quieren innovar en el aula con transformación digital, Aula Conecta es un **motor que genera videojuegos a partir de la sesión de aprendizaje del docente**. A diferencia de un banco de preguntas, genera **mecánicas, misiones, escenarios, niveles de dificultad y evaluaciones** alineadas a la competencia y al desempeño de la sesión.
+Para **colegios de primaria** que quieren innovar en el aula con transformación digital, BRAIN RUSH es un **motor que genera videojuegos a partir de la sesión de aprendizaje del docente**. A diferencia de un banco de preguntas, genera **mecánicas, misiones, escenarios, niveles de dificultad y evaluaciones** alineadas a la competencia y al desempeño de la sesión.
 
 Diferenciadores:
 
