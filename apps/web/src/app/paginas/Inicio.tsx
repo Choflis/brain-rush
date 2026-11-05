@@ -15,6 +15,7 @@ export function Inicio() {
           educativo. Sin cuestionarios: el alumno arrastra, cuenta, convierte y juega.
         </p>
         <div className="acciones">
+          <a href="/tiendita.html" className="boton boton-primario boton-grande">Probar activación de 1.º</a>
           <Link to="/docente" className="boton boton-primario boton-grande">
             Abrir panel docente
           </Link>
@@ -34,7 +35,7 @@ export function Inicio() {
               El docente proyecta la escena y el aula juega desde sus dispositivos. La meta es
               colectiva: entre todos llenan el camión de la tiendita.
             </p>
-            <span className="pastilla">La tiendita · 1.º y 2.º</span>
+            <span className="pastilla">La tiendita · 1.º</span>
           </article>
           <article className="tarjeta">
             <span className="tarjeta-numero">02</span>

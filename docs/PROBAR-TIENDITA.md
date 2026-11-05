@@ -19,6 +19,9 @@ Para revisar los eventos, añadir ?debug=1 a la URL. El registro se puede descar
 
 - Seis actividades de clasificación: llevar cada producto a su estante.
 - Seis pedidos: preparar una bolsa con la cantidad solicitada.
+- Después de cada actividad, contar y colocar una etiqueta del 0 al 10. En las clasificaciones avanzadas se cuenta el grupo completo.
+- Resumen docente con observaciones por criterio, primer intento sin ayuda, pistas y correcciones; exportación local de evidencias en JSON.
+- Cierre anticipado desde pausa para revisar una activación breve con evidencia parcial.
 - Tres dificultades, con dos categorías al inicio y hasta diez productos en avanzadas.
 - Arrastre con mouse/dedo o selección de producto seguida del destino.
 - Controles por teclado, tutorial distinto para cada acción, ayuda y pausa.

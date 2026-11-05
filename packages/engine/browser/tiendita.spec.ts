@@ -35,6 +35,9 @@ async function solve(page: Page, index: number) {
     await page.locator(`[data-product-id="${p.id}"]`).click();
     await page.locator(`[data-destination="${pedido ? "bolsa" : p.categoria}"]`).click();
   }
+  const quantity = item.accion === "clasificar" && index >= 8 ? item.productos.length : pedido?.cantidad ?? item.productos.filter(p => p.categoria === item.estanterias[0]!.id).length;
+  await page.getByRole("button", { name: `Etiqueta ${quantity}`, exact: true }).click();
+  await page.getByRole("button", { name: /^Pegar etiqueta/ }).click();
 }
 
 test.beforeAll(async () => { await mkdir(shots, { recursive: true }); });
@@ -55,6 +58,10 @@ test("portada y recursos reales, luego partida completa de 12 actividades", asyn
   expect(log.filter(e => e.tipo === "respuesta")).toHaveLength(12);
   expect(new Set(log.filter(e => e.tipo === "respuesta").map(e => e.itemId)).size).toBe(12);
   expect(log.filter(e => e.tipo === "fin")).toEqual([expect.objectContaining({ completado: true, total: 12 })]);
+  await expect(page.locator(".teacher-report")).toBeVisible();
+  await page.locator(".teacher-report summary").click();
+  await expect(page.locator(".teacher-report tbody tr")).toHaveCount(2);
+  await expect(page.getByRole("button", { name: "Descargar evidencias curriculares" })).toBeVisible();
   expect(errors).toEqual([]);
   await page.screenshot({ path: `${shots}/final-desktop.png`, fullPage: true });
 });
@@ -177,4 +184,35 @@ test('horizontal: diez productos y destinos visibles', async ({ page }) => {
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   await expect(page.locator('.feedback-bubble.is-visible')).toHaveCount(0, { timeout: 3000 });
   await page.screenshot({ path: `${shots}/clasificacion-horizontal.png` });
+});
+
+test("etiqueta numérica: una corrección no cuenta como primer intento", async ({ page }) => {
+  await open(page); await start(page);
+  for (const p of rounds[0]!.productos) {
+    await page.locator(`[data-product-id="${p.id}"]`).click();
+    await page.locator(`[data-destination="${p.categoria}"]`).click();
+  }
+  await expect(page.locator(".number-challenge")).toBeVisible();
+  await page.screenshot({ path: `${shots}/representacion-desktop.png`, fullPage: true });
+  await page.setViewportSize({ width: 390, height: 844 });
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+  await page.screenshot({ path: `${shots}/representacion-mobile.png`, fullPage: true });
+  await page.setViewportSize({ width: 844, height: 390 });
+  const labels = await page.locator('.number-token, .number-target').evaluateAll(nodes => nodes.map(n=>{const r=n.getBoundingClientRect();return {bottom:r.bottom,width:r.width,height:r.height};}));
+  expect(labels.every(r=>r.bottom<=390 && r.width>=56 && r.height>=56)).toBe(true);
+  await page.setViewportSize({ width: 1366, height: 900 });
+  await page.getByRole("button", { name: "Etiqueta 1", exact: true }).click();
+  await page.getByRole("button", { name: /^Pegar etiqueta/ }).click();
+  await expect(page.getByRole("status")).toHaveText("Cuenta otra vez, sin saltar ninguno.");
+  await expect(page.locator(".round-count")).toHaveText("1 de 12");
+  await page.getByRole("button", { name: "Etiqueta 2", exact: true }).click();
+  await page.getByRole("button", { name: /^Pegar etiqueta/ }).click();
+  await expect(page.locator(".round-count")).toHaveText("2 de 12");
+  await page.getByRole("button", { name: "Pausar juego" }).click();
+  await page.getByRole("button", { name: "Volver al inicio", exact: true }).click();
+  await page.locator(".teacher-report summary").click();
+  const row=page.locator(".teacher-report tbody tr").nth(1);
+  await expect(row.locator("td").nth(0)).toHaveText("1");
+  await expect(row.locator("td").nth(1)).toHaveText("0 / 1");
+  await expect(row.locator("td").nth(3)).toHaveText("1");
 });

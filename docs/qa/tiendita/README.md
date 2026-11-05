@@ -5,8 +5,8 @@ Fecha: 5 de noviembre de 2026.
 
 ## Resultado
 
-- 22 pruebas de controlador y recursos: correctas.
-- 9 pruebas de navegador Chromium: correctas, suite completa en 1,2 minutos.
+- 27 pruebas de controlador, recursos e indicadores curriculares: correctas.
+- 10 pruebas de navegador Chromium: correctas.
 - Typecheck de apps/web y packages/engine: correcto.
 - Build independiente de La tiendita: correcto.
 - Build original de apps/web: correcto.
@@ -22,6 +22,9 @@ Fecha: 5 de noviembre de 2026.
 7. Cancelación con Escape y aislamiento de punteros.
 8. Pista única temporal y tablero pausado.
 9. Horizontal 844×390: diez productos y destinos visibles, áreas de al menos 56×56.
+10. Representación numérica: corregir una etiqueta no se cuenta como primer intento; controles visibles en móvil y horizontal.
+
+El [ajuste curricular](ajuste-curricular.md) detalla el alcance de primero de primaria, los indicadores y la exportación local del resumen docente.
 
 El test horizontal espera a que termine la notificación anterior antes de guardar la imagen. Esto afecta a la evidencia visual, no a la evaluación de respuestas.
 
@@ -46,6 +49,8 @@ Un revisor independiente volvió a comprobar los hallazgos y aprobó C1+C2 en es
 - [Portada móvil](portada-mobile.png).
 - [Clasificación móvil](clasificacion-mobile.png).
 - [Clasificación horizontal](clasificacion-horizontal.png).
+- [Representación numérica](representacion-desktop.png).
+- [Representación numérica móvil](representacion-mobile.png).
 
 Las capturas proceden de la aplicación ejecutada. Son diferentes de los mockups conceptuales anteriores.
 

@@ -6,7 +6,7 @@
   "main": "src/index.ts",
   "scripts": {
     "typecheck": "tsc --noEmit",
-    "test": "node --experimental-strip-types --test tests/tienda.test.ts tests/recursos.test.ts",
+    "test": "node --experimental-strip-types --test tests/tienda.test.ts tests/recursos.test.ts tests/curriculo.test.ts",
     "test:browser": "playwright test --config browser/playwright.config.ts"
   },
   "dependencies": {

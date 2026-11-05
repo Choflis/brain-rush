@@ -16,7 +16,7 @@ export function mountTiendaWorld(parent: HTMLElement, reducedMotion: boolean): T
   let ambient: Phaser.Tweens.Tween | undefined;
   class Shop extends Phaser.Scene {
     preload() {
-      this.load.image("shop-room", "/juego/tiendita/tienda-fondo.png");
+      this.load.image("shop-room", "/juego/tiendita/tienda-fondo-calido.png");
       this.load.image("shop-guide", "/juego/tiendita/mascota.png");
     }
     create() {
@@ -59,7 +59,7 @@ export function mountTiendaWorld(parent: HTMLElement, reducedMotion: boolean): T
       const count = reducedMotion ? 1 : correct ? 7 : 2;
       for (let i = 0; i < count; i++) {
         const angle = (Math.PI * 2 * i) / count;
-        const dot = scene.add.star(x, y, 5, 3, correct ? 9 : 5, correct ? 0xc2dc75 : 0x9b7ac1).setAlpha(.95);
+        const dot = scene.add.star(x, y, 5, 3, correct ? 9 : 5, correct ? 0xc2dc75 : 0x1f7a6a).setAlpha(.95);
         scene.tweens.add({ targets: dot, x: x + Math.cos(angle) * (reducedMotion ? 0 : 55), y: y + Math.sin(angle) * (reducedMotion ? 0 : 45) - 20, alpha: 0, angle: 45, duration: reducedMotion ? 180 : 500, ease: "Cubic.easeOut", onComplete: () => dot.destroy() });
       }
     },

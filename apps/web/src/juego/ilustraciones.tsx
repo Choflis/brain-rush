@@ -53,10 +53,10 @@ export function Icono({ nombre, size = 24 }: { nombre: "play" | "pause" | "sound
 
 export function Camion({ lleno = false }: { lleno?: boolean }) {
   return <svg viewBox="0 0 116 65" fill="none" aria-hidden="true">
-    <rect x="5" y="9" width="65" height="39" rx="6" fill="#7951bb" />
+    <rect x="5" y="9" width="65" height="39" rx="6" fill="#1f7a6a" />
     {lleno && <><rect x="14" y="19" width="20" height="20" rx="3" fill="#d0ed82" /><rect x="39" y="19" width="20" height="20" rx="3" fill="#f6ca6c" /></>}
-    <path d="M70 24h22l17 17v9H70z" fill="#b6d85e" /><path d="M78 29h11l10 11H78z" fill="#eff9fc" />
-    <rect x="2" y="46" width="109" height="7" rx="3" fill="#51317f" />
+    <path d="M70 24h22l17 17v9H70z" fill="#f26a3d" /><path d="M78 29h11l10 11H78z" fill="#eff9fc" />
+    <rect x="2" y="46" width="109" height="7" rx="3" fill="#18594f" />
     <circle cx="25" cy="53" r="10" fill="#413751" /><circle cx="25" cy="53" r="4" fill="#fff6df" />
     <circle cx="91" cy="53" r="10" fill="#413751" /><circle cx="91" cy="53" r="4" fill="#fff6df" />
     <circle cx="96" cy="43" r="2" fill="#fff6df" />
