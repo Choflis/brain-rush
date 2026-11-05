@@ -23,6 +23,7 @@ function alumnoDesdeToken(token: string): Usuario | null {
 }
 
 export const soloDocente = createMiddleware<AppEnv>(async (c, next) => {
+  if (c.req.method === "OPTIONS") return next();
   const token = tokenDe(c.req.header("Authorization"));
   if (token !== TOKEN_DOCENTE) {
     throw new ErrorHttp(401, "NO_AUTORIZADO", "Falta el token de docente o no es válido.");
@@ -32,6 +33,7 @@ export const soloDocente = createMiddleware<AppEnv>(async (c, next) => {
 });
 
 export const soloAlumno = createMiddleware<AppEnv>(async (c, next) => {
+  if (c.req.method === "OPTIONS") return next();
   const token = tokenDe(c.req.header("Authorization"));
   const alumno = token ? alumnoDesdeToken(token) : null;
   if (!alumno) {
@@ -42,6 +44,7 @@ export const soloAlumno = createMiddleware<AppEnv>(async (c, next) => {
 });
 
 export const docenteOAlumno = createMiddleware<AppEnv>(async (c, next) => {
+  if (c.req.method === "OPTIONS") return next();
   const token = tokenDe(c.req.header("Authorization"));
   if (token === TOKEN_DOCENTE) {
     c.set("usuario", usuarioDocente());

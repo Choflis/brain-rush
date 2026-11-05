@@ -1,7 +1,8 @@
 import type { GameSpec } from "@brain-rush/gamespec";
+import { EJEMPLO_TIENDA_JSON } from "@brain-rush/prompts";
 import type { Hono } from "hono";
 import { alumnoActual, docenteOAlumno, soloAlumno, soloDocente } from "../auth.ts";
-import { ahora, codigoSala, itemsDeSpec, nuevoId } from "../db.ts";
+import { ahora, codigoSala, escribirJson, itemsDeSpec, nuevoId } from "../db.ts";
 import { ErrorHttp, leerCuerpo, noEncontrado, validacion } from "../errores.ts";
 import {
   EsquemaAvanzar,
@@ -101,6 +102,34 @@ async function buscarSala(db: D1Database, codigo: string): Promise<FilaSala> {
         }
       }
     }
+  }
+
+  if (!sala && (codigoLimpio.startsWith("JUEGO") || codigoLimpio.startsWith("ROOM") || codigoLimpio.startsWith("SALA"))) {
+    // Si la sala fue generada por contingencia local, auto-aprovisionarla en D1 para permitir proyectar y jugar
+    const juegoId = nuevoId();
+    const versionId = nuevoId();
+    const salaId = nuevoId();
+    const ahoraStr = ahora();
+    const spec = JSON.parse(EJEMPLO_TIENDA_JSON) as GameSpec;
+    spec.titulo = `Juego de Clase (${codigoLimpio})`;
+    const total = itemsDeSpec(spec).length;
+
+    await db.batch([
+      db.prepare(
+        `INSERT INTO games (id, sesion_id, docente_id, codigo, titulo, tipo, mecanica, nivel, estado, version_actual, creado_en)
+         VALUES (?, ?, 'u-demo-docente', ?, ?, 'activacion', 'tienda', 'N1', 'publicado', 1, ?)`,
+      ).bind(juegoId, nuevoId(), codigoLimpio, spec.titulo, ahoraStr),
+      db.prepare(
+        `INSERT INTO game_versions (id, game_id, numero, spec, origen_generacion, publicada, publicada_en, creada_en)
+         VALUES (?, ?, 1, ?, '{}', 1, ?, ?)`,
+      ).bind(versionId, juegoId, escribirJson(spec), ahoraStr, ahoraStr),
+      db.prepare(
+        `INSERT INTO rooms (id, codigo, game_id, version_id, estado, ronda, total_rondas, progreso, meta_objetivo, max_alumnos, seq, creada_en)
+         VALUES (?, ?, ?, ?, 'esperando', 1, ?, 0, 10, 40, 0, ?)`,
+      ).bind(salaId, codigoLimpio, juegoId, versionId, total, ahoraStr),
+    ]);
+
+    sala = await db.prepare("SELECT * FROM rooms WHERE id = ?").bind(salaId).first<FilaSala>();
   }
 
   if (!sala) noEncontrado("La sala no existe.");

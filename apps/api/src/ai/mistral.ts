@@ -26,7 +26,7 @@ export class MistralProvider implements LLMProvider {
   }
 
   async generarJSON(prompt: string): Promise<RespuestaJSON> {
-    const reintentos = this.opts.reintentos ?? 2;
+    const reintentos = this.opts.reintentos ?? 1;
     let ultimo: unknown;
     for (let intento = 0; intento <= reintentos; intento++) {
       try {
@@ -34,7 +34,7 @@ export class MistralProvider implements LLMProvider {
       } catch (e) {
         ultimo = e;
         if (intento < reintentos) {
-          await new Promise((r) => setTimeout(r, 1000 * 2 ** intento));
+          await new Promise((r) => setTimeout(r, 600 * 2 ** intento));
         }
       }
     }
@@ -56,7 +56,7 @@ export class MistralProvider implements LLMProvider {
         response_format: { type: "json_object" },
         temperature: 0.2,
       }),
-      signal: AbortSignal.timeout(this.opts.tiempoMs ?? 45_000),
+      signal: AbortSignal.timeout(this.opts.tiempoMs ?? 25_000),
     });
 
     if (!res.ok) {
@@ -153,7 +153,7 @@ export class MistralProvider implements LLMProvider {
           Authorization: `Bearer ${this.opts.apiKey}`,
         },
         body: formData,
-        signal: AbortSignal.timeout(45_000),
+        signal: AbortSignal.timeout(8_000),
       });
 
       if (!fileRes.ok) {
@@ -179,7 +179,7 @@ export class MistralProvider implements LLMProvider {
             },
             table_format: "markdown",
           }),
-          signal: AbortSignal.timeout(60_000),
+          signal: AbortSignal.timeout(12_000),
         });
 
         if (ocrRes.ok) {

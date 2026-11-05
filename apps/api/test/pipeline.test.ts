@@ -305,3 +305,64 @@ test("generarGameSpecDesdeSesion - fallback heuristico cuando no hay provider", 
   assert.equal(res.spec.mecanica, "carrera");
   assert.equal(res.spec.grados[0], 3);
 });
+
+test("generarGameSpecDesdeSesion - auto-repara assets invalidos de Mistral y preserva generacion", async () => {
+  const sesion: SesionPedagogica = {
+    titulo: "Mercadito de Frutas",
+    grado: 1,
+    area: "Matemática",
+    competencia: "Resuelve problemas de cantidad",
+    criterios: [{ id: "C1", texto: "Clasifica productos" }],
+  };
+
+  // Mistral generó assets inventados ("estanteria-frutas", "producto-manzana")
+  const mockProvider = new MistralProvider({
+    apiKey: "dummy",
+    fetchFn: async () => {
+      return new Response(
+        JSON.stringify({
+          model: "mistral-small-latest",
+          choices: [
+            {
+              message: {
+                content: JSON.stringify({
+                  titulo: "Mercadito de Frutas IA",
+                  mecanica: "tienda",
+                  niveles: [
+                    {
+                      dificultad: "facil",
+                      items: [
+                        {
+                          id: "it1",
+                          accion: "clasificar",
+                          estanterias: [
+                            { id: "e1", nombre: "Frutas", asset: "estanteria-frutas-no-existe" },
+                            { id: "e2", nombre: "Verduras", asset: "estanteria-verduras-no-existe" },
+                          ],
+                          productos: [
+                            { id: "p1", categoria: "e1", asset: "producto-manzana-no-existe" },
+                            { id: "p2", categoria: "e1", asset: "producto-pera-no-existe" },
+                            { id: "p3", categoria: "e2", asset: "producto-lechuga-no-existe" },
+                            { id: "p4", categoria: "e2", asset: "producto-tomate-no-existe" },
+                          ],
+                        },
+                      ],
+                    },
+                  ],
+                }),
+              },
+            },
+          ],
+          usage: { prompt_tokens: 200, completion_tokens: 300 },
+        }),
+      );
+    },
+  });
+
+  const res = await generarGameSpecDesdeSesion(mockProvider, sesion);
+  assert.ok(res.spec);
+  assert.equal(res.spec.mecanica, "tienda");
+  // Los assets fueron auto-reparados con el catálogo oficial
+  assert.ok(res.spec.niveles[0]?.items[0]);
+  assert.equal(res.spec.titulo, "Mercadito de Frutas IA");
+});

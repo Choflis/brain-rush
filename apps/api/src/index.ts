@@ -29,8 +29,8 @@ app.use(
         }
         return undefined;
       },
-      allowMethods: ["GET", "POST", "OPTIONS"],
-      allowHeaders: ["Content-Type", "Authorization", "Idempotency-Key"],
+      allowMethods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+      allowHeaders: ["Content-Type", "Authorization", "Idempotency-Key", "Accept"],
       maxAge: 86400,
     });
     return middlewareCors(c, next);

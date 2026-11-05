@@ -105,7 +105,7 @@ jobs:
       - name: Compilar aplicación web con VITE_API_URL
         shell: bash
         env:
-          VITE_API_URL: ${{ vars.VITE_API_URL || secrets.VITE_API_URL }}
+          VITE_API_URL: ${{ vars.VITE_API_URL || secrets.VITE_API_URL || 'https://brain-rush-api.lgsc21211.workers.dev' }}
         run: |
           echo "Compilando paquetes base..."
           npm run build --workspaces --if-present

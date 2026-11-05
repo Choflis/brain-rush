@@ -16,6 +16,7 @@ import {
 } from "@brain-rush/prompts";
 import { generarJuego } from "./generar.ts";
 import { MistralProvider } from "./mistral.ts";
+import { autoRepararGameSpec } from "./reparar.ts";
 
 export type CriterioSesion = {
   id: string;
@@ -297,6 +298,19 @@ export async function generarGameSpecDesdeSesion(
 
     if (resultado.ok) {
       return { spec: resultado.spec, uso: resultado.uso };
+    }
+
+    if (resultado.ultimoContenido) {
+      const reparado = autoRepararGameSpec(
+        resultado.ultimoContenido,
+        sesion,
+        mecanica,
+        tipo,
+        nivel,
+      );
+      if (reparado) {
+        return { spec: reparado, uso: resultado.uso };
+      }
     }
   } catch {
     // Si la llamada remota falla, usar fallback heurístico

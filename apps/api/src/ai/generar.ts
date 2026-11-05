@@ -10,19 +10,21 @@ export type PedidoGeneracion = {
 
 export type ResultadoGeneracion =
   | { ok: true; spec: GameSpec; uso: UsoTokens[] }
-  | { ok: false; errores: string[]; uso: UsoTokens[] };
+  | { ok: false; errores: string[]; uso: UsoTokens[]; ultimoContenido?: unknown };
 
 export async function generarJuego(provider: LLMProvider, pedido: PedidoGeneracion): Promise<ResultadoGeneracion> {
   const usos: UsoTokens[] = [];
   let prompt = pedido.promptRenderizado;
   let errores: string[] = [];
+  let ultimoContenido: unknown = undefined;
   for (let intento = 0; intento < 2; intento++) {
     const r = await provider.generarJSON(prompt);
     usos.push(r.uso);
+    ultimoContenido = r.contenido;
     const v = validarGameSpec(r.contenido, pedido.opciones);
     if (v.ok) return { ok: true, spec: v.spec, uso: usos };
     errores = v.errores;
     prompt = pedido.reconstruir(errores);
   }
-  return { ok: false, errores, uso: usos };
+  return { ok: false, errores, uso: usos, ultimoContenido };
 }

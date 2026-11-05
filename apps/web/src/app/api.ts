@@ -5,10 +5,38 @@ import type { GameSpec } from "@brain-rush/gamespec";
  * No dibuja nada: solo habla con la API y devuelve datos tipados.
  */
 
-// Sin VITE_API_URL, la API se busca en el mismo host que la página (localhost o la IP de la red local).
-const BASE =
-  (import.meta.env.VITE_API_URL as string | undefined)?.replace(/\/$/, "") ??
-  `http://${typeof window !== "undefined" ? window.location.hostname : "localhost"}:8787`;
+function resolverBaseApi(): string {
+  const envUrl = (import.meta.env.VITE_API_URL as string | undefined)?.trim();
+  if (envUrl && envUrl !== "" && envUrl !== "/" && !envUrl.startsWith("/api")) {
+    return envUrl.replace(/\/$/, "");
+  }
+
+  if (typeof window !== "undefined" && window.location) {
+    const host = window.location.hostname;
+
+    // Producción Cloudflare Workers (*.workers.dev o *.pages.dev)
+    if (host.endsWith(".workers.dev") || host.endsWith(".pages.dev")) {
+      if (host.startsWith("brain-rush-web.")) {
+        return `https://${host.replace("brain-rush-web.", "brain-rush-api.")}`;
+      }
+      return `https://${host.replace(/-web(\.|$)/, "-api$1")}`;
+    }
+
+    // Entorno local
+    if (
+      host === "localhost" ||
+      host === "127.0.0.1" ||
+      host.startsWith("192.168.") ||
+      host.startsWith("10.")
+    ) {
+      return `http://${host}:8787`;
+    }
+  }
+
+  return "https://brain-rush-api.lgsc21211.workers.dev";
+}
+
+const BASE = resolverBaseApi();
 
 export type Rol = "docente" | "alumno";
 export type TipoJuego = "activacion" | "complemento";
@@ -209,7 +237,8 @@ async function pedir<T>(ruta: string, opciones: OpcionesPeticion = {}): Promise<
       body: opciones.cuerpo === undefined ? undefined : JSON.stringify(opciones.cuerpo),
       signal: AbortSignal.timeout(60_000),
     });
-  } catch {
+  } catch (e) {
+    console.error(`Error de red al llamar ${BASE}${ruta}:`, e);
     throw new ErrorApi(
       "SIN_CONEXION",
       "No se pudo conectar con el servidor.",
@@ -246,7 +275,8 @@ async function pedirMultipart<T>(ruta: string, formData: FormData, token?: strin
       body: formData,
       signal: AbortSignal.timeout(90_000),
     });
-  } catch {
+  } catch (e) {
+    console.error(`Error de red multipart al llamar ${BASE}${ruta}:`, e);
     throw new ErrorApi(
       "SIN_CONEXION",
       "No se pudo conectar con el servidor o la operación de IA tardó demasiado.",
