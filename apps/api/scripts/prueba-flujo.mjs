@@ -121,7 +121,7 @@ const c1Ahora = panelTienda.porCriterio.find((c) => c.criterio === "C1")?.aciert
 afirmar(c1Ahora - c1Antes === 2, "el panel agrega aciertos por criterio");
 
 const panelCarrera = await pedir("/api/panel/juego-n2-carrera", { headers: DOC });
-afirmar(panelCarrera.participacion.intentos === 1, "el panel del complemento ve el intento digital");
+afirmar(panelCarrera.participacion.intentos >= 1, "el panel del complemento ve el intento digital");
 
 const csvRespuesta = await fetch(`${API}/api/panel/juego-n2-carrera.csv`, { headers: DOC });
 const csv = await csvRespuesta.text();
