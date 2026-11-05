@@ -1,4 +1,4 @@
-# Encabezados de seguridad y caché para Cloudflare Pages
+# Encabezados de seguridad y caché para Cloudflare Workers (Static Assets)
 /*
   X-Content-Type-Options: nosniff
   X-Frame-Options: SAMEORIGIN
