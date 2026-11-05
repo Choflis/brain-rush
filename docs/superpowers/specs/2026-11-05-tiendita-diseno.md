@@ -2,9 +2,11 @@
 
 Fecha: 5 de noviembre de 2026.
 Responsable de esta parte: Choflis (C).
-Estado: propuesta de diseño revisada por un segundo agente, pendiente de revisión del usuario antes de implementar.
+Estado: diseño revisado y autorizado para implementar por el usuario el 5 de noviembre de 2026.
 Enfoque elegido por el usuario: A, completar La tiendita antes de comenzar la carrera.
 Este documento describe el producto y su aceptación; no contiene implementación del juego.
+
+Actualización del usuario al iniciar la implementación: usar la mascota verde de la imagen adjunta y dar prioridad a una experiencia dinámica con movimiento. Esta decisión sustituye la apariencia de regla propuesta originalmente. El identificador técnico personaje-reglita se conserva para no cambiar el contrato ni el contenido compartido.
 
 ## 1. Qué vamos a entregar
 
@@ -75,7 +77,7 @@ Referencia conceptual: [pantalla de pedido](../../../docs/design/tiendita/pedido
 
 - Juego de tienda con profundidad ligera y sprites suaves; no requiere un motor 3D.
 - Fondo crema, marca morada y acentos lima, coherentes con la dirección de arte.
-- Reglita es una regla original morada con marcas de medición, ojos y brazos. Su papel es mostrar la siguiente acción, sin cubrir los objetos.
+- La mascota verde aportada por el usuario conserva su cara y proporciones. Su papel es acompañar y mostrar la siguiente acción, sin cubrir los objetos. El nombre personaje-reglita solo se mantiene como identificador compatible con el GameSpec.
 - Las categorías conservan la identificación del catálogo: gaseosa roja, agua azul y jugo naranja. También se distinguen por envase, icono y forma.
 - La escena ocupa la mayor parte del espacio. No se rodea el juego con paneles de administración ni un chat.
 - Arriba: nombre breve del juego, progreso gráfico del camión, sonido y pausa.
@@ -83,7 +85,7 @@ Referencia conceptual: [pantalla de pedido](../../../docs/design/tiendita/pedido
 - Abajo: bandeja de productos activos y bolsa de pedido cuando corresponda.
 - Objetos decorativos de fondo no se confunden con productos que se pueden mover.
 
-La imagen muestra una propuesta de un pedido de tres aguas, basada en f3; no es una captura de software ni contiene sprites ya exportados para el motor.
+La imagen inicial muestra una propuesta de un pedido de tres aguas, basada en f3; no es una captura de software. Su mascota de regla pertenece al primer concepto y fue sustituida por la referencia verde del usuario. Las capturas de la implementación actual se guardan en docs/qa/tiendita.
 
 ### Adaptación y accesibilidad
 
@@ -342,7 +344,7 @@ Nota de compatibilidad para T23: el contrato define total sin precisar su signif
 
 Este diseño propone una tienda ilustrada 2D con profundidad suave, la secuencia completa de 12 actividades, alternativa de toque y teclado, camión local por actividad y ausencia de recuperación tras recargar en C1+C2.
 
-La implementación no comienza hasta revisar este documento y la imagen. Una vez aprobado, se escribe el plan técnico con archivos exactos, dependencias, pasos de construcción y comandos de prueba.
+El usuario autorizó implementar este diseño con la actualización de mascota indicada al principio. El plan técnico está en ../plans/2026-11-05-tiendita-implementacion.md y las instrucciones de prueba en docs/PROBAR-TIENDITA.md.
 
 Punto a coordinar con U antes de integrar: semántica de total en fin incompleto y uso educativo de correcto e intentos; no bloquea el diseño visual ni las dos mecánicas locales.
 

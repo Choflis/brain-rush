@@ -1,3 +1,2 @@
-// Mecánicas de juego sobre Phaser. Cada mecánica recibe un GameSpec y emite eventos
-// (inicio, respuesta, fin). Pendiente: recorrido, emparejar y clasificar.
-export {};
+export { createTienda } from "./tienda.ts";
+export type { EventoMotor, FaseTienda, ItemTienda, OpcionesTienda, ResultadoDrop, TiendaController, TiendaSnapshot, TiendaSpec } from "./types.ts";
