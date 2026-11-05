@@ -12,7 +12,7 @@ Ningún juego puede ser una secuencia de preguntas con opciones. Cada respuesta 
 |---|---|---|---|---|
 | **N1** | `docs/sesiones/nivel-3/` | 1.º y 2.º | «Jugamos para conocernos mejor» (1.º, s1) y «Elaboran el cartel con los precios de los productos» (1.º, s9) | **La tiendita** (activación) |
 | **N2** | `docs/sesiones/nivel-4/` | 3.º y 4.º | «Unidades de longitud» (3.º), «Pictogramas», «Enfermedades respiratorias», «Historieta» | **La carrera de conversiones** (complemento) |
-| **N3** | `docs/sesiones/nivel-5/` | 5.º y 6.º | «Ecosistemas» (CyT) y «Compras con decimales» (Matemática) | El jardín en equilibrio (propuesta A, recomendada) |
+| **N3** | `docs/sesiones/nivel-5/` | 5.º y 6.º | «Ecosistemas» (CyT) y «Compras con decimales» (Matemática) | **El jardín en equilibrio** (opción A, confirmada) |
 
 ## 3. Juego N1 · La tiendita (activación)
 
@@ -49,9 +49,9 @@ Ningún juego puede ser una secuencia de preguntas con opciones. Cada respuesta 
 
 **Ritmo:** 3 niveles de dificultad (fácil: un salto; medio: dos saltos o cambio de dirección; avanzado: escalera completa y cantidades mayores). Total 8 a 12 minutos, sin límite de tiempo por pregunta.
 
-## 5. Juego N3 · Propuesta para elegir (activación, 5.º–6.º)
+## 5. Juego N3 · El jardín en equilibrio (activación, 5.º–6.º)
 
-Hay dos sesiones de 5.º de primaria en `docs/sesiones/nivel-5/`. Se propone un juego de activación con una de ellas. La otra queda para un juego posterior.
+**Opción A confirmada el 4 de noviembre.** Hay dos sesiones de 5.º de primaria en `docs/sesiones/nivel-5/`. El MVP usa la de Ciencia y Tecnología; la de Matemática queda para un juego posterior.
 
 ### Opción A · El jardín en equilibrio (Ciencia y Tecnología)
 
@@ -65,7 +65,7 @@ Hay dos sesiones de 5.º de primaria en `docs/sesiones/nivel-5/`. Se propone un 
 
 **Ventaja:** reutiliza el motor de clasificación de N1 y agrega una sola interacción nueva (unir con flecha). La sequía se resuelve con animaciones.
 
-### Opción B · La caja de la tiendita (Matemática)
+### Alternativa descartada para el MVP · La caja de la tiendita (Matemática)
 
 **Sesión base:** «Resolvemos problemas de compras con números decimales» (5.º, Ciclo V). Criterios: C1 traducir a suma y resta; C2 unidades y décimos; C3 estimar y calcular gasto y vuelto; C4 comprobar con la operación inversa.
 
@@ -77,9 +77,9 @@ Hay dos sesiones de 5.º de primaria en `docs/sesiones/nivel-5/`. Se propone un 
 
 **Desventaja:** necesita un motor de dinero (billetes, monedas y coma decimal), que hoy no existe. Es más trabajo que la opción A.
 
-### Recomendación
+### Por qué se eligió la opción A
 
-**Opción A** para el MVP. Usa lo que ya existe, deja una experiencia colectiva clara y evita construir un motor de dinero. La opción B queda como juego de N3 para una segunda versión, o como juego complementario de 5.º.
+Usa el motor de clasificación que ya existe, deja una experiencia colectiva clara y evita construir un motor de dinero. La opción B queda como juego de N3 para una segunda versión, o como juego complementario de 5.º.
 
 ## 6. Características comunes a todos los juegos
 
@@ -111,11 +111,12 @@ Estas mecánicas exigen cambios que ya están previstos en el plan, pero que hay
 | Motor de juego con dos interacciones: arrastrar y tocar, más la barra colectiva | Es el mínimo para todas las mecánicas propuestas. |
 | Prompts de generación por mecánica (`tienda` y `carrera`) | El modelo debe producir la configuración de cada escena, no preguntas. |
 
-## 8. Decisiones que necesito que confirmes
+## 8. Decisiones confirmadas
 
-1. **N1:** ¿La tiendita es el juego de activación para 1.º y 2.º, con meta colectiva del camión?
-2. **N2:** ¿La carrera de conversiones es el juego de complemento para 3.º y 4.º?
-3. **Meta colectiva:** ¿Prefieres que la activación sea colectiva (recomendado) o individual?
-4. **Duración:** ¿8 a 12 minutos está bien para el tiempo de clase y el tiempo en casa?
-5. **Personajes:** ¿Aprueban a Reglita para N2 y creamos un personaje para N1?
+1. **N1:** la tiendita es el juego de activación para 1.º y 2.º, con meta colectiva del camión. Confirmado.
+2. **N2:** la carrera de conversiones es el juego de complemento para 3.º y 4.º. Confirmado.
+3. **Meta colectiva:** la activación es colectiva; no hay ranking individual en pantalla. Confirmado.
+4. **Duración:** 8 a 12 minutos por juego. Confirmado.
+5. **Personajes:** Reglita aparece en todos los juegos. Confirmado.
+6. **N3:** el jardín en equilibrio (opción A). Confirmado.
 6. **Sesiones de N3:** ¿Cuándo llegan las sesiones de 5.º y 6.º para diseñar su juego?
