@@ -62,10 +62,10 @@ Cada ruta tiene un único dueño. Si alguien necesita cambiar un archivo ajeno, 
 | U2 | Esqueleto de `apps/web` (Vite, React, rutas, login demo) | 1 | H1 | ✅ Hecho |
 | U3 | Re-extraer la sesión de 1.º con sus criterios de evidencia y regenerar el juego N1 | 1 | H1 | ✅ Hecho |
 | U3b | Extraer la sesión de N3 (ecosistemas) y generar su juego con el mismo flujo, cuando se confirme la opción A | 1.5 | H2 | Confirmación de la opción |
-| U4 | D1: esquema y migraciones. Worker con rutas de juegos, versiones, intentos y panel | 4 | H1 | U1 |
+| U4 | D1: esquema y migraciones. Worker con rutas de juegos, versiones, intentos y panel | 4 | H1 | ✅ Hecho |
 | U5 | Pipeline de Mistral: ejecución real, caché y registro de tokens | 2 | H2 (credenciales al final) | U4 |
-| U6 | Salas de activación en el servidor: crear, unirse, estado, responder, avanzar | 1.5 | H2 (H1 si da tiempo) | U1, U4 |
-| U7 | Panel docente: revisar sesión, ver juego, publicar, resultados por criterio, riesgo y CSV | 4 | H1 (mínimo) | U2, U4 |
+| U6 | Salas de activación en el servidor: crear, unirse, estado, responder, avanzar | 1.5 | H2 (H1 si da tiempo) | ✅ Hecho (API probada) |
+| U7 | Panel docente: revisar sesión, ver juego, publicar, resultados por criterio, riesgo y CSV | 4 | H1 (mínimo) | 🟡 Parcial: resultados, origen, CSV; falta revisar sesión y publicar desde el panel |
 | U8 | Despliegue en Cloudflare: `wrangler`, D1, R2, secretos, URL y prueba de humo | 1.5 | H2 (al final, con credenciales) | U4 |
 | U9 | Juego N3: generación, validación y guardado (U3b) | Variable | H2 | U3b |
 
@@ -76,8 +76,8 @@ Cada ruta tiene un único dueño. Si alguien necesita cambiar un archivo ajeno, 
 | ID | Tarea | Horas | Prioridad | Depende de |
 |---|---|---|---|---|
 | C1 | Base de Phaser: escena genérica, tutorial corto sin texto, retroalimentación y eventos | 1.5 | H1 | ✅ Hecho (portado) |
-| C2 | Mecánica tienda: arrastrar a estantería, pedido en bolsa, barra del camión (meta colectiva) | 3 | H1 | C1 |
-| C3 | Mecánica carrera: Reglita, botones ×10 y ÷10, escalera animada, arrastrar el resultado | 3 | H1 | C1 |
+| C2 | Mecánica tienda: arrastrar a estantería, pedido en bolsa, barra del camión (meta colectiva) | 3 | H1 | ✅ Hecho (portado, sin prueba de juego completo) |
+| C3 | Mecánica carrera: Reglita, botones ×10 y ÷10, escalera animada, arrastrar el resultado | 3 | H1 | ✅ Hecho (portado, sin prueba de juego completo) |
 | C4 | Juego de complemento: `/j/:codigo`, ingreso del alumno, progreso en IndexedDB, envío al reconectar | 2 | H1 | ✅ Hecho (portado) |
 | C5 | Sala de activación en el celular del alumno y vista de proyección sin datos personales | 2 | H2 | ✅ Hecho (portado) |
 | C6 | Hoja imprimible de la carrera (A4, QR, casillas, marcas de registro) | 2 | H2 | C3 |

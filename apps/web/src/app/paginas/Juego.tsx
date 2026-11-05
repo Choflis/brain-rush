@@ -136,32 +136,49 @@ async function marcarIntentosEnviados(
   }
 }
 
-async function sincronizarPendientes(token: string): Promise<number> {
+const LOTE_MAXIMO = 50;
+
+// Envía todos los intentos pendientes del dispositivo. Cada intento se envía con el token
+// del alumno que lo jugó, así que no depende de qué sesión esté abierta en este momento.
+async function sincronizarPendientes(): Promise<number> {
   if (typeof navigator !== "undefined" && !navigator.onLine) {
     return 0;
   }
-  const pendientes = await obtenerIntentosPendientes(token);
+  const pendientes = await obtenerIntentosPendientes();
   if (pendientes.length === 0) return 0;
 
-  try {
-    const lote = pendientes.map((p) => ({
-      claveIdempotencia: p.claveIdempotencia,
-      juegoId: p.juegoId,
-      versionId: p.versionId,
-      fuente: p.fuente,
-      iniciadoEn: p.iniciadoEn,
-      duracionMs: p.duracionMs,
-      items: p.items,
-    }));
-
-    const respuesta = await api.enviarLote(lote, token);
-    await marcarIntentosEnviados(respuesta.resultados);
-    return respuesta.resultados.filter((r) => r.estado === "guardado" || r.estado === "duplicado")
-      .length;
-  } catch (error) {
-    console.warn("Fallo en sincronización por lote:", error);
-    return 0;
+  const porToken = new Map<string, IntentoGuardado[]>();
+  for (const p of pendientes) {
+    const grupo = porToken.get(p.token) ?? [];
+    grupo.push(p);
+    porToken.set(p.token, grupo);
   }
+
+  let enviados = 0;
+  for (const [token, grupo] of porToken) {
+    for (let i = 0; i < grupo.length; i += LOTE_MAXIMO) {
+      const trozo = grupo.slice(i, i + LOTE_MAXIMO);
+      try {
+        const lote = trozo.map((p) => ({
+          claveIdempotencia: p.claveIdempotencia,
+          juegoId: p.juegoId,
+          versionId: p.versionId,
+          fuente: p.fuente,
+          iniciadoEn: p.iniciadoEn,
+          duracionMs: p.duracionMs,
+          items: p.items,
+        }));
+        const respuesta = await api.enviarLote(lote, token);
+        await marcarIntentosEnviados(respuesta.resultados);
+        enviados += respuesta.resultados.filter(
+          (r) => r.estado === "guardado" || r.estado === "duplicado",
+        ).length;
+      } catch (error) {
+        console.warn("Fallo en sincronización por lote:", error);
+      }
+    }
+  }
+  return enviados;
 }
 
 function soporteCanvas(): boolean {
@@ -235,23 +252,19 @@ export function Juego() {
 
   // Actualizar conteo de pendientes en IndexedDB
   const refrescarPendientes = useCallback(async () => {
-    if (sesion?.token) {
-      const p = await obtenerIntentosPendientes(sesion.token);
-      setPendientesCount(p.length);
-    }
-  }, [sesion?.token]);
+    const p = await obtenerIntentosPendientes();
+    setPendientesCount(p.length);
+  }, []);
 
   // Manejo de conexión y sincronización en línea/fuera de línea
   useEffect(() => {
     const handleOnline = () => {
       setEstaOnline(true);
-      if (sesionAlumnoRef.current?.token) {
-        void sincronizarPendientes(sesionAlumnoRef.current.token).then(() => {
-          void refrescarPendientes();
-          // Si estamos en la pantalla de resultado y no estaba enviado, marcarlo como enviado
-          setResultado((prev) => (prev ? { ...prev, enviado: true } : null));
-        });
-      }
+      void sincronizarPendientes().then(() => {
+        void refrescarPendientes();
+        // Si estamos en la pantalla de resultado y no estaba enviado, marcarlo como enviado
+        setResultado((prev) => (prev ? { ...prev, enviado: true } : null));
+      });
     };
 
     const handleOffline = () => {
@@ -266,8 +279,8 @@ export function Juego() {
 
     // Intentar sincronizar cada 30 segundos si hay conexión
     const intervalo = setInterval(() => {
-      if (navigator.onLine && sesionAlumnoRef.current?.token) {
-        void sincronizarPendientes(sesionAlumnoRef.current.token).then(() => {
+      if (navigator.onLine) {
+        void sincronizarPendientes().then(() => {
           void refrescarPendientes();
         });
       }
@@ -511,7 +524,7 @@ export function Juego() {
         ]);
 
         // Sincronizar otros que estuvieran en cola
-        void sincronizarPendientes(sesionActual.token).then(refrescarPendientes);
+        void sincronizarPendientes().then(refrescarPendientes);
       } catch (errEnvio) {
         console.warn("No se pudo enviar el intento al servidor, queda en cola:", errEnvio);
         enviadoConExito = false;

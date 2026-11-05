@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { api, ErrorApi, type JuegoResumen, type PanelJuego } from "../api";
+import { API_URL, api, ErrorApi, type JuegoResumen, type PanelJuego } from "../api";
 import { useSesion } from "../sesion";
 
 type Estado = "cargando" | "listo" | "error";
@@ -147,6 +147,14 @@ export function Panel() {
                 {panel.participacion.alumnos} alumnos · {panel.participacion.intentos} intentos ·{" "}
                 {panel.participacion.completados} completados
               </p>
+              {panel.juego.origenGeneracion && (
+                <p className="suave">
+                  Origen: {panel.juego.origenGeneracion.generadoPor} · prompt{" "}
+                  {panel.juego.origenGeneracion.promptVersion}
+                  {panel.juego.origenGeneracion.intentos !== undefined &&
+                    ` · ${panel.juego.origenGeneracion.intentos} intento(s) de generación`}
+                </p>
+              )}
               <div className="tabla-envoltura">
                 <table className="tabla">
                   <thead>
@@ -190,7 +198,7 @@ export function Panel() {
                   onClick={async () => {
                     if (!sesion) return;
                     const r = await fetch(
-                      `${import.meta.env.VITE_API_URL ?? "http://localhost:8787"}/api/panel/${encodeURIComponent(
+                      `${API_URL}/api/panel/${encodeURIComponent(
                         juegoActivo,
                       )}.csv`,
                       { headers: { Authorization: `Bearer ${sesion.token}` } },

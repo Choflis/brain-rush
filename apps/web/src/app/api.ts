@@ -5,9 +5,10 @@ import type { GameSpec } from "@brain-rush/gamespec";
  * No dibuja nada: solo habla con la API y devuelve datos tipados.
  */
 
+// Sin VITE_API_URL, la API se busca en el mismo host que la página (localhost o la IP de la red local).
 const BASE =
   (import.meta.env.VITE_API_URL as string | undefined)?.replace(/\/$/, "") ??
-  "http://localhost:8787";
+  `http://${typeof window !== "undefined" ? window.location.hostname : "localhost"}:8787`;
 
 export type Rol = "docente" | "alumno";
 export type TipoJuego = "activacion" | "complemento";
