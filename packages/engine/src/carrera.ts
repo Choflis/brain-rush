@@ -377,7 +377,7 @@ export class MecanicaCarrera extends EscenaBase {
 
     // Fondo redondeado de la tarjeta
     const bg = this.add.graphics();
-    bg.fillStyle(0xffffff, 0.96);
+    bg.fillStyle(0xfffcf6, 0.96);
     bg.fillRoundedRect(-360, -38, 720, 76, 12);
     bg.lineStyle(2, 0x81c784, 1);
     bg.strokeRoundedRect(-360, -38, 720, 76, 12);
@@ -395,7 +395,7 @@ export class MecanicaCarrera extends EscenaBase {
     const nombreObj = this.add
       .text(-310, 22, visualObjeto.nombre ?? "Objeto", {
         fontSize: "11px",
-        color: "#555555",
+        color: "#4a5c59",
         fontStyle: "bold",
         align: "center",
         wordWrap: { width: 110 }
@@ -411,7 +411,7 @@ export class MecanicaCarrera extends EscenaBase {
         `${this.itemActual.cantidad} ${this.itemActual.desde}  ➔  ¿cuántos ${this.itemActual.hasta}?`,
         {
           fontSize: "22px",
-          color: "#1a237e",
+          color: "#14201f",
           fontStyle: "bold"
         }
       )
@@ -425,7 +425,7 @@ export class MecanicaCarrera extends EscenaBase {
         "Usa ×10 y ÷10 con la escalera y arrastra el resultado a la puerta",
         {
           fontSize: "12px",
-          color: "#455a64"
+          color: "#4a5c59"
         }
       )
       .setOrigin(0.5);
@@ -439,7 +439,7 @@ export class MecanicaCarrera extends EscenaBase {
         `Ítem ${this.indiceItemActual + 1} / ${this.items.length}`,
         {
           fontSize: "14px",
-          color: "#00695c",
+          color: "#1f7a6a",
           fontStyle: "bold"
         }
       )
@@ -449,7 +449,7 @@ export class MecanicaCarrera extends EscenaBase {
     const textoAciertos = this.add
       .text(290, 15, `Aciertos: ${this.aciertos}`, {
         fontSize: "12px",
-        color: "#2e7d32",
+        color: "#1f7a6a",
         fontStyle: "bold"
       })
       .setOrigin(0.5);
@@ -478,7 +478,7 @@ export class MecanicaCarrera extends EscenaBase {
     const titulo = this.add
       .text(0, -32, "🪜 Escalera de Unidades de Longitud", {
         fontSize: "13px",
-        color: "#004d40",
+        color: "#1f7a6a",
         fontStyle: "bold"
       })
       .setOrigin(0.5);
@@ -501,7 +501,7 @@ export class MecanicaCarrera extends EscenaBase {
       const textoUnidad = this.add
         .text(xPaso, 3, unidad, {
           fontSize: "16px",
-          color: "#263238",
+          color: "#14201f",
           fontStyle: "bold"
         })
         .setOrigin(0.5);
@@ -512,7 +512,7 @@ export class MecanicaCarrera extends EscenaBase {
         const tagInicio = this.add
           .text(xPaso, 27, "Inicio", {
             fontSize: "11px",
-            color: "#1565c0",
+            color: "#1f7a6a",
             fontStyle: "bold"
           })
           .setOrigin(0.5);
@@ -522,7 +522,7 @@ export class MecanicaCarrera extends EscenaBase {
         const tagMeta = this.add
           .text(xPaso, 27, "🎯 Meta", {
             fontSize: "11px",
-            color: "#2e7d32",
+            color: "#1f7a6a",
             fontStyle: "bold"
           })
           .setOrigin(0.5);
@@ -535,14 +535,14 @@ export class MecanicaCarrera extends EscenaBase {
         const flechaDer = this.add
           .text(flechaX, -8, "➔ ×10", {
             fontSize: "11px",
-            color: "#1565c0",
+            color: "#1f7a6a",
             fontStyle: "bold"
           })
           .setOrigin(0.5);
         const flechaIzq = this.add
           .text(flechaX, 14, "⬅ ÷10", {
             fontSize: "11px",
-            color: "#7b1fa2",
+            color: "#1f7a6a",
             fontStyle: "bold"
           })
           .setOrigin(0.5);
@@ -584,7 +584,7 @@ export class MecanicaCarrera extends EscenaBase {
         this.graficosEscalera.lineStyle(3, 0xfbc02d, 1);
         this.graficosEscalera.strokeRoundedRect(xPaso - 32, -18, 64, 40, 8);
       } else {
-        this.graficosEscalera.fillStyle(0xffffff, 0.95);
+        this.graficosEscalera.fillStyle(0xfffcf6, 0.95);
         this.graficosEscalera.fillRoundedRect(xPaso - 30, -16, 60, 36, 8);
 
         if (esMeta) {
@@ -646,7 +646,7 @@ export class MecanicaCarrera extends EscenaBase {
     this.textoResultado = this.add
       .text(0, -6, `${this.valorActual} ${this.unidadActual}`, {
         fontSize: "22px",
-        color: "#d84315",
+        color: "#f26a3d",
         fontStyle: "bold"
       })
       .setOrigin(0.5);
@@ -655,7 +655,7 @@ export class MecanicaCarrera extends EscenaBase {
     const subtituloArrastrar = this.add
       .text(0, 16, "🖐️ Arrastra a la puerta", {
         fontSize: "11px",
-        color: "#8d6e63",
+        color: "#a9713f",
         fontStyle: "italic"
       })
       .setOrigin(0.5);
@@ -710,7 +710,7 @@ export class MecanicaCarrera extends EscenaBase {
     const labelOpciones = this.add
       .text(-320, 0, "Opciones:", {
         fontSize: "13px",
-        color: "#455a64",
+        color: "#4a5c59",
         fontStyle: "bold"
       })
       .setOrigin(0, 0.5);
@@ -739,7 +739,7 @@ export class MecanicaCarrera extends EscenaBase {
       const textoChip = this.add
         .text(0, 0, `${opc} ${this.itemActual.hasta}`, {
           fontSize: "13px",
-          color: "#263238",
+          color: "#14201f",
           fontStyle: "bold"
         })
         .setOrigin(0.5);
@@ -791,7 +791,7 @@ export class MecanicaCarrera extends EscenaBase {
     const subtituloPuerta = this.add
       .text(0, 15, "Suelta aquí el resultado para abrir", {
         fontSize: "11px",
-        color: "#ffe082",
+        color: "#dff2ec",
         fontStyle: "italic"
       })
       .setOrigin(0.5);

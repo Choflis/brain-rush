@@ -376,7 +376,7 @@ export class MecanicaTienda extends EscenaBase {
     const bg = this.add.graphics();
     bg.fillStyle(0xffffff, 0.9);
     bg.fillRoundedRect(0, 0, 194, 32, 8);
-    bg.lineStyle(2, 0xffa726, 0.8);
+    bg.lineStyle(2, 0xf26a3d, 0.8);
     bg.strokeRoundedRect(0, 0, 194, 32, 8);
     this.contenedorCamion.add(bg);
 
@@ -387,7 +387,7 @@ export class MecanicaTienda extends EscenaBase {
     this.contenedorCamion.add(icono);
 
     const barraFondo = this.add.graphics();
-    barraFondo.fillStyle(0xeeeeee, 1);
+    barraFondo.fillStyle(0xfffcf6, 1);
     barraFondo.fillRoundedRect(42, 10, 80, 12, 6);
     this.contenedorCamion.add(barraFondo);
 
@@ -418,7 +418,7 @@ export class MecanicaTienda extends EscenaBase {
       this.barraCamionGrafico.clear();
       const pct = Math.min(1, Math.max(0, this.progresoCamion / Math.max(1, this.objetivoCamion)));
       const anchoRelleno = Math.max(4, 80 * pct);
-      const color = pct >= 1 ? 0x4caf50 : 0xffa726;
+      const color = pct >= 1 ? 0x1f7a6a : 0xf26a3d;
       this.barraCamionGrafico.fillStyle(color, 1);
       this.barraCamionGrafico.fillRoundedRect(42, 10, anchoRelleno, 12, 6);
     }
@@ -442,7 +442,7 @@ export class MecanicaTienda extends EscenaBase {
       const consignaBox = this.add.graphics();
       consignaBox.fillStyle(0xffffff, 0.95);
       consignaBox.fillRoundedRect(ancho / 2 - 130, 68, 260, 36, 10);
-      consignaBox.lineStyle(2, 0x42a5f5, 0.8);
+      consignaBox.lineStyle(2, 0x1f7a6a, 0.8);
       consignaBox.strokeRoundedRect(ancho / 2 - 130, 68, 260, 36, 10);
       this.contenedorItemActual.add(consignaBox);
 
@@ -458,7 +458,7 @@ export class MecanicaTienda extends EscenaBase {
       const txt = this.add
         .text(ancho / 2, 86, textoConsigna, {
           fontSize: "16px",
-          color: "#1e88e5",
+          color: "#1f7a6a",
           fontStyle: "bold"
         })
         .setOrigin(0.5);
@@ -533,9 +533,9 @@ export class MecanicaTienda extends EscenaBase {
       const contenedorBolsa = this.add.container(xBolsa, yBolsa);
 
       const bgBolsa = this.add.graphics();
-      bgBolsa.fillStyle(0xfff8e1, 0.95);
+      bgBolsa.fillStyle(0xfffcf6, 0.95);
       bgBolsa.fillRoundedRect(-anchoBolsa / 2, -altoBolsa / 2, anchoBolsa, altoBolsa, 12);
-      bgBolsa.lineStyle(3, 0xffa000, 0.9);
+      bgBolsa.lineStyle(3, 0xf26a3d, 0.9);
       bgBolsa.strokeRoundedRect(-anchoBolsa / 2, -altoBolsa / 2, anchoBolsa, altoBolsa, 12);
       contenedorBolsa.add(bgBolsa);
 
@@ -546,7 +546,7 @@ export class MecanicaTienda extends EscenaBase {
       this.textoBolsa = this.add
         .text(15, 0, `${this.productosEnBolsa.length} / ${cantidadReq}`, {
           fontSize: "20px",
-          color: "#d84315",
+          color: "#f26a3d",
           fontStyle: "bold"
         })
         .setOrigin(0.5);

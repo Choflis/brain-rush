@@ -119,7 +119,7 @@ export class EscenaBase extends Phaser.Scene {
     this.add
       .text(32, 37, `${visualPersonaje.emoji} ${this.spec.personaje.nombre}`, {
         fontSize: "18px",
-        color: "#333333",
+        color: "#4a5c59",
         fontStyle: "bold"
       })
       .setOrigin(0, 0.5);
@@ -127,7 +127,7 @@ export class EscenaBase extends Phaser.Scene {
     this.add
       .text(ancho / 2, 37, this.spec.titulo, {
         fontSize: "18px",
-        color: "#222222",
+        color: "#14201f",
         fontStyle: "bold"
       })
       .setOrigin(0.5, 0.5);
@@ -193,7 +193,7 @@ export class EscenaBase extends Phaser.Scene {
     const labelAnim = this.add
       .text(0, 20, visualAnim.nombre ?? "Tutorial", {
         fontSize: "18px",
-        color: "#2C3E50",
+        color: "#14201f",
         fontStyle: "bold",
         align: "center"
       })
@@ -205,7 +205,7 @@ export class EscenaBase extends Phaser.Scene {
       const textoTutorial = this.add
         .text(0, 60, this.spec.tutorial.texto, {
           fontSize: "16px",
-          color: "#555555",
+          color: "#4a5c59",
           align: "center",
           wordWrap: { width: 380 }
         })
@@ -217,7 +217,7 @@ export class EscenaBase extends Phaser.Scene {
     const pieTutorial = this.add
       .text(0, 110, "¡Preparados!", {
         fontSize: "14px",
-        color: "#888888",
+        color: "#4a5c59",
         fontStyle: "italic",
         align: "center"
       })

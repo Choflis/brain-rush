@@ -426,7 +426,7 @@ export function Juego() {
         mode: Phaser.Scale.FIT,
         autoCenter: Phaser.Scale.CENTER_BOTH,
       },
-      backgroundColor: "#f4fbf7",
+      backgroundColor: "#fbf7ef",
       scene: [escena],
     };
 
