@@ -1,0 +1,297 @@
+/* Escritorio pedagógico. Misma identidad; jerarquía y movimiento para trabajar. */
+.layout-aula-virtual { grid-template-columns: 244px minmax(0, 1fr); background: #f7f5ee; }
+.docente-espacio { min-width: 0; }
+.layout-aula-virtual .sidebar-docente { background: #213f36; color: #f5f2e5; padding: 1.5rem 1rem 1rem; border: 0; box-shadow: none; }
+.layout-aula-virtual .sidebar-marca { color: #fffdf1; gap: .7rem; margin-bottom: 1.8rem; font-size: 1.25rem; letter-spacing: -.045em; }
+.docente-marca-simbolo { display: grid; place-items: center; width: 36px; height: 40px; background: #eaa26b; color: #213f36; border-radius: 11px; transform: rotate(-6deg); flex-shrink: 0; }
+.docente-marca-simbolo svg { width: 25px; height: 28px; }
+.layout-aula-virtual .marca-sub { color: #becfc0; font-size: .6rem; text-transform: none; font-weight: 500; letter-spacing: .025em; margin-top: .25rem; }
+.layout-aula-virtual .marca-fuerte { color: #efb182; }
+.layout-aula-virtual .sidebar-perfil-tarjeta { background: #2b4a3f; border: 1px solid #466052; padding: .85rem .7rem; border-radius: 12px; gap: .6rem; margin-bottom: 1.6rem; }
+.docente-iniciales { display: grid; place-items: center; width: 38px; height: 38px; border-radius: 12px; background: #dfdfba; color: #314735; font-size: .8rem; font-weight: 850; flex-shrink: 0; }
+.layout-aula-virtual .perfil-textos { min-width: 0; }
+.layout-aula-virtual .perfil-textos strong { color: #f6f1e4; font-size: .75rem; overflow-wrap: anywhere; }
+.layout-aula-virtual .perfil-cargo { color: #b9c9b8; font-size: .65rem; }
+.layout-aula-virtual .sidebar-seccion-titulo { color: #b7c5b6; font-size: .57rem; letter-spacing: .13em; margin-bottom: .65rem; }
+.layout-aula-virtual .sidebar-menu { padding: 0; gap: .5rem; margin-bottom: 1.7rem; }
+.layout-aula-virtual .sidebar-item { position: relative; color: #d6dfcf; background: transparent; min-height: 48px; border-radius: 10px; padding: .8rem .9rem; gap: .75rem; font-size: .8rem; font-weight: 700; border: 1px solid transparent; }
+.layout-aula-virtual .sidebar-item:hover { background: #355346; color: #fffdf1; }
+.layout-aula-virtual .sidebar-item-activo { background: #f5f2e6; color: #274e3f; box-shadow: 0 3px 0 #142f25; font-weight: 900; }
+.layout-aula-virtual .sidebar-item-activo:hover { color: #274e3f; background: #fffaf0; }
+.layout-aula-virtual .sidebar-item-activo::after { content: ''; position: absolute; right: 12px; width: 6px; height: 6px; border-radius: 50%; background: #c46d3a; }
+.layout-aula-virtual .sidebar-widget-resumen { background: transparent; border: 1px solid #4c6353; border-radius: 12px; padding: .9rem; margin-top: auto; color: #f6f2df; }
+.layout-aula-virtual .widget-titulo { color: #c5d0b9; font-size: .6rem; letter-spacing: .1em; }
+.layout-aula-virtual .widget-fila { color: #c8d3bf; font-size: .75rem; }
+.layout-aula-virtual .widget-fila strong { color: #faf5df; font-size: .85rem; font-variant-numeric: tabular-nums; }
+.docente-local { display: block; border-top: 1px solid #4c6353; margin-top: .7rem; padding-top: .7rem; color: #b7c7b4; font-size: .59rem; line-height: 1.6; }
+.layout-aula-virtual .sidebar-pie { padding-top: 1rem; border: 0; margin-top: .5rem; }
+.layout-aula-virtual .boton-enlace-estudiante, .layout-aula-virtual .boton-salir-sidebar { display: flex; align-items: center; gap: .7rem; min-height: 44px; background: transparent; color: #cad7be; border: 0; width: 100%; text-align: left; text-decoration: none; padding: .65rem .6rem; font-size: .72rem; border-radius: 8px; }
+.layout-aula-virtual .boton-enlace-estudiante > svg:last-child { margin-left: auto; }
+.layout-aula-virtual .boton-salir-sidebar:hover, .layout-aula-virtual .boton-enlace-estudiante:hover { color: #fffdf0; background: #345344; }
+.docente-plegar { background: transparent; border: 0; border-top: 1px solid #496252; color: #c1ceb7; display: flex; gap: .7rem; min-height: 44px; align-items: center; font-size: .65rem; margin-top: .5rem; padding: .7rem; }
+.docente-compacto { grid-template-columns: 82px minmax(0, 1fr); }
+.docente-compacto .sidebar-marca-textos, .docente-compacto .sidebar-perfil-tarjeta, .docente-compacto .sidebar-seccion-titulo, .docente-compacto .sidebar-widget-resumen, .docente-compacto .sidebar-item > span, .docente-compacto .sidebar-pie span, .docente-compacto .sidebar-pie .boton-enlace-estudiante > svg:last-child, .docente-compacto .docente-plegar > span { display: none; }
+.docente-compacto .sidebar-menu { margin-top: 1rem; flex: 1; }
+.docente-compacto .sidebar-item { justify-content: center; padding-inline: .5rem; }
+.docente-compacto .sidebar-item-activo::after { display: none; }
+.docente-compacto .sidebar-marca { justify-content: center; }
+.docente-compacto .sidebar-pie { margin-top: auto; }
+.docente-topbar { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 1rem 2rem; border-bottom: 1px solid #e3dfd2; background: #fffdf7; min-height: 80px; }
+.docente-contexto { display: flex; align-items: center; gap: .6rem; font-size: .72rem; color: #7b826c; }
+.docente-contexto strong { color: #3b5746; font-weight: 800; }
+.docente-busqueda-global { display: flex; align-items: center; background: #f7f6ed; border: 1px solid #e2dfd0; border-radius: 10px; padding: .2rem .4rem .2rem .7rem; color: #64735c; margin-left: auto; width: min(300px, 35%); }
+.docente-busqueda-global input { min-width: 0; width: 100%; padding: .6rem; border: 0; background: transparent; color: #36513f; font-size: .75rem; outline: none; }
+.docente-busqueda-global:focus-within { outline: 2px solid #426e55; outline-offset: 3px; }
+.docente-busqueda-global button { min-height: 36px; width: 36px; display: grid; place-items: center; background: transparent; border: 0; color: #436b50; }
+.docente-sello { border: 1px solid #d1d9be; color: #637149; background: #edf1e2; border-radius: 6px; font-size: .6rem; padding: .3rem .5rem; white-space: nowrap; }
+.layout-aula-virtual .contenido-aula-virtual { width: 100%; padding: 2rem 2rem 5rem; }
+.layout-aula-virtual .contenido-aula-virtual:focus { outline: none; }
+.layout-aula-virtual .panel-subcabecera { align-items: center; margin-bottom: 1.7rem; gap: 1.2rem; }
+.layout-aula-virtual .panel-subcabecera h1 { font-size: clamp(1.9rem, 3vw, 2.65rem); font-weight: 850; letter-spacing: -.045em; margin-bottom: .55rem; }
+.layout-aula-virtual .panel-subcabecera .suave { font-size: .9rem; max-width: 65ch; line-height: 1.65; margin-bottom: 0; }
+.docente-kicker { font-size: .58rem; letter-spacing: .13em; font-weight: 900; color: #73805d; margin: 0 0 .65rem; }
+.layout-aula-virtual .boton { font-size: .8rem; min-height: 44px; border-radius: 10px; }
+.layout-aula-virtual .boton-primario { background: #be532c; border-color: #ad4926; box-shadow: 0 3px 0 #903a1d; }
+.layout-aula-virtual .boton-primario:hover { background: #ac4726; }
+.layout-aula-virtual .boton-secundario { background: #f1eee0; border-color: #d8d3bb; color: #466047; box-shadow: 0 3px 0 #d9d3bd; }
+.docente-control-resumen { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 1rem; font-size: .78rem; font-weight: 800; color: #53654b; }
+.docente-control-resumen > span { display: flex; align-items: center; gap: .5rem; }
+.docente-punto { display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: #678958; flex-shrink: 0; }
+.docente-control-resumen label { display: flex; align-items: center; gap: .6rem; font-size: .7rem; }
+.layout-aula-virtual select { min-height: 44px; border: 1px solid #d9d6c5; border-radius: 9px; padding: .55rem 2rem .55rem .7rem; background: #fffdf7; color: #35523e; font: inherit; font-size: .78rem; max-width: 100%; }
+.layout-aula-virtual .kpis-docente { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1rem; margin-bottom: 1.7rem; }
+.layout-aula-virtual .kpis-docente .kpi-tarjeta { position: relative; display: flex; align-items: center; gap: .8rem; padding: 1.1rem; min-width: 0; border: 1px solid #e0ddcd; border-radius: 13px; background: #fffef8; box-shadow: 0 3px 0 #e6e2d3; color: #35553e; text-decoration: none; }
+.docente-kpi-icono { display: grid; place-items: center; width: 42px; height: 42px; border-radius: 12px; background: #eef0e0; flex-shrink: 0; }
+.layout-aula-virtual .kpis-docente .kpi-destacado { background: #e7ecdc; border-color: #c7d2b7; }
+.layout-aula-virtual .kpis-docente .kpi-alerta .docente-kpi-icono { color: #a96b28; background: #f6ecd2; }
+.layout-aula-virtual .kpi-numero { font-size: 2rem; font-weight: 850; letter-spacing: -.04em; color: #2b4e39; line-height: 1.2; }
+.layout-aula-virtual .kpi-etiqueta { font-size: .64rem; color: #64725b; line-height: 1.5; margin-top: .3rem; }
+.layout-aula-virtual .kpis-docente .kpi-tarjeta > svg:last-child { margin-left: auto; color: #7a8d6f; flex-shrink: 0; }
+.docente-grid-principal { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 1.3rem; }
+.layout-aula-virtual .tarjeta { border: 1px solid #e0ddcd; border-radius: 16px; box-shadow: 0 3px 0 #e8e4d8; background: #fffef9; padding: 1.4rem; min-width: 0; }
+.layout-aula-virtual .cabecera-tarjeta-flex { margin-bottom: 1.4rem; align-items: center; gap: 1rem; }
+.layout-aula-virtual .cabecera-tarjeta-flex h2 { font-size: 1.2rem; font-weight: 850; letter-spacing: -.035em; margin: 0; }
+.docente-enlace { display: inline-flex; align-items: center; gap: .5rem; min-height: 44px; font: inherit; font-size: .72rem; font-weight: 850; color: #476c4f; background: transparent; border: 0; padding: .4rem 0; cursor: pointer; text-decoration: none; white-space: nowrap; }
+.docente-enlace:disabled { opacity: .45; cursor: default; }
+.docente-salon-fila { padding: 1rem 0; border-bottom: 1px solid #eeeadd; }
+.docente-salon-fila:first-child { padding-top: 0; }
+.docente-salon-fila:last-child { border: 0; }
+.docente-salon-elegir { width: 100%; display: flex; align-items: center; gap: .7rem; padding: 0; border: 0; background: transparent; color: #36543c; text-align: left; }
+.docente-salon-elegir > span { min-width: 0; flex: 1; }
+.docente-salon-elegir strong { font-size: .85rem; line-height: 1.4; display: block; }
+.docente-salon-elegir small { font-size: .68rem; color: #6e7b62; display: block; margin-top: .25rem; }
+.docente-salon-elegir b { font-size: 1.15rem; font-variant-numeric: tabular-nums; }
+.docente-barra { height: 7px; border-radius: 10px; background: #e9ecdf; overflow: hidden; margin: .8rem 0; }
+.docente-barra > span { display: block; width: 100%; height: 100%; background: #7e9e62; border-radius: 10px; transform-origin: left; transition: transform 220ms var(--ease-out); }
+.docente-sesion-enlace { display: flex; justify-content: space-between; gap: .6rem; align-items: center; color: #63745a; font-size: .68rem; text-decoration: none; min-height: 36px; }
+.docente-sesion-enlace span { min-width: 0; }
+.docente-sesion-enlace svg { flex-shrink: 0; }
+.docente-leyenda { display: flex; align-items: center; gap: .4rem; color: #77826b; font-size: .62rem; padding-top: .7rem; }
+.docente-contador { display: grid; place-items: center; border-radius: 9px; background: #f3e7cd; color: #976327; width: 32px; height: 32px; font-size: .9rem; font-weight: 900; flex-shrink: 0; }
+.docente-apoyo-alumno { border: 1px solid #e5dfcc; border-radius: 11px; margin-bottom: .6rem; overflow: hidden; }
+.docente-apoyo-abrir { width: 100%; display: flex; align-items: center; gap: .6rem; min-height: 66px; padding: .7rem; border: 0; background: #fcfaf1; color: #38553e; text-align: left; }
+.docente-apoyo-abrir > span:not(.docente-desplegar) { min-width: 0; flex: 1; }
+.docente-apoyo-abrir strong { font-size: .75rem; display: block; }
+.docente-apoyo-abrir small { font-size: .62rem; display: block; color: #78836c; margin-top: .2rem; }
+.docente-apoyo-abrir b { font-size: .9rem; color: #a36a2f; font-variant-numeric: tabular-nums; }
+.docente-desplegar { font-size: 1.2rem; color: #7c896d; }
+.docente-apoyo-detalle { padding: .9rem; background: #f2f3e7; border-top: 1px solid #e3e3d0; font-size: .74rem; color: #526548; }
+.docente-apoyo-detalle strong { display: block; margin-bottom: .4rem; }
+.docente-apoyo-detalle p { line-height: 1.7; }
+.docente-apoyo-detalle a { display: flex; align-items: center; justify-content: space-between; min-height: 44px; font-weight: 850; }
+.docente-ver-mas { display: flex; align-items: center; justify-content: space-between; min-height: 44px; width: 100%; padding: .4rem 0; border: 0; background: transparent; color: #55754e; font-size: .74rem; font-weight: 850; }
+.docente-reglita-nota { display: flex; align-items: center; gap: .7rem; padding: .9rem; margin-top: .9rem; background: #ecf0df; border: 1px solid #d7dfc2; border-radius: 12px; }
+.docente-reglita-nota p { font-size: .7rem; color: #5e7050; margin: 0; line-height: 1.7; }
+.docente-reglita-nota strong { display: block; color: #425f3d; margin-bottom: .3rem; }
+.layout-aula-virtual .seccion-actividad-reciente { margin-top: 1.4rem; }
+.layout-aula-virtual .tabla { font-size: .75rem; }
+.layout-aula-virtual .tabla th { background: #f4f4e9; color: #6d785c; text-transform: uppercase; font-size: .57rem; letter-spacing: .065em; padding: .9rem; white-space: nowrap; }
+.layout-aula-virtual .tabla td { padding: .9rem; border-color: #eeeadf; }
+.layout-aula-virtual .tabla tbody tr:hover { background: #f8f9ef; }
+.docente-persona { display: flex; align-items: center; gap: .5rem; }
+.docente-persona strong { white-space: nowrap; }
+.layout-aula-virtual .pastilla { font-size: .62rem; padding: .25rem .5rem; border-radius: 6px; }
+.docente-filtros { display: flex; gap: .7rem; align-items: center; flex-wrap: wrap; background: #fffdf7; padding: .9rem; border: 1px solid #e0ddce; border-radius: 12px; margin-bottom: 1.4rem; }
+.docente-campo-buscar { display: flex; align-items: center; color: #7b8a6a; background: #f7f7ed; border: 1px solid #dcdccb; border-radius: 8px; padding: 0 .7rem; gap: .5rem; flex: 1 1 180px; min-width: 0; }
+.docente-campo-buscar input { min-width: 0; width: 100%; min-height: 44px; border: 0; background: transparent; color: #3e5b40; font-size: .8rem; outline: none; }
+.docente-campo-buscar:focus-within { outline: 2px solid #477750; outline-offset: 3px; }
+.docente-resultados { color: #79856a; font-size: .7rem; white-space: nowrap; }
+.docente-vistas { display: flex; gap: .2rem; padding-left: .7rem; border-left: 1px solid #dedccb; }
+.docente-vistas button { display: grid; place-items: center; width: 44px; height: 44px; border: 1px solid transparent; color: #718463; background: transparent; border-radius: 8px; }
+.docente-vistas button[aria-pressed='true'] { background: #e9efdd; color: #3f673f; border-color: #cbd8b7; }
+.docente-vacio { text-align: center; padding: 2rem 1rem; color: #78826b; font-size: .85rem; }
+.docente-vacio > svg { margin-bottom: .6rem; }
+.docente-vacio h3 { font-size: 1.1rem; }
+.docente-confirmacion { color: #3b6943; background: #e9efde; border: 1px solid #cad7b6; border-radius: 10px; padding: .8rem 1rem; font-size: .8rem; line-height: 1.6; }
+.docente-confirmacion:empty { display: none; }
+.layout-aula-virtual .rejilla-sesiones { grid-template-columns: repeat(auto-fill, minmax(min(100%, 290px), 1fr)); gap: 1.2rem; }
+.layout-aula-virtual .tarjeta-sesion { padding: 1.4rem; border-top: 3px solid #b4c59a; }
+.layout-aula-virtual .tarjeta-sesion h3 { font-size: 1.12rem; line-height: 1.4; }
+.layout-aula-virtual .sesion-tarjeta-cabecera { gap: .5rem; margin-bottom: 1rem; }
+.layout-aula-virtual .sesion-competencia { font-size: .72rem; line-height: 1.7; }
+.layout-aula-virtual .sesion-proposito { font-size: .78rem; line-height: 1.7; }
+.layout-aula-virtual .chip-juego { border-radius: 6px; font-size: .62rem; line-height: 1.5; }
+.layout-aula-virtual .sesion-acciones-doble { margin-top: auto; padding-top: 1.2rem; }
+.layout-aula-virtual .sesiones-vista-lista { grid-template-columns: 1fr; }
+.layout-aula-virtual .sesiones-vista-lista .tarjeta-sesion { display: grid; grid-template-columns: 1fr 1fr; gap: .5rem 2rem; }
+.sesiones-vista-lista .sesion-tarjeta-cabecera, .sesiones-vista-lista .tarjeta-sesion h3, .sesiones-vista-lista .sesion-competencia, .sesiones-vista-lista .sesion-proposito { grid-column: 1; }
+.sesiones-vista-lista .sesion-juegos-resumen { grid-column: 2; grid-row: 2 / 5; }
+.sesiones-vista-lista .sesion-acciones-doble { grid-column: 1 / -1; justify-content: end; }
+.layout-aula-virtual .selector-aulas-tabs { gap: .8rem; }
+.layout-aula-virtual .tab-aula { flex: 1; min-width: min(100%, 220px); background: #fffdf7; box-shadow: 0 3px 0 #e6e1cf; gap: .7rem; padding: 1rem; border: 1px solid #ddd9c5; border-radius: 13px; }
+.layout-aula-virtual .tab-aula strong { font-size: .8rem; color: #425a40; }
+.layout-aula-virtual .tab-aula-sub { font-size: .62rem; margin-top: .2rem; }
+.layout-aula-virtual .tab-aula-activa { background: #edf1e3; border-color: #8da875; box-shadow: 0 3px 0 #b6c7a0; }
+.layout-aula-virtual .tarjeta-control-juegos { margin-bottom: 1.5rem; }
+.layout-aula-virtual .tarjeta-control-juegos h3, .layout-aula-virtual .cabecera-tarjeta-alumnos h3 { font-size: 1.15rem; }
+.layout-aula-virtual .tarjeta-control-juegos .suave, .layout-aula-virtual .cabecera-tarjeta-alumnos .suave { font-size: .8rem; }
+.layout-aula-virtual .rejilla-juegos-permisos { grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr)); }
+.layout-aula-virtual .tarjeta-permiso-juego { border: 1px solid #d8dcc8; background: #f9faef; border-radius: 12px; padding: 1rem; gap: .7rem; }
+.layout-aula-virtual .juego-deshabilitado { background: #f4f3ed; opacity: 1; border-color: #e0ddd0; }
+.layout-aula-virtual .info-permiso { min-width: 0; }
+.layout-aula-virtual .info-permiso strong { font-size: .8rem; }
+.layout-aula-virtual .info-permiso p { font-size: .7rem; }
+.layout-aula-virtual .switch { width: 48px; height: 28px; }
+.layout-aula-virtual .switch:has(input:focus-visible) { outline: 3px solid #426e43; outline-offset: 4px; border-radius: 20px; }
+.layout-aula-virtual .switch input:checked + .slider { background: #5e8157; }
+.layout-aula-virtual .toggle-estado-texto { font-size: .65rem; }
+.layout-aula-virtual .detalle-cabecera h1 { font-size: clamp(1.7rem, 3vw, 2.5rem); line-height: 1.2; }
+.layout-aula-virtual .modal-contenido, .layout-aula-virtual .modal-previsualizador { border: 1px solid #d8d4bf; border-radius: 18px; background: #fffdf5; }
+.layout-aula-virtual .modal-cabecera h2 { font-size: clamp(1.3rem, 2.5vw, 1.8rem); }
+.layout-aula-virtual .modal-cabecera .suave { font-size: .8rem; }
+.layout-aula-virtual .modal-seccion { border-top: 1px solid #e2ddcb; padding-top: 1.5rem; }
+.layout-aula-virtual .modal-seccion h3 { font-size: 1.05rem; }
+.layout-aula-virtual .modal-seccion > .suave { font-size: .8rem; }
+.docente-elegir-archivo { display: inline-flex; align-items: center; min-height: 44px; background: #e5ecd8; color: #4b7046; padding: .65rem 1rem; border: 1px solid #b6c89f; border-radius: 9px; margin: .4rem; font-size: .8rem; font-weight: 800; position: relative; cursor: pointer; }
+.docente-elegir-archivo input { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; }
+.docente-elegir-archivo:focus-within { outline: 3px solid #426e43; outline-offset: 4px; }
+.docente-error { font-size: .8rem; color: #a33e29; padding: .6rem; background: #fff0e4; border: 1px solid #eac5ad; border-radius: 8px; }
+.layout-aula-virtual .zona-dropzone { background: #f3f5e7; border-color: #a7bb8c; }
+.layout-aula-virtual .zona-dropzone strong { font-size: .9rem; overflow-wrap: anywhere; }
+.layout-aula-virtual .zona-dropzone .suave-chico { font-size: .73rem; }
+.layout-aula-virtual .campo label { font-size: .75rem; }
+.layout-aula-virtual .campo input, .layout-aula-virtual .campo textarea { background: #fffef9; border-color: #d8d5c3; min-height: 44px; font-size: .85rem; }
+.layout-aula-virtual .chat-subida-lateral, .layout-aula-virtual .chat-ia-panel { background: #f0f3e5; min-width: 0; }
+.layout-aula-virtual .chat-subida-cabecera h4 { font-size: .85rem; }
+.layout-aula-virtual .burbuja-texto, .layout-aula-virtual .burbuja-ia-contenido, .layout-aula-virtual .flotante-texto-bloque p { overflow-wrap: anywhere; }
+.layout-aula-virtual .chat-subida-input input { min-width: 0; font-size: 1rem; }
+.layout-aula-virtual .chip-subida, .layout-aula-virtual .chip-sugerencia { min-height: 44px; }
+.layout-aula-virtual .reglita-tarjeta-flotante { border-radius: 16px; border: 1px solid #c8d5b6; box-shadow: 0 12px 45px #203e352b; }
+.layout-aula-virtual .reglita-flotante-cabecera { background: #e7eddb; }
+.layout-aula-virtual .estado-texto-online { color: #64774e; font-size: .62rem; }
+.layout-aula-virtual .fab-tooltip { color: #f9f5e6; background: #254c3a; }
+.docente-saltar { position: absolute; left: 1rem; top: -100px; z-index: 2000; padding: .8rem; background: #fffdf1; color: #264a35; border-radius: 8px; }
+.docente-saltar:focus { top: 1rem; }
+.layout-aula-virtual .sidebar-docente :focus-visible { outline-color: #e8c99b; }
+@starting-style { .docente-apoyo-detalle { opacity: 0; } }
+.docente-apoyo-detalle { transition: opacity 180ms ease-out; }
+@media (hover: hover) and (pointer: fine) {
+  .layout-aula-virtual .kpis-docente .kpi-tarjeta { transition: transform 160ms var(--ease-out), box-shadow 160ms ease; }
+  .layout-aula-virtual .kpis-docente .kpi-tarjeta:hover { transform: translateY(-2px); box-shadow: 0 5px 0 #e1ddcd; }
+  .docente-salon-elegir:hover strong, .docente-sesion-enlace:hover, .docente-enlace:hover { color: #1c734f; }
+  .docente-apoyo-abrir:hover { background: #f0f3e3; }
+}
+@media (max-width: 1150px) {
+  .layout-aula-virtual .kpis-docente { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .docente-grid-principal { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 900px) {
+  .layout-aula-virtual, .docente-compacto { grid-template-columns: minmax(0, 1fr); }
+  .layout-aula-virtual .sidebar-docente { display: grid; grid-template-columns: 1fr auto; gap: .4rem; padding: .8rem 1rem; height: auto; position: relative; }
+  .layout-aula-virtual .sidebar-marca { margin: 0; font-size: 1.05rem; }
+  .layout-aula-virtual .sidebar-cabecera { padding: 0; border: 0; }
+  .layout-aula-virtual .sidebar-menu { display: flex; grid-column: 1 / -1; grid-row: 2; margin: .4rem 0 0; padding: 0; gap: .4rem; }
+  .layout-aula-virtual .sidebar-item { flex: 1; justify-content: center; font-size: .72rem; padding: .6rem; min-height: 44px; }
+  .layout-aula-virtual .sidebar-item-activo::after { display: none; }
+  .layout-aula-virtual .sidebar-pie { display: flex; gap: .5rem; margin: 0; padding: 0; }
+  .layout-aula-virtual .sidebar-pie .boton-salir-sidebar { width: auto; font-size: 0; padding: .5rem; }
+  .layout-aula-virtual .sidebar-pie .boton-salir-sidebar span { display: none; }
+  .layout-aula-virtual .sidebar-pie .boton-enlace-estudiante { width: auto; font-size: .65rem; padding: .5rem; }
+  .layout-aula-virtual .sidebar-perfil-tarjeta, .layout-aula-virtual .sidebar-widget-resumen, .layout-aula-virtual .sidebar-seccion-titulo, .docente-plegar { display: none; }
+  .docente-compacto .sidebar-marca-textos, .docente-compacto .sidebar-item > span { display: block; }
+  .docente-topbar { padding: .8rem 1rem; min-height: 64px; flex-wrap: wrap; }
+  .docente-busqueda-global { width: min(300px, 45%); }
+  .layout-aula-virtual .contenido-aula-virtual { padding: 1.5rem 1rem 5rem; }
+  .docente-grid-principal { grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); }
+}
+@media (max-width: 700px) {
+  .docente-grid-principal { grid-template-columns: minmax(0, 1fr); }
+  .docente-control-resumen { flex-wrap: wrap; }
+  .docente-control-resumen label { flex: 1; flex-wrap: wrap; }
+  .docente-control-resumen select { flex: 1; width: 100%; }
+  .layout-aula-virtual .panel-subcabecera { flex-wrap: wrap; }
+  .layout-aula-virtual .acciones-cabecera { gap: .65rem; flex-wrap: wrap; }
+  .layout-aula-virtual .tarjeta { padding: 1.1rem; }
+  .layout-aula-virtual .kpis-docente { gap: .7rem; }
+  .layout-aula-virtual .kpis-docente .kpi-tarjeta { flex-wrap: wrap; padding: .9rem; gap: .5rem; }
+  .layout-aula-virtual .kpis-docente .kpi-tarjeta > svg:last-child { display: none; }
+  .docente-kpi-icono { width: 34px; height: 34px; }
+  .layout-aula-virtual .kpi-etiqueta { font-size: .63rem; }
+  .docente-filtros { gap: .6rem; padding: .7rem; }
+  .docente-filtros select { flex: 1; min-width: 0; }
+  .docente-filtros .docente-campo-buscar { flex-basis: 100%; }
+  .docente-resultados { margin-left: auto; }
+  .layout-aula-virtual .sesiones-vista-lista .tarjeta-sesion { display: flex; }
+  .layout-aula-virtual .fila-dos-campos { grid-template-columns: minmax(0, 1fr); }
+  .layout-aula-virtual .modal-contenido { padding: 1.2rem; }
+  .layout-aula-virtual .modal-previsualizador { padding: 0; }
+  .layout-aula-virtual .modal-cabecera .cabecera-info { align-items: start; min-width: 0; }
+  .layout-aula-virtual .modal-contenido .kpis-grilla { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .layout-aula-virtual .modal-contenido .kpi-tarjeta { padding: .75rem; min-width: 0; }
+}
+@media (max-width: 440px) {
+  .layout-aula-virtual .sidebar-docente { grid-template-columns: minmax(0, 1fr); }
+  .layout-aula-virtual .sidebar-pie { grid-row: 3; justify-content: space-between; }
+  .layout-aula-virtual .sidebar-item { font-size: .65rem; gap: .4rem; padding: .6rem .3rem; }
+  .layout-aula-virtual .sidebar-item > svg { width: 16px; height: 16px; }
+  .docente-topbar { gap: .6rem; }
+  .docente-contexto { font-size: .65rem; }
+  .docente-sello { margin-left: auto; }
+  .docente-busqueda-global { order: 3; width: 100%; }
+  .layout-aula-virtual .panel-subcabecera h1 { font-size: 1.9rem; }
+  .layout-aula-virtual .panel-subcabecera .suave { font-size: .82rem; }
+  .docente-control-resumen label { width: 100%; }
+  .layout-aula-virtual .kpis-docente .kpi-tarjeta { flex-direction: column; align-items: start; padding: .8rem; }
+  .layout-aula-virtual .kpi-numero { font-size: 1.85rem; }
+  .layout-aula-virtual .cabecera-tarjeta-flex { flex-wrap: wrap; gap: .5rem; }
+  .docente-apoyo-abrir { gap: .4rem; }
+  .docente-apoyo-abrir > .avatar-explorador { width: 36px; height: 36px; }
+  .docente-apoyo-abrir strong { font-size: .7rem; }
+  .docente-reglita-nota { padding: .7rem; }
+  .layout-aula-virtual .tab-aula { min-width: 100%; }
+  .layout-aula-virtual .modal-cabecera { flex-wrap: nowrap; }
+  .layout-aula-virtual .modal-cabecera .cabecera-info > .icono-lottie { display: none !important; }
+  .layout-aula-virtual .form-pie { flex-wrap: wrap; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .layout-aula-virtual .docente-barra > span, .layout-aula-virtual .kpis-docente .kpi-tarjeta, .docente-apoyo-detalle { transition: none; }
+  .layout-aula-virtual .kpis-docente .kpi-tarjeta:hover { transform: none; }
+}
+/* La caja nativa del switch conserva un objetivo táctil y de teclado completo. */
+.layout-aula-virtual .switch { width: 48px; height: 44px; }
+.layout-aula-virtual .switch input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; z-index: 1; cursor: pointer; }
+.layout-aula-virtual .slider { inset: 8px 0; pointer-events: none; transition: background-color 180ms ease; }
+.layout-aula-virtual .slider::before { bottom: 4px; transition: transform 180ms var(--ease-out); }
+.layout-aula-virtual:has(.docente-espacio) { grid-template-columns: 244px minmax(0, 1fr); }
+.layout-aula-virtual.docente-compacto { grid-template-columns: 82px minmax(0, 1fr); }
+@media (max-width: 900px) {
+  .layout-aula-virtual:has(.docente-espacio), .layout-aula-virtual.docente-compacto { grid-template-columns: minmax(0, 1fr); }
+  .layout-aula-virtual .sidebar-pie { flex-direction: row; align-items: center; }
+}
+@media (max-width: 900px) { .docente-compacto .sidebar-pie .boton-enlace-estudiante span { display: inline; } }
+@media (prefers-reduced-motion: reduce) { .layout-aula-virtual .reglita-pensando { animation: none !important; } }
+/* El acceso docente comparte el carácter de Reglita con un tono de trabajo. */
+.docente-acceso { padding: 1rem 0 3rem; }
+.docente-acceso .tarjeta-login { background: #fffdf6; border-color: #d8dcc7; box-shadow: 0 6px 0 #dde2cd; padding: 2rem; }
+.docente-acceso .tarjeta-login > h1 { font-size: 2.2rem; letter-spacing: -.045em; }
+.docente-acceso .login-reglita { width: 150px; padding: .4rem; background: #e7eedb; border-radius: 48% 48% 14px 14px; margin: 0 auto 1rem; }
+.docente-acceso .tarjeta-login > .etiqueta { letter-spacing: .1em; font-size: .57rem; }
+.docente-login-label { display: block; color: #486342; font-size: .8rem; font-weight: 850; margin-bottom: .5rem; }
+.docente-login-nombre { width: 100%; min-height: 52px; border: 1px solid #bbc9a5; border-radius: 10px; padding: .8rem 1rem; color: #36553b; background: #f8faef; font-size: 1rem; font-weight: 750; }
+.docente-login-nota { color: #6a775e; font-size: .75rem; line-height: 1.7; margin: .8rem 0 1.3rem; }
+.docente-acceso .docente-info-caja { margin-bottom: 1rem; }
+@media (max-width: 440px) { .docente-acceso .tarjeta-login { padding: 1.4rem; } .docente-acceso .tarjeta-login > h1 { font-size: 1.9rem; } }
+.layout-aula-virtual .celda-estudiante { display: flex; align-items: center; gap: .6rem; min-width: 195px; }
+.layout-aula-virtual .celda-estudiante strong { display: block; font-size: .75rem; line-height: 1.5; }
+.layout-aula-virtual .id-suave { display: block; font-size: .58rem; color: #839075; margin-top: .2rem; }
+@media (max-width: 440px) { .docente-control-resumen label { flex: 1 1 100%; flex-wrap: nowrap; } }

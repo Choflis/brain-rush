@@ -1,23 +1,32 @@
+import { useSearchParams } from "react-router-dom";
+import { useAulaVirtual } from "../../datos/useAulaVirtual";
+import { AvatarExplorador, InsigniaSalon } from "../../componentes/IlustracionesInfantiles";
+import { IconoDocente } from "../../componentes/IconoDocente";
 import { useState } from "react";
-import { aulaVirtual, type ClaseAula, type Estudiante, type JuegoAula } from "../../datos/aulaVirtual";
+import { aulaVirtual, type Estudiante } from "../../datos/aulaVirtual";
 import { IconoAnimado } from "../../componentes/IconoAnimado";
 
 export function ClasesAlumnos() {
-  const [clases, setClases] = useState<ClaseAula[]>(() => aulaVirtual.obtenerClases());
-  const [claseSeleccionadaId, setClaseSeleccionadaId] = useState<string>(() => clases[0]?.id || "");
-  const [juegos] = useState<JuegoAula[]>(() =>
-    aulaVirtual.obtenerJuegos().filter((j) => j.tipo === "complemento")
-  );
+  const datos = useAulaVirtual();
+  const clases = datos.clases;
+  const [params, setParams] = useSearchParams();
+  const claseSeleccionadaId = params.get("salon") || clases[0]?.id || "";
+  const [busqueda, setBusqueda] = useState("");
+  const [orden, setOrden] = useState("nombre");
+  const filtro = params.get("estado") || "todos";
+  const [confirmacion, setConfirmacion] = useState("");
+  function cambiarParam(clave: string, valor: string) { setParams(prev => { const next = new URLSearchParams(prev); next.set(clave, valor); return next; }, { replace: true }); }
+  const juegos = datos.juegos.filter(j => j.tipo === "complemento");
 
   const claseActual = clases.find((c) => c.id === claseSeleccionadaId) || clases[0];
   const estudiantesActuales: Estudiante[] = claseActual
-    ? aulaVirtual.obtenerEstudiantesPorClase(claseActual.id)
+    ? datos.estudiantes.filter(e => claseActual.estudiantesIds.includes(e.id))
     : [];
 
   const handleToggleJuego = (juegoId: string) => {
     if (!claseActual) return;
-    aulaVirtual.toggleJuegoComplementarioEnClase(claseActual.id, juegoId);
-    setClases(aulaVirtual.obtenerClases());
+    const habilitado = aulaVirtual.toggleJuegoComplementarioEnClase(claseActual.id, juegoId);
+    setConfirmacion(`${juegos.find(j => j.id === juegoId)?.titulo}: ${habilitado ? "habilitado" : "bloqueado"} en ${claseActual.nombre}.`);
   };
 
   const resolverIconoMecanica = (mecanica: string) => {
@@ -26,11 +35,15 @@ export function ClasesAlumnos() {
     return <IconoAnimado tipo="ecosistema" tamano={32} />;
   };
 
+  const estudiantesVisibles = estudiantesActuales.filter(e =>
+    `${e.nombre} ${e.apellidos}`.toLocaleLowerCase('es').normalize('NFD').replace(/[\u0300-\u036f]/g, '').includes(busqueda.toLocaleLowerCase('es').normalize('NFD').replace(/[\u0300-\u036f]/g, '')) && (filtro === 'todos' || e.estado === filtro)
+  ).sort((a, b) => orden === 'menor' ? a.promedioAciertos - b.promedioAciertos : orden === 'mayor' ? b.promedioAciertos - a.promedioAciertos : a.nombre.localeCompare(b.nombre, 'es'));
+
   return (
     <div className="clases-contenedor">
       <header className="panel-subcabecera">
         <div>
-          <h1>Aulas y Estudiantes</h1>
+          <p className="docente-kicker">CADA ESTUDIANTE, SU PROPIO CAMINO</p><h1>Aulas y Estudiantes</h1>
           <p className="suave">
             Gestiona tus secciones de clase, visualiza a los alumnos inscritos y controla qué juegos complementarios pueden jugar.
           </p>
@@ -46,9 +59,10 @@ export function ClasesAlumnos() {
               key={clase.id}
               type="button"
               className={`tab-aula ${esActiva ? "tab-aula-activa" : ""}`}
-              onClick={() => setClaseSeleccionadaId(clase.id)}
+              aria-pressed={esActiva}
+              onClick={() => { cambiarParam("salon", clase.id); setConfirmacion(""); }}
             >
-              <span className="tab-aula-icono">{clase.icono}</span>
+              <InsigniaSalon grado={clase.grado} tamano={44} />
               <div className="tab-aula-textos">
                 <strong>{clase.nombre}</strong>
                 <span className="tab-aula-sub">{clase.estudiantesIds.length} estudiantes · {clase.juegosComplementariosHabilitados.length} juegos habilitados</span>
@@ -60,6 +74,7 @@ export function ClasesAlumnos() {
 
       {claseActual && (
         <div className="detalle-aula-seccion">
+          <p className="docente-confirmacion" role="status">{confirmacion}</p>
           {/* Tarjeta de Control de Acceso a Juegos Complementarios */}
           <div className="tarjeta tarjeta-control-juegos">
             <div className="cabecera-tarjeta-control">
@@ -94,6 +109,8 @@ export function ClasesAlumnos() {
                       <label className="switch">
                         <input
                           type="checkbox"
+                          role="switch"
+                          aria-label={`Habilitar ${juego.titulo}`}
                           checked={habilitado}
                           onChange={() => handleToggleJuego(juego.id)}
                         />
@@ -120,6 +137,12 @@ export function ClasesAlumnos() {
               </div>
             </div>
 
+            <div className="docente-filtros">
+              <label className="docente-campo-buscar"><IconoDocente tipo="buscar" tamano={18} /><input aria-label="Buscar estudiantes" placeholder="Busca por nombre…" value={busqueda} onChange={e => setBusqueda(e.target.value)} /></label>
+              <select aria-label="Estado del estudiante" value={filtro} onChange={e => cambiarParam('estado', e.target.value)}><option value="todos">Todos los estados</option><option value="en_riesgo">Necesitan apoyo</option><option value="destacado">Destacados</option><option value="activo">Activos</option></select>
+              <select aria-label="Ordenar estudiantes" value={orden} onChange={e => setOrden(e.target.value)}><option value="nombre">Nombre A–Z</option><option value="menor">Menor logro primero</option><option value="mayor">Mayor logro primero</option></select>
+              <span className="docente-resultados" role="status">{estudiantesVisibles.length} de {estudiantesActuales.length}</span>
+            </div>
             <div className="tabla-envoltura">
               <table className="tabla tabla-alumnos">
                 <thead>
@@ -133,14 +156,15 @@ export function ClasesAlumnos() {
                   </tr>
                 </thead>
                 <tbody>
-                  {estudiantesActuales.map((est) => {
+                  {estudiantesVisibles.length === 0 && <tr><td colSpan={6} className="docente-vacio">No hay estudiantes con estos filtros.</td></tr>}
+                  {estudiantesVisibles.map((est) => {
                     const esRiesgo = est.estado === "en_riesgo";
                     const esDestacado = est.estado === "destacado";
                     return (
                       <tr key={est.id} className={esRiesgo ? "fila-alerta" : ""}>
                         <td>
                           <div className="celda-estudiante">
-                            <span className="avatar-chico">{est.avatar}</span>
+                            <AvatarExplorador semilla={est.id} tamano={38} />
                             <div>
                               <strong>{est.nombre} {est.apellidos}</strong>
                               <span className="id-suave">ID: {est.id}</span>

@@ -15,3 +15,5 @@ La suite existente del juego permite aislar capturas y usar Chrome del sistema:
 ```bash
 CHROME_PATH=/usr/bin/google-chrome-stable BRAINRUSH_SCREENSHOT_DIR=/tmp/brain-rush-ti PLAYWRIGHT_OUTPUT_DIR=/tmp/brain-rush-engine-tests npm run test:browser -w packages/engine
 ```
+
+`teacher.spec.ts` comprueba filtros del resumen, búsqueda y vistas de sesiones, selección de alumnos, switches persistidos, referencia documental y guardado, contadores reactivos, navegación plegable, búsqueda global, foco/Escape y ayuda de Reglita, así como nombre docente y reflujo móvil/tablet/escritorio.

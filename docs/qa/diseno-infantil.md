@@ -32,3 +32,13 @@ La huella de color ocupa una franja a todo el ancho al final de la bienvenida y 
 Reglita acompaña la posición del cursor al escribir el nombre. En teléfono aparece una miniatura decorativa junto al campo para conservar esa respuesta visual cuando la cabecera queda fuera de vista. Movimiento reducido centra ambas miradas. La búsqueda reconoce los nombres existentes incluso sin tildes; un invitado conserva el nombre que escribe y el salón seleccionado. El panel docente conserva su diseño.
 
 Se añadieron nueve pruebas de navegador sobre nombres, entrada conocida/invitada, cambio de salón y rol, teclado, escritura y mirada, movimiento reducido, miniatura móvil, ausencia de emojis y franja inferior completa. La suite de interfaz tiene 19 pruebas. La revisión independiente verificó también selección por teclado y entrada «Joaquin» en tercero. No encontró problemas importantes; los salones actuales tienen grados distintos y el selector muestra el grado para distinguirlos.
+
+## Escritorio pedagógico docente
+
+El área del profesor usa navegación verde, superficies crema, acentos cálidos y tipografía de la identidad. El resumen se filtra por salón; las métricas enlazan a sesiones/estudiantes y cada alumno que requiere apoyo permite desplegar sus criterios. Sesiones incorpora búsqueda, grado, lista/cuadrícula y estados vacíos. Clases incorpora búsqueda por nombre, estado, orden y permisos accesibles con confirmación.
+
+Los contadores se actualizan al guardar datos del aula local. El formulario admite PDF/DOCX como referencia documental, valida su extensión y conserva el flujo de preparación de demostración; no se añadió extracción de documentos ni una integración nueva con IA. El acceso docente acepta su nombre y Reglita responde a la escritura.
+
+Las ventanas administran foco, Escape y retorno al botón de apertura. Desde el iframe de juego, Escape conserva sus acciones propias y Tab permite llegar al cierre exterior. Los temporizadores de los asistentes se limpian al desmontar; cancelar una preparación evita que se guarde después de cerrar. El movimiento reducido se respeta también durante el estado de respuesta de Reglita.
+
+Validación: 19 pruebas de regresión de interfaz y 11 del escritorio docente, 66 pruebas de motor/GameSpec, revisión de tipos, compilación y revisión independiente. Capturas temporales de escritorio, móvil, clases, sesiones y acceso en `/tmp/brain-rush-teacher-*.png`.

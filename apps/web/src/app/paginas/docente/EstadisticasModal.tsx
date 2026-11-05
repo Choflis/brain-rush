@@ -1,3 +1,4 @@
+import { useDialogo } from "../../hooks/useDialogo";
 import type { JuegoAula } from "../../datos/aulaVirtual";
 import { IconoAnimado } from "../../componentes/IconoAnimado";
 
@@ -8,6 +9,7 @@ interface Props {
 
 export function EstadisticasModal({ juego, onCerrar }: Props) {
   const stats = juego.estadisticas;
+  const dialogo = useDialogo(true, onCerrar);
 
   const descargarCSV = () => {
     const filas = [
@@ -55,7 +57,7 @@ export function EstadisticasModal({ juego, onCerrar }: Props) {
   };
 
   return (
-    <div className="modal-telon" role="dialog" aria-modal="true" onClick={onCerrar}>
+    <div ref={dialogo} className="modal-telon" role="dialog" aria-modal="true" aria-label={`Estadísticas de ${juego.titulo}`} onClick={onCerrar}>
       <div className="modal-contenido modal-ancho" onClick={(e) => e.stopPropagation()}>
         <header className="modal-cabecera">
           <div className="cabecera-info">

@@ -1,7 +1,11 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
-import { aulaVirtual, type SesionEstudio } from "../../datos/aulaVirtual";
+import { useAulaVirtual } from "../../datos/useAulaVirtual";
+import { useEffect, useRef, useState } from "react";
+import { Link, useSearchParams } from "react-router-dom";
+import { aulaVirtual } from "../../datos/aulaVirtual";
 import { IconoAnimado } from "../../componentes/IconoAnimado";
+import { useDialogo } from "../../hooks/useDialogo";
+import { IconoDocente } from "../../componentes/IconoDocente";
+import { InsigniaSalon } from "../../componentes/IlustracionesInfantiles";
 import { AvatarReglita } from "../../componentes/AvatarReglita";
 
 interface MensajeChatSubida {
@@ -11,8 +15,34 @@ interface MensajeChatSubida {
 }
 
 export function SesionesLista() {
-  const [sesiones, setSesiones] = useState<SesionEstudio[]>(() => aulaVirtual.obtenerSesiones());
-  const [modalAbierto, setModalAbierto] = useState(false);
+  const { sesiones } = useAulaVirtual();
+  const [params, setParams] = useSearchParams();
+  const [modalAbierto, setModalAbierto] = useState(params.get('nueva') === '1');
+  const [vista, setVista] = useState('grilla');
+  const filtroGrado = params.get('grado') || 'todos';
+  function setFiltroGrado(grado: string) { setParams(prev => { const next = new URLSearchParams(prev); if (grado === 'todos') next.delete('grado'); else next.set('grado', grado); return next; }, { replace: true }); }
+  const [aviso, setAviso] = useState('');
+  const [errorArchivo, setErrorArchivo] = useState('');
+  const guardarTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const chatTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const busqueda = params.get('buscar') || '';
+  const dialogo = useDialogo(modalAbierto, cerrarSubida);
+  useEffect(() => { if (params.get('nueva') === '1') setModalAbierto(true); }, [params]);
+  useEffect(() => () => { if (guardarTimer.current) clearTimeout(guardarTimer.current); if (chatTimer.current) clearTimeout(chatTimer.current); }, []);
+  function cerrarSubida() {
+    if (guardarTimer.current) clearTimeout(guardarTimer.current);
+    if (chatTimer.current) clearTimeout(chatTimer.current);
+    setGuardando(false); setProcesandoIA(false); setModalAbierto(false);
+    setParams(prev => { const next = new URLSearchParams(prev); next.delete('nueva'); return next; }, { replace: true });
+  }
+  function elegirArchivo(file?: File) {
+    if (!file) return;
+    if (!/\.(pdf|docx)$/i.test(file.name)) { setErrorArchivo('Elige un documento PDF o DOCX.'); return; }
+    setErrorArchivo(''); setArchivoNombre(file.name);
+    if (!titulo.trim()) setTitulo(file.name.replace(/\.[^.]+$/, '').replace(/[_-]+/g, ' '));
+  }
+  const sesionesVisibles = sesiones.filter(s => (filtroGrado === 'todos' || s.grado === Number(filtroGrado)) && `${s.titulo} ${s.area} ${s.competencia}`.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLocaleLowerCase('es').includes(busqueda.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLocaleLowerCase('es')));
+
 
   // Formulario de nueva sesión
   const [titulo, setTitulo] = useState("");
@@ -27,7 +57,7 @@ export function SesionesLista() {
     {
       id: "ia-init",
       remitente: "ia",
-      texto: "¡Hola, profe! Soy Reglita 📏. Sube tu sesión de aprendizaje y cuéntame si deseas priorizar algún enfoque específico (ej. cálculo mental rápido, andamiaje visual, material concreto o retos progresivos).",
+      texto: "¡Hola, profe! Soy Reglita. Sube tu sesión de aprendizaje y cuéntame si deseas priorizar algún enfoque específico (ej. cálculo mental rápido, andamiaje visual, material concreto o retos progresivos).",
     },
   ]);
   const [inputChat, setInputChat] = useState("");
@@ -46,7 +76,7 @@ export function SesionesLista() {
     setInputChat("");
     setProcesandoIA(true);
 
-    setTimeout(() => {
+    chatTimer.current = setTimeout(() => {
       let respuesta = "";
       const lower = txt.toLowerCase();
       if (lower.includes("mercado") || lower.includes("tienda") || lower.includes("comprar")) {
@@ -84,7 +114,7 @@ export function SesionesLista() {
     if (!titulo.trim()) return;
 
     setGuardando(true);
-    setTimeout(() => {
+    guardarTimer.current = setTimeout(() => {
       aulaVirtual.crearSesion(
         {
           titulo,
@@ -97,9 +127,9 @@ export function SesionesLista() {
         mensajesChat.filter((m) => m.remitente === "docente").map((m) => m.texto).join(" | ")
       );
 
-      setSesiones(aulaVirtual.obtenerSesiones());
       setGuardando(false);
-      setModalAbierto(false);
+      cerrarSubida();
+      setAviso(`Sesión «${titulo}» guardada en tu aula de demostración.`);
       // Reset
       setTitulo("");
       setProposito("");
@@ -118,9 +148,9 @@ export function SesionesLista() {
     <div className="sesiones-contenedor">
       <header className="panel-subcabecera">
         <div>
-          <h1>Sesiones de Aprendizaje</h1>
+          <p className="docente-kicker">DE TU PLANIFICACIÓN A LA AVENTURA</p><h1>Sesiones de Aprendizaje</h1>
           <p className="suave">
-            Sube tus sesiones oficiales en PDF o DOCX y transfórmalas en videojuegos educativos alineados al CNEB.
+            Organiza tus sesiones, explora sus actividades y prepara el siguiente descubrimiento de tu clase.
           </p>
         </div>
         <button
@@ -132,15 +162,23 @@ export function SesionesLista() {
         </button>
       </header>
 
+      <p className="docente-confirmacion" role="status">{aviso}</p>
+      <div className="docente-filtros">
+        <label className="docente-campo-buscar"><IconoDocente tipo="buscar" tamano={18} /><input aria-label="Buscar sesiones" placeholder="Título, área o competencia…" value={busqueda} onChange={e => setParams(prev => { const next = new URLSearchParams(prev); if (e.target.value) next.set('buscar', e.target.value); else next.delete('buscar'); return next; }, { replace: true })} /></label>
+        <select aria-label="Filtrar por grado" value={filtroGrado} onChange={e => setFiltroGrado(e.target.value)}><option value="todos">Todos los grados</option>{[1, 2, 3, 4, 5, 6].map(g => <option key={g} value={g}>{g}.º de primaria</option>)}</select>
+        <span className="docente-resultados" role="status">{sesionesVisibles.length} sesiones</span>
+        <div className="docente-vistas" role="group" aria-label="Vista de sesiones"><button type="button" aria-label="Vista de cuadrícula" aria-pressed={vista === 'grilla'} onClick={() => setVista('grilla')}><IconoDocente tipo="grilla" /></button><button type="button" aria-label="Vista de lista" aria-pressed={vista === 'lista'} onClick={() => setVista('lista')}><IconoDocente tipo="lista" /></button></div>
+      </div>
+      {sesionesVisibles.length === 0 && <div className="tarjeta docente-vacio"><IconoDocente tipo="buscar" tamano={32} /><h3>No encontramos sesiones con estos filtros.</h3><button type="button" className="boton boton-fantasma" onClick={() => { setParams({}); }}>Limpiar filtros</button></div>}
       {/* Lista de Sesiones */}
-      <div className="rejilla-sesiones">
-        {sesiones.map((sesion) => {
+      <div className={`rejilla-sesiones ${vista === "lista" ? "sesiones-vista-lista" : ""}`}>
+        {sesionesVisibles.map((sesion) => {
           const juegos = aulaVirtual.obtenerJuegosPorSesion(sesion.id);
           const juegoActivacion = juegos.find((j) => j.tipo === "activacion");
 
           return (
             <article key={sesion.id} className="tarjeta tarjeta-sesion">
-              <div className="sesion-tarjeta-cabecera">
+              <div className="sesion-tarjeta-cabecera"><InsigniaSalon grado={sesion.grado} tamano={42} />
                 <span className="pastilla pastilla-grado">{sesion.grado}.º Grado</span>
                 <span className="pastilla pastilla-area">{sesion.area}</span>
               </div>
@@ -186,22 +224,23 @@ export function SesionesLista() {
 
       {/* Modal / Drawer para Subir Nueva Sesión con Chat de IA */}
       {modalAbierto && (
-        <div className="modal-telon" role="dialog" aria-modal="true" onClick={() => setModalAbierto(false)}>
+        <div ref={dialogo} className="modal-telon" role="dialog" aria-modal="true" aria-labelledby="titulo-subir-sesion" onClick={cerrarSubida}>
           <div
             className="modal-contenido modal-ancho modal-subida-sesion"
             onClick={(e) => e.stopPropagation()}
           >
             <header className="modal-cabecera">
               <div>
-                <h2>Subir Nueva Sesión de Aprendizaje</h2>
+                <span className="docente-kicker">PREPARA TU PRÓXIMA CLASE</span><h2 id="titulo-subir-sesion">Subir Nueva Sesión de Aprendizaje</h2>
                 <p className="suave">
-                  Sube el documento curricular para extraer automáticamente competencias y generar actividades para tu salón.
+                  Adjunta tu referencia y completa la información de tu sesión. Esta es una preparación de demostración, guardada en este navegador.
                 </p>
               </div>
               <button
                 type="button"
                 className="boton-cerrar"
-                onClick={() => setModalAbierto(false)}
+                aria-label="Cerrar nueva sesión"
+                onClick={cerrarSubida}
               >
                 ✕
               </button>
@@ -211,12 +250,14 @@ export function SesionesLista() {
               {/* Formulario de Metadatos */}
               <form className="formulario-sesion" onSubmit={guardarNuevaSesion}>
                 {/* Zona de Subida de Archivos */}
-                <div className="zona-dropzone">
+                <div className="zona-dropzone" onDragOver={e => e.preventDefault()} onDrop={e => { e.preventDefault(); elegirArchivo(e.dataTransfer.files[0]); }}>
                   <IconoAnimado tipo="documento" tamano={40} />
-                  <strong>{archivoNombre ? `Archivo: ${archivoNombre}` : "Arrastra tu sesión en PDF o DOCX"}</strong>
+                  <strong>{archivoNombre ? `Archivo: ${archivoNombre}` : "Arrastra aquí tu documento de referencia"}</strong>
                   <p className="suave-chico">
-                    El sistema extraerá automáticamente el propósito, competencias y criterios pedagógicos.
+                    Usa un PDF o DOCX como referencia y revisa los campos antes de guardar.
                   </p>
+                  <label className="docente-elegir-archivo">Elegir PDF o DOCX<input type="file" accept=".pdf,.docx" aria-label="Documento de la sesión" onChange={e => elegirArchivo(e.target.files?.[0])} /></label>
+                  {errorArchivo && <p role="alert" className="docente-error">{errorArchivo}</p>}
                   <div className="archivos-ejemplo">
                     <span>O simula con una sesión de ejemplo:</span>
                     <button
@@ -312,7 +353,7 @@ export function SesionesLista() {
                   <button
                     type="button"
                     className="boton boton-fantasma"
-                    onClick={() => setModalAbierto(false)}
+                    onClick={cerrarSubida}
                   >
                     Cancelar
                   </button>
@@ -321,7 +362,7 @@ export function SesionesLista() {
                     className="boton boton-primario"
                     disabled={guardando || !titulo.trim()}
                   >
-                    {guardando ? "Generando actividades..." : "Crear Actividades"}
+                    {guardando ? "Preparando tu sesión…" : "Crear Actividades"}
                   </button>
                 </footer>
               </form>
@@ -332,7 +373,7 @@ export function SesionesLista() {
                   <AvatarReglita tamano={38} pensando={procesandoIA} conBurbujaEstado={true} />
                   <div>
                     <h4>Reglita · Copiloto de Creación</h4>
-                    <p className="suave-chico">Tu asistente pedagógica en tiempo real</p>
+                    <p className="suave-chico">Sugerencias pedagógicas de demostración</p>
                   </div>
                 </div>
 
@@ -368,7 +409,7 @@ export function SesionesLista() {
                 </div>
 
                 <div className="sugerencias-subida">
-                  <span className="sugerencias-titulo">💡 Enfoques pedagógicos sugeridos:</span>
+                  <span className="sugerencias-titulo">Enfoques pedagógicos sugeridos:</span>
                   <div className="chips-subida">
                     <button
                       type="button"
@@ -397,6 +438,7 @@ export function SesionesLista() {
                 <form className="chat-subida-input" onSubmit={enviarIndicacionIA}>
                   <input
                     type="text"
+                    aria-label="Enfoque pedagógico"
                     placeholder="Escribe un enfoque pedagógico para tus alumnos..."
                     value={inputChat}
                     onChange={(e) => setInputChat(e.target.value)}

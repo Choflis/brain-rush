@@ -1,3 +1,4 @@
+import { useDialogo } from "../hooks/useDialogo";
 import { useState, useRef, useEffect } from "react";
 import { AvatarReglita } from "./AvatarReglita";
 
@@ -10,6 +11,9 @@ interface MensajeFlotante {
 
 export function ReglitaFlotante() {
   const [abierto, setAbierto] = useState(false);
+  const dialogo = useDialogo(abierto, () => setAbierto(false), false);
+  const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  useEffect(() => () => { if (timer.current) clearTimeout(timer.current); }, []);
   const [mensajeInput, setMensajeInput] = useState("");
   const [escribiendo, setEscribiendo] = useState(false);
   const [mensajes, setMensajes] = useState<MensajeFlotante[]>([
@@ -17,7 +21,7 @@ export function ReglitaFlotante() {
       id: "m-0",
       remitente: "reglita",
       texto:
-        "¡Hola, profe! Soy Reglita 📏. Estoy aquí para acompañarte en tu aula: sugerirte dinámicas de inicio, calibrar la dificultad de los juegos o darte pautas de refuerzo para tus estudiantes. ¿En qué te apoyo hoy?",
+        "¡Hola, profe! Soy Reglita. Estoy aquí para acompañarte en tu aula: sugerirte dinámicas de inicio, calibrar la dificultad de los juegos o darte pautas de refuerzo para tus estudiantes. ¿En qué te apoyo hoy?",
       hora: "Ahora",
     },
   ]);
@@ -53,7 +57,7 @@ export function ReglitaFlotante() {
     setMensajeInput("");
     setEscribiendo(true);
 
-    setTimeout(() => {
+    timer.current = setTimeout(() => {
       let respuesta = "";
       const lower = texto.toLowerCase();
 
@@ -90,13 +94,13 @@ export function ReglitaFlotante() {
     <div className="reglita-flotante-ancla">
       {/* Ventana de chat desplegable */}
       {abierto && (
-        <div className="reglita-tarjeta-flotante" role="dialog" aria-label="Asistente pedagógica Reglita">
+        <div ref={dialogo} id="ayuda-reglita" className="reglita-tarjeta-flotante" role="dialog" aria-label="Asistente pedagógica Reglita">
           <header className="reglita-flotante-cabecera">
             <div className="reglita-cabecera-info">
               <AvatarReglita tamano={38} pensando={escribiendo} conBurbujaEstado={true} />
               <div>
                 <strong>Reglita · Asistente Pedagógica</strong>
-                <span className="estado-texto-online">● En línea para ayudarte en aula</span>
+                <span className="estado-texto-online">Guía de aula · sugerencias de demostración</span>
               </div>
             </div>
             <button
@@ -135,7 +139,7 @@ export function ReglitaFlotante() {
           </div>
 
           <div className="reglita-flotante-sugerencias">
-            <span className="sugerencias-rotulo">💡 Consultas rápidas:</span>
+            <span className="sugerencias-rotulo">Consultas rápidas:</span>
             <div className="sugerencias-chips-flotante">
               {sugerencias.map((sug, idx) => (
                 <button
@@ -159,6 +163,7 @@ export function ReglitaFlotante() {
           >
             <input
               type="text"
+              aria-label="Consulta para Reglita"
               placeholder="Pregúntale a Reglita sobre tu clase..."
               value={mensajeInput}
               onChange={(e) => setMensajeInput(e.target.value)}
@@ -168,6 +173,7 @@ export function ReglitaFlotante() {
               type="submit"
               className="boton-enviar-flotante"
               disabled={escribiendo || !mensajeInput.trim()}
+              aria-label="Enviar consulta"
               title="Enviar consulta"
             >
               ➔
@@ -182,6 +188,8 @@ export function ReglitaFlotante() {
         className={`boton-fab-reglita ${abierto ? "fab-activo" : ""}`}
         onClick={() => setAbierto((prev) => !prev)}
         aria-label={abierto ? "Cerrar asistente Reglita" : "Abrir asistente pedagógica Reglita"}
+        aria-expanded={abierto}
+        aria-controls="ayuda-reglita"
         title="Asistente pedagógica Reglita"
       >
         <AvatarReglita tamano={42} conBurbujaEstado={!abierto} />

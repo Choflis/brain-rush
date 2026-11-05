@@ -531,6 +531,7 @@ function cargarEstado(): EstadoAulaVirtual {
 function guardarEstado(estado: EstadoAulaVirtual) {
   if (typeof window !== "undefined") {
     localStorage.setItem(CLAVE_STORAGE, JSON.stringify(estado));
+    window.dispatchEvent(new Event("brainrush:aula-actualizada"));
   }
 }
 

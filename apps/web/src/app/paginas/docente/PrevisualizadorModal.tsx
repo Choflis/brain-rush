@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useDialogo } from "../../hooks/useDialogo";
+import { useEffect, useRef, useState } from "react";
 import { aulaVirtual, type JuegoAula } from "../../datos/aulaVirtual";
 import { IconoAnimado } from "../../componentes/IconoAnimado";
 import { AvatarReglita } from "../../componentes/AvatarReglita";
@@ -17,13 +18,17 @@ interface MensajeChat {
 }
 
 export function PrevisualizadorModal({ juego: juegoInicial, onCerrar, onJuegoActualizado }: Props) {
+  const dialogo = useDialogo(true, onCerrar);
+  const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [error, setError] = useState("");
+  useEffect(() => () => { if (timer.current) clearTimeout(timer.current); }, []);
   const [juego, setJuego] = useState<JuegoAula>(juegoInicial);
   const [mensajes, setMensajes] = useState<MensajeChat[]>(() => {
     const base: MensajeChat[] = [
       {
         id: "msg-0",
         remitente: "ia",
-        texto: `¡Hola, profe! Soy Reglita 📏✨. Estoy lista para refinar «${juegoInicial.titulo}» (v${juegoInicial.versionActual}). Cuéntame qué cambios te gustaría probar en el juego: ¿ajustar la velocidad, dar más tiempo, agregar pistas visuales o calibrar los retos? ¡Lo actualizo al instante!`,
+        texto: `¡Hola, profe! Soy Reglita. Estoy lista para refinar «${juegoInicial.titulo}» (v${juegoInicial.versionActual}). Cuéntame qué cambios te gustaría probar en el juego: ¿ajustar la velocidad, dar más tiempo, agregar pistas visuales o calibrar los retos? Podemos revisar propuestas de ajuste en esta demostración.`,
         hora: "Ahora",
       },
     ];
@@ -75,7 +80,8 @@ export function PrevisualizadorModal({ juego: juegoInicial, onCerrar, onJuegoAct
     setInputDocente("");
     setEnviando(true);
 
-    setTimeout(() => {
+    setError("");
+    timer.current = setTimeout(() => {
       try {
         const { respuestaIA, juegoActualizado } = aulaVirtual.refinarJuegoConIA(juego.id, texto);
         setJuego(juegoActualizado);
@@ -91,7 +97,7 @@ export function PrevisualizadorModal({ juego: juegoInicial, onCerrar, onJuegoAct
         setMensajes((prev) => [...prev, nuevoMensajeIA]);
         setRecargarKey((k) => k + 1);
       } catch (err) {
-        console.error("Error al refinar juego con IA:", err);
+        setError("No pudimos guardar el ajuste. Vuelve a intentarlo.");
       } finally {
         setEnviando(false);
       }
@@ -110,7 +116,7 @@ export function PrevisualizadorModal({ juego: juegoInicial, onCerrar, onJuegoAct
   };
 
   return (
-    <div className="modal-telon modal-telon-completo" role="dialog" aria-modal="true">
+    <div ref={dialogo} className="modal-telon modal-telon-completo" role="dialog" aria-modal="true" aria-label={`Previsualizar ${juego.titulo}`}>
       <div className="modal-previsualizador">
         <header className="previsualizador-cabecera">
           <div className="cabecera-info">
@@ -219,6 +225,7 @@ export function PrevisualizadorModal({ juego: juegoInicial, onCerrar, onJuegoAct
               </div>
             </div>
 
+            {error && <p role="alert" className="docente-error">{error}</p>}
             <form
               className="chat-ia-formulario"
               onSubmit={(e) => {
@@ -228,6 +235,7 @@ export function PrevisualizadorModal({ juego: juegoInicial, onCerrar, onJuegoAct
             >
               <input
                 type="text"
+                aria-label="Instrucción para Reglita"
                 placeholder="Escribe una instrucción para la IA..."
                 value={inputDocente}
                 onChange={(e) => setInputDocente(e.target.value)}
