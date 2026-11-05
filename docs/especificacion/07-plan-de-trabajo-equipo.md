@@ -9,8 +9,8 @@ Reparto del plan de implementación ([05](05-plan-implementacion-mvp.md)) entre 
 
 | Horizonte | Fecha | Qué incluye |
 |---|---|---|
-| **H1 · Entrega del hackathon** | 5 de noviembre, 23:59 | Juego N1 (tienda, activación con meta colectiva) y juego N2 (carrera, complemento sin conexión). Panel docente mínimo con resultados. API y despliegue. |
-| **H2 · MVP completo** | Después de la entrega | Juego N3 (cuando lleguen sus sesiones), sala de activación completa, impresión y escaneo, créditos, panel completo. |
+| **H1 · Entrega del hackathon** | 5 de noviembre, 23:59 | Juego N1 (tienda, activación con meta colectiva) y juego N2 (carrera, complemento sin conexión). Panel docente mínimo con resultados. API. **Todo funciona en localhost.** |
+| **H2 · MVP completo** | Después de la entrega | Juego N3 (opción propuesta: el jardín en equilibrio), sala de activación completa, impresión y escaneo, créditos, panel completo, y despliegue con credenciales. |
 
 **Riesgo declarado:** el alcance de H2 no cabe en menos de dos días. El plan lo separa para que H1 sea una demostración real y no un prototipo incompleto. Si H1 se cumple antes de tiempo, se avanza a H2 en el mismo orden.
 
@@ -50,6 +50,8 @@ Cada ruta tiene un único dueño. Si alguien necesita cambiar un archivo ajeno, 
 - **Eventos del motor:** `inicio`, `respuesta` y `fin`, con su payload. Son lo que el motor de C emite y lo que la API guarda.
 - **Autenticación demo:** cómo se identifica el docente y el alumno en cada petición.
 
+**Objetivo de H1: localhost.** Todo se prueba con `wrangler dev` (D1 y R2 locales) y el juego de respaldo de `fixtures/`. Las credenciales de Cloudflare y de Mistral se integran al final, en H2.
+
 **Puerta de entrada:** C no empieza C4 ni C5 hasta que U1 esté publicado. C1, C2 y C3 pueden empezar con el GameSpec ya congelado.
 
 ## 4. Tareas de U (yo)
@@ -59,14 +61,15 @@ Cada ruta tiene un único dueño. Si alguien necesita cambiar un archivo ajeno, 
 | U1 | Contrato v1 | 1 | H1 | — |
 | U2 | Esqueleto de `apps/web` (Vite, React, rutas, login demo) | 1 | H1 | — |
 | U3 | Re-extraer la sesión de 1.º con sus criterios de evidencia y regenerar el juego N1 | 1 | H1 | — |
+| U3b | Extraer la sesión de N3 (ecosistemas) y generar su juego con el mismo flujo, cuando se confirme la opción A | 1.5 | H2 | Confirmación de la opción |
 | U4 | D1: esquema y migraciones. Worker con rutas de juegos, versiones, intentos y panel | 4 | H1 | U1 |
-| U5 | Pipeline de Mistral: ejecución real, caché y registro de tokens | 2 | H2 (H1 si hay clave) | U4 |
+| U5 | Pipeline de Mistral: ejecución real, caché y registro de tokens | 2 | H2 (credenciales al final) | U4 |
 | U6 | Salas de activación en el servidor: crear, unirse, estado, responder, avanzar | 1.5 | H2 (H1 si da tiempo) | U1, U4 |
 | U7 | Panel docente: revisar sesión, ver juego, publicar, resultados por criterio, riesgo y CSV | 4 | H1 (mínimo) | U2, U4 |
-| U8 | Despliegue: `wrangler`, D1, R2, secretos, URL de staging y prueba de humo | 1.5 | H1 | U4 |
-| U9 | Juego N3: sesión, extracción, generación, validación y guardado | Variable | H2 | Sesiones de 5.º–6.º |
+| U8 | Despliegue en Cloudflare: `wrangler`, D1, R2, secretos, URL y prueba de humo | 1.5 | H2 (al final, con credenciales) | U4 |
+| U9 | Juego N3: generación, validación y guardado (U3b) | Variable | H2 | U3b |
 
-**Total H1:** ≈ 12,5 h. **Total con H2:** ≈ 16 h + N3.
+**Total H1:** ≈ 12,5 h. **Total con H2:** ≈ 18 h.
 
 ## 5. Tareas de C (Choflis)
 
@@ -104,8 +107,8 @@ Cada ruta tiene un único dueño. Si alguien necesita cambiar un archivo ajeno, 
 
 | Persona | Trabajo |
 |---|---|
-| U | U8 (despliegue) y prueba de humo con los juegos N1 y N2. |
-| C | Integración con la API en staging. Corrección de errores de la prueba de humo. |
+| U | Prueba de humo en localhost con los juegos N1 y N2. |
+| C | Integración con la API en localhost. Corrección de errores de la prueba de humo. |
 
 **Último tramo (5 de noviembre)**
 
@@ -120,13 +123,13 @@ Si al cierre de la mañana H1 no está integrado, se recorta en este orden: pane
 - **N1:** el juego de la tiendita se juega completo en celular y computadora, con la meta del camión y los resultados visibles en el panel por criterio.
 - **N2:** la carrera se juega sin conexión y el progreso llega al panel al reconectar.
 - **Panel:** muestra participación y aciertos por criterio de los dos juegos, con el origen de generación.
-- **Despliegue:** la URL de staging funciona y se prueba desde un celular.
+- **Localhost:** la aplicación corre en `localhost` y se prueba desde un celular en la misma red.
 
 ## 8. Pendientes que bloquean
 
 | Pendiente | Responsable | Bloquea |
 |---|---|---|
-| Clave de Mistral | Coordinación | U5 (no bloquea H1; se usan los fixtures) |
-| Cuenta de Cloudflare y `wrangler login` | U | U8 |
-| Sesiones de 5.º–6.º | Docente | U9 y el juego N3 |
+| Clave de Mistral | Coordinación | U5. Se entrega al final; H1 usa los fixtures. |
+| Cuenta de Cloudflare y `wrangler login` | U | U8. Se entrega al final; H1 corre en localhost con `wrangler dev`. |
+| Confirmación de la opción N3 | Equipo | U3b y U9 |
 | Usuario de GitHub de Choflis confirmado como colaborador | U | Inicio de C |

@@ -12,7 +12,7 @@ Ningún juego puede ser una secuencia de preguntas con opciones. Cada respuesta 
 |---|---|---|---|---|
 | **N1** | `docs/sesiones/nivel-3/` | 1.º y 2.º | «Jugamos para conocernos mejor» (1.º, s1) y «Elaboran el cartel con los precios de los productos» (1.º, s9) | **La tiendita** (activación) |
 | **N2** | `docs/sesiones/nivel-4/` | 3.º y 4.º | «Unidades de longitud» (3.º), «Pictogramas», «Enfermedades respiratorias», «Historieta» | **La carrera de conversiones** (complemento) |
-| **N3** | `docs/sesiones/nivel-5/` | 5.º y 6.º | Ninguna todavía | Pendiente |
+| **N3** | `docs/sesiones/nivel-5/` | 5.º y 6.º | «Ecosistemas» (CyT) y «Compras con decimales» (Matemática) | El jardín en equilibrio (propuesta A, recomendada) |
 
 ## 3. Juego N1 · La tiendita (activación)
 
@@ -49,9 +49,37 @@ Ningún juego puede ser una secuencia de preguntas con opciones. Cada respuesta 
 
 **Ritmo:** 3 niveles de dificultad (fácil: un salto; medio: dos saltos o cambio de dirección; avanzado: escalera completa y cantidades mayores). Total 8 a 12 minutos, sin límite de tiempo por pregunta.
 
-## 5. Juego N3 · Pendiente
+## 5. Juego N3 · Propuesta para elegir (activación, 5.º–6.º)
 
-Se diseña cuando lleguen las sesiones de 5.º y 6.º. Como referencia, una sesión de CyT sobre prevención de enfermedades (de 3.º en `nivel-4`) permitiría una «mochila del cuidador» de decisiones. Eso se decidirá con la sesión de N3, no antes.
+Hay dos sesiones de 5.º de primaria en `docs/sesiones/nivel-5/`. Se propone un juego de activación con una de ellas. La otra queda para un juego posterior.
+
+### Opción A · El jardín en equilibrio (Ciencia y Tecnología)
+
+**Sesión base:** «Los ecosistemas y la relación entre sus componentes» (5.º, Ciclo V). Criterios: C1 componentes bióticos y abióticos; C2 relaciones entre componentes; C3 consecuencia de disminuir el agua; C4 opinión sobre el riego por goteo con una fuente.
+
+**Historia en una frase:** el jardín de la escuela necesita agua, y el aula debe descubrir qué relaciones lo mantienen vivo.
+
+**Mecánica:** primero, cada componente que cae (planta, mariposa, agua, luz, piedra, suelo) se arrastra a la zona bióticos o abióticos. Después, el niño une dos componentes con una flecha y elige la relación (por ejemplo, «agua → planta: la absorbe por las raíces»). Por último, aparece una sequía: el niño elige qué medida tomar, como instalar riego por goteo, y observa la consecuencia en el jardín.
+
+**En el aula (activación):** la pantalla grande muestra el jardín. Cada equipo controla un componente desde su celular. La meta es colectiva: mantener el jardín en equilibrio hasta el final de la sequía. La barra de vida del jardín sube con cada relación correcta de cualquier equipo.
+
+**Ventaja:** reutiliza el motor de clasificación de N1 y agrega una sola interacción nueva (unir con flecha). La sequía se resuelve con animaciones.
+
+### Opción B · La caja de la tiendita (Matemática)
+
+**Sesión base:** «Resolvemos problemas de compras con números decimales» (5.º, Ciclo V). Criterios: C1 traducir a suma y resta; C2 unidades y décimos; C3 estimar y calcular gasto y vuelto; C4 comprobar con la operación inversa.
+
+**Historia en una frase:** la tiendita crece y ahora tiene caja registradora; hay que cobrar y dar el vuelto sin errores.
+
+**Mecánica:** el cliente trae productos con precios decimales (S/ 8,5, S/ 6,8). El niño suma en la caja y paga con billetes y monedas didácticos. Después calcula el vuelto arrastrando las monedas. Una comprobación final suma el vuelto y el gasto para ver si da el dinero pagado.
+
+**En el aula (activación):** meta colectiva: atender a 10 clientes sin error en el vuelto. Cada equipo atiende a un cliente desde su celular.
+
+**Desventaja:** necesita un motor de dinero (billetes, monedas y coma decimal), que hoy no existe. Es más trabajo que la opción A.
+
+### Recomendación
+
+**Opción A** para el MVP. Usa lo que ya existe, deja una experiencia colectiva clara y evita construir un motor de dinero. La opción B queda como juego de N3 para una segunda versión, o como juego complementario de 5.º.
 
 ## 6. Características comunes a todos los juegos
 
