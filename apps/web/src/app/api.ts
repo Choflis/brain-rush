@@ -194,12 +194,48 @@ async function pedir<T>(ruta: string, opciones: OpcionesPeticion = {}): Promise<
       method: opciones.metodo ?? "GET",
       headers: cabeceras,
       body: opciones.cuerpo === undefined ? undefined : JSON.stringify(opciones.cuerpo),
-      signal: AbortSignal.timeout(12_000),
+      signal: AbortSignal.timeout(60_000),
     });
   } catch {
     throw new ErrorApi(
       "SIN_CONEXION",
       "No se pudo conectar con el servidor.",
+    );
+  }
+
+  const texto = await respuesta.text();
+  const datos = texto ? (JSON.parse(texto) as unknown) : null;
+
+  if (!respuesta.ok) {
+    const error = (datos as { error?: { codigo?: CodigoError; mensaje?: string; detalles?: unknown } })
+      ?.error;
+    throw new ErrorApi(
+      error?.codigo ?? "INTERNO",
+      error?.mensaje ?? `Error ${respuesta.status}`,
+      respuesta.status,
+      error?.detalles,
+    );
+  }
+
+  return datos as T;
+}
+
+async function pedirMultipart<T>(ruta: string, formData: FormData, token?: string | null): Promise<T> {
+  const cabeceras: Record<string, string> = { Accept: "application/json" };
+  if (token) cabeceras.Authorization = `Bearer ${token}`;
+
+  let respuesta: Response;
+  try {
+    respuesta = await fetch(`${BASE}${ruta}`, {
+      method: "POST",
+      headers: cabeceras,
+      body: formData,
+      signal: AbortSignal.timeout(90_000),
+    });
+  } catch {
+    throw new ErrorApi(
+      "SIN_CONEXION",
+      "No se pudo conectar con el servidor o la operación de IA tardó demasiado.",
     );
   }
 
@@ -302,6 +338,46 @@ export const api = {
 
   panel: (juegoId: string, token: string) =>
     pedir<PanelJuego>(`/api/panel/${encodeURIComponent(juegoId)}`, { token }),
+
+  chat: (mensaje: string, historial?: Array<{ remitente: string; texto: string }>, contexto?: Record<string, unknown>) =>
+    pedir<{ ok: boolean; respuesta: string; modelo?: string }>("/api/chat", {
+      metodo: "POST",
+      cuerpo: { mensaje, historial, contexto },
+    }),
+
+  extraerPdf: (archivo: File, token?: string) => {
+    const fd = new FormData();
+    fd.append("archivo", archivo);
+    return pedirMultipart<{ ok: boolean; sesion: any; textoExtraido: string }>("/api/ia/extraer-pdf", fd, token);
+  },
+
+  generarDesdeSesion: (sesion: any, enfoqueDocente?: string, token?: string) =>
+    pedir<{ ok: boolean; juegoId: string; versionId: string; codigo: string; spec: GameSpec; mensaje: string }>(
+      "/api/ia/generar-desde-sesion",
+      { metodo: "POST", cuerpo: { sesion, enfoqueDocente }, token },
+    ),
+
+  generarDesdePdf: (archivo: File, enfoqueDocente?: string, token?: string) => {
+    const fd = new FormData();
+    fd.append("archivo", archivo);
+    if (enfoqueDocente) fd.append("enfoqueDocente", enfoqueDocente);
+    return pedirMultipart<{
+      ok: boolean;
+      juegoId: string;
+      sesionId: string;
+      versionId: string;
+      codigo: string;
+      spec: GameSpec;
+      sesion: any;
+    }>("/api/ia/generar-desde-pdf", fd, token);
+  },
+
+  refinarJuegoConIA: (juegoId: string, instruccion: string, token?: string) =>
+    pedir<{ ok: boolean; version: number; spec: GameSpec; respuestaIA: string }>("/api/ia/refinar-juego", {
+      metodo: "POST",
+      cuerpo: { juegoId, instruccion },
+      token,
+    }),
 };
 
 export { BASE as API_URL };

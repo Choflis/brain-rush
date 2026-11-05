@@ -61,7 +61,7 @@ const ItemCarrera = z.object({
   retro: Retro,
 });
 
-const Nivel = <T extends z.ZodTypeAny>(items: T) =>
+const NivelItems = <T extends z.ZodTypeAny>(items: T) =>
   z.object({
     dificultad: z.enum(DIFICULTADES),
     items: z.array(items).min(3),
@@ -100,13 +100,13 @@ export const TiendaSpecSchema = z.object({
   ...Comun,
   mecanica: z.literal("tienda"),
   meta: MetaColectiva.optional(),
-  niveles: z.array(Nivel(ItemTienda)).length(3),
+  niveles: z.array(NivelItems(ItemTienda)).length(3),
 });
 
 export const CarreraSpecSchema = z.object({
   ...Comun,
   mecanica: z.literal("carrera"),
-  niveles: z.array(Nivel(ItemCarrera)).length(3),
+  niveles: z.array(NivelItems(ItemCarrera)).length(3),
 });
 
 export const GameSpecSchema = z.discriminatedUnion("mecanica", [TiendaSpecSchema, CarreraSpecSchema]);
@@ -115,3 +115,6 @@ export type GameSpec = z.infer<typeof GameSpecSchema>;
 export type ItemTienda = z.infer<typeof ItemTienda>;
 export type ItemCarrera = z.infer<typeof ItemCarrera>;
 export type Unidad = (typeof UNIDADES)[number];
+export type Nivel = (typeof NIVELES)[number];
+export type TipoJuego = "activacion" | "complemento";
+export type Mecanica = "tienda" | "carrera";

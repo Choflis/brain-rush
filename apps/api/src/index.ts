@@ -2,7 +2,9 @@ import { Hono } from "hono";
 import { cors } from "hono/cors";
 import { ErrorHttp } from "./errores.ts";
 import { rutasBasicas } from "./rutas/basicas.ts";
+import { rutasChat } from "./rutas/chat.ts";
 import { rutasDev } from "./rutas/dev.ts";
+import { rutasIA } from "./rutas/ia.ts";
 import { rutasIntentos } from "./rutas/intentos.ts";
 import { rutasJuegos } from "./rutas/juegos.ts";
 import { rutasPanel } from "./rutas/panel.ts";
@@ -37,6 +39,8 @@ app.use(
 
 rutasBasicas(app);
 rutasJuegos(app);
+rutasIA(app);
+rutasChat(app);
 rutasIntentos(app);
 rutasSalas(app);
 rutasPanel(app);

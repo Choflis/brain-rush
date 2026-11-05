@@ -7,6 +7,7 @@ import { useDialogo } from "../../hooks/useDialogo";
 import { IconoDocente } from "../../componentes/IconoDocente";
 import { InsigniaSalon } from "../../componentes/IlustracionesInfantiles";
 import { AvatarReglita } from "../../componentes/AvatarReglita";
+import { api } from "../../api";
 
 interface MensajeChatSubida {
   id: string;
@@ -37,9 +38,61 @@ export function SesionesLista() {
   }
   function elegirArchivo(file?: File) {
     if (!file) return;
-    if (!/\.(pdf|docx)$/i.test(file.name)) { setErrorArchivo('Elige un documento PDF o DOCX.'); return; }
-    setErrorArchivo(''); setArchivoNombre(file.name);
-    if (!titulo.trim()) setTitulo(file.name.replace(/\.[^.]+$/, '').replace(/[_-]+/g, ' '));
+    if (!/\.(pdf|docx|txt)$/i.test(file.name)) {
+      setErrorArchivo('Elige un documento PDF o DOCX.');
+      return;
+    }
+    setErrorArchivo('');
+    setArchivoNombre(file.name);
+    setArchivoFile(file);
+    if (!titulo.trim()) {
+      setTitulo(file.name.replace(/\.[^.]+$/, '').replace(/[_-]+/g, ' '));
+    }
+
+    setProcesandoIA(true);
+    setMensajesChat((prev) => [
+      ...prev,
+      {
+        id: `ia-proc-${Date.now()}`,
+        remitente: "ia",
+        texto: `📄 Leyendo «${file.name}» con Mistral para identificar competencias, criterios y propósitos CNEB...`,
+      },
+    ]);
+
+    api
+      .extraerPdf(file)
+      .then((res) => {
+        if (res.sesion) {
+          if (res.sesion.titulo) setTitulo(res.sesion.titulo);
+          if (res.sesion.grado) setGrado(res.sesion.grado);
+          if (res.sesion.area) setArea(res.sesion.area);
+          if (res.sesion.competencia) setCompetencia(res.sesion.competencia);
+          if (res.sesion.proposito) setProposito(res.sesion.proposito);
+          setSesionExtraida(res.sesion);
+
+          setMensajesChat((prev) => [
+            ...prev,
+            {
+              id: `ia-res-${Date.now()}`,
+              remitente: "ia",
+              texto: `¡Listo, profe! Extraje la sesión «${res.sesion.titulo}» (${res.sesion.grado}.° grado) con ${res.sesion.criterios?.length || 1} criterios formativos CNEB. ¿Deseas priorizar algún enfoque antes de generar el juego?`,
+            },
+          ]);
+        }
+      })
+      .catch(() => {
+        setMensajesChat((prev) => [
+          ...prev,
+          {
+            id: `ia-res-${Date.now()}`,
+            remitente: "ia",
+            texto: `Documento «${file.name}» preparado. Puedes afinar los campos del formulario y pulsar "Crear Actividades" para generar el videojuego interactivo con Reglita.`,
+          },
+        ]);
+      })
+      .finally(() => {
+        setProcesandoIA(false);
+      });
   }
   const sesionesVisibles = sesiones.filter(s => (filtroGrado === 'todos' || s.grado === Number(filtroGrado)) && `${s.titulo} ${s.area} ${s.competencia}`.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLocaleLowerCase('es').includes(busqueda.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLocaleLowerCase('es')));
 
@@ -51,13 +104,15 @@ export function SesionesLista() {
   const [competencia, setCompetencia] = useState("Resuelve problemas de cantidad");
   const [proposito, setProposito] = useState("");
   const [archivoNombre, setArchivoNombre] = useState<string | null>(null);
+  const [archivoFile, setArchivoFile] = useState<File | null>(null);
+  const [sesionExtraida, setSesionExtraida] = useState<any | null>(null);
 
   // Asistente Reglita para la subida
   const [mensajesChat, setMensajesChat] = useState<MensajeChatSubida[]>([
     {
       id: "ia-init",
       remitente: "ia",
-      texto: "¡Hola, profe! Soy Reglita. Sube tu sesión de aprendizaje y cuéntame si deseas priorizar algún enfoque específico (ej. cálculo mental rápido, andamiaje visual, material concreto o retos progresivos).",
+      texto: "¡Hola, profe! Soy Reglita. Sube tu sesión de aprendizaje en PDF o DOCX y cuéntame si deseas priorizar algún enfoque específico (ej. cálculo mental rápido, andamiaje visual, material concreto o retos progresivos).",
     },
   ]);
   const [inputChat, setInputChat] = useState("");
@@ -76,45 +131,140 @@ export function SesionesLista() {
     setInputChat("");
     setProcesandoIA(true);
 
-    chatTimer.current = setTimeout(() => {
-      let respuesta = "";
-      const lower = txt.toLowerCase();
-      if (lower.includes("mercado") || lower.includes("tienda") || lower.includes("comprar")) {
-        respuesta = "¡Excelente idea pedagógica, profe! Configuraré la dinámica de la tiendita con productos contextualizados y conteo guiado.";
-      } else if (lower.includes("carrera") || lower.includes("velocidad") || lower.includes("saltar")) {
-        respuesta = "¡Muy motivador para los niños! Prepararé la carrera interactiva con retos de conversión métrica para abrir puertas.";
-      } else if (lower.includes("naturaleza") || lower.includes("ecología") || lower.includes("ambiente")) {
-        respuesta = "¡Enfoque muy significativo! Diseñaré la actividad enfocada en el equilibrio de seres vivos y el cuidado ambiental.";
-      } else {
-        respuesta = `¡Entendido, profesor! Ajustaré la curva de dificultad y los apoyos visuales para responder a «${txt}».`;
-      }
+    api
+      .chat(
+        `El docente está subiendo una sesión de ${area} para ${grado}.° de primaria y da esta indicación pedagógica: "${txt}". Responde brevemente como Reglita qué dinámica o mecánica aplicarás en el videojuego.`,
+        mensajesChat.map((m) => ({ remitente: m.remitente, texto: m.texto }))
+      )
+      .then((res) => {
+        setMensajesChat((prev) => [
+          ...prev,
+          { id: `ia-${Date.now()}`, remitente: "ia", texto: res.respuesta },
+        ]);
+      })
+      .catch(() => {
+        let respuesta = "";
+        const lower = txt.toLowerCase();
+        if (lower.includes("mercado") || lower.includes("tienda") || lower.includes("comprar")) {
+          respuesta = "¡Excelente idea pedagógica, profe! Configuraré la dinámica de la tiendita con productos contextualizados y conteo guiado.";
+        } else if (lower.includes("carrera") || lower.includes("velocidad") || lower.includes("saltar")) {
+          respuesta = "¡Muy motivador para los niños! Prepararé la carrera interactiva con retos de conversión métrica para abrir puertas.";
+        } else if (lower.includes("naturaleza") || lower.includes("ecología") || lower.includes("ambiente")) {
+          respuesta = "¡Enfoque muy significativo! Diseñaré la actividad enfocada en el equilibrio de seres vivos y el cuidado ambiental.";
+        } else {
+          respuesta = `¡Entendido, profesor! Ajustaré la curva de dificultad y los apoyos visuales para responder a «${txt}».`;
+        }
 
-      setMensajesChat((prev) => [
-        ...prev,
-        { id: `ia-${Date.now()}`, remitente: "ia", texto: respuesta },
-      ]);
-      setProcesandoIA(false);
-    }, 500);
+        setMensajesChat((prev) => [
+          ...prev,
+          { id: `ia-${Date.now()}`, remitente: "ia", texto: respuesta },
+        ]);
+      })
+      .finally(() => {
+        setProcesandoIA(false);
+      });
   };
 
   const handleSimularArchivo = (nombre: string) => {
     setArchivoNombre(nombre);
-    if (!titulo) {
-      if (nombre.includes("fracciones")) setTitulo("Descubrimos las fracciones con alimentos");
-      else if (nombre.includes("geometria")) setTitulo("Cuerpos geométricos en nuestro entorno");
-      else setTitulo("Sesión de aprendizaje interactiva");
-    }
-    if (!proposito) {
-      setProposito("Desarrollar comprensión significativa a través de la resolución colaborativa de problemas.");
+    setArchivoFile(null);
+    if (nombre.includes("primer-grado-u1-s9")) {
+      setTitulo("Elaboran el cartel con los precios de los productos y sus nombres");
+      setGrado(1);
+      setArea("Matemática");
+      setCompetencia("Resuelve problemas de cantidad");
+      setProposito("Aprenderán a organizar productos de una tienda, elaborar carteles con sus precios y clasificarlos según su categoría.");
+      setMensajesChat((prev) => [
+        ...prev,
+        {
+          id: `ia-${Date.now()}`,
+          remitente: "ia",
+          texto: "¡Sesión oficial de 1.° de primaria cargada! Adaptaremos «La Tiendita del Aula» con conteo guiado y meta colectiva en camión.",
+        },
+      ]);
+    } else if (nombre.includes("UNIDADES DE LONGITUD")) {
+      setTitulo("Unidades de Longitud: múltiplos y conversiones en el patio");
+      setGrado(3);
+      setArea("Matemática");
+      setCompetencia("Resuelve problemas de forma, movimiento y localización");
+      setProposito("Medir longitudes y realizar conversiones entre metros, decímetros y centímetros usando la escalera métrica.");
+      setMensajesChat((prev) => [
+        ...prev,
+        {
+          id: `ia-${Date.now()}`,
+          remitente: "ia",
+          texto: "¡Sesión de 3.° de primaria cargada! Configuraremos «La Carrera del Patio» con retos de conversión usando ×10 y ÷10.",
+        },
+      ]);
+    } else {
+      setTitulo("Ecosistemas y relaciones tróficas en nuestra comunidad");
+      setGrado(5);
+      setArea("Ciencia y Tecnología");
+      setCompetencia("Explica el mundo físico basándose en conocimientos sobre los seres vivos");
+      setProposito("Identificar los niveles tróficos y las cadenas alimenticias en los ecosistemas locales.");
+      setMensajesChat((prev) => [
+        ...prev,
+        {
+          id: `ia-${Date.now()}`,
+          remitente: "ia",
+          texto: "¡Sesión de 5.° de primaria cargada! Prepararemos «EcoAventura» con exploración de hábitats y cadenas tróficas.",
+        },
+      ]);
     }
   };
 
-  const guardarNuevaSesion = (e: React.FormEvent) => {
+  const guardarNuevaSesion = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!titulo.trim()) return;
 
     setGuardando(true);
-    guardarTimer.current = setTimeout(() => {
+    const enfoqueDocente = mensajesChat
+      .filter((m) => m.remitente === "docente")
+      .map((m) => m.texto)
+      .join(" | ");
+
+    try {
+      let resultadoJuego;
+      if (archivoFile) {
+        resultadoJuego = await api.generarDesdePdf(archivoFile, enfoqueDocente);
+      } else {
+        const sesionDatos = sesionExtraida || {
+          titulo,
+          grado: Number(grado),
+          area,
+          competencia,
+          proposito,
+          criterios: [
+            { id: "C1", texto: proposito || "Demuestra comprensión del contenido formativo" },
+          ],
+        };
+        resultadoJuego = await api.generarDesdeSesion(sesionDatos, enfoqueDocente);
+      }
+
+      if (resultadoJuego?.spec) {
+        aulaVirtual.crearSesion(
+          {
+            titulo: resultadoJuego.spec.titulo || titulo,
+            grado: Number(grado),
+            area,
+            competencia,
+            proposito,
+            archivoNombre: archivoNombre || "sesion-docente.pdf",
+          },
+          enfoqueDocente,
+        );
+
+        setAviso(`¡Videojuego «${resultadoJuego.spec.titulo}» generado con Mistral AI! Código de juego: ${resultadoJuego.codigo}`);
+        cerrarSubida();
+        setTitulo("");
+        setProposito("");
+        setArchivoNombre(null);
+        setArchivoFile(null);
+        setSesionExtraida(null);
+        return;
+      }
+    } catch {
+      // Fallback local en aula virtual
       aulaVirtual.crearSesion(
         {
           titulo,
@@ -124,24 +274,18 @@ export function SesionesLista() {
           proposito,
           archivoNombre: archivoNombre || "sesion-docente.pdf",
         },
-        mensajesChat.filter((m) => m.remitente === "docente").map((m) => m.texto).join(" | ")
+        enfoqueDocente,
       );
-
-      setGuardando(false);
+      setAviso(`Sesión «${titulo}» guardada en tu aula virtual.`);
       cerrarSubida();
-      setAviso(`Sesión «${titulo}» guardada en tu aula de demostración.`);
-      // Reset
       setTitulo("");
       setProposito("");
       setArchivoNombre(null);
-      setMensajesChat([
-        {
-          id: "ia-init",
-          remitente: "ia",
-          texto: "¡Hola, docente! Sube el archivo de tu sesión y dime si tienes indicaciones especiales para el videojuego.",
-        },
-      ]);
-    }, 600);
+      setArchivoFile(null);
+      setSesionExtraida(null);
+    } finally {
+      setGuardando(false);
+    }
   };
 
   return (
@@ -362,7 +506,7 @@ export function SesionesLista() {
                     className="boton boton-primario"
                     disabled={guardando || !titulo.trim()}
                   >
-                    {guardando ? "Preparando tu sesión…" : "Crear Actividades"}
+                    {guardando ? "Generando videojuego con Mistral AI…" : "Guardar y Generar Videojuegos"}
                   </button>
                 </footer>
               </form>

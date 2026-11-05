@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { aulaVirtual, type JuegoAula } from "../../datos/aulaVirtual";
 import { IconoAnimado } from "../../componentes/IconoAnimado";
 import { AvatarReglita } from "../../componentes/AvatarReglita";
+import { api } from "../../api";
 
 interface Props {
   juego: JuegoAula;
@@ -79,29 +80,60 @@ export function PrevisualizadorModal({ juego: juegoInicial, onCerrar, onJuegoAct
     setMensajes((prev) => [...prev, nuevoMensajeDocente]);
     setInputDocente("");
     setEnviando(true);
-
     setError("");
-    timer.current = setTimeout(() => {
-      try {
-        const { respuestaIA, juegoActualizado } = aulaVirtual.refinarJuegoConIA(juego.id, texto);
+
+    const contexto = {
+      juegoId: juego.id,
+      titulo: juego.titulo,
+      codigo: juego.codigo,
+      mecanica: juego.mecanica,
+      version: juego.versionActual,
+    };
+
+    api
+      .chat(
+        `El docente quiere ajustar el juego «${juego.titulo}» (${juego.mecanica}): "${texto}". Responde qué ajustas pedagógicamente como Reglita.`,
+        mensajes.map((m) => ({ remitente: m.remitente, texto: m.texto })),
+        contexto,
+      )
+      .then((res) => {
+        const { juegoActualizado } = aulaVirtual.refinarJuegoConIA(juego.id, texto);
         setJuego(juegoActualizado);
         if (onJuegoActualizado) onJuegoActualizado(juegoActualizado);
 
         const nuevoMensajeIA: MensajeChat = {
           id: `ia-${Date.now()}`,
           remitente: "ia",
-          texto: respuestaIA,
+          texto: res.respuesta,
           hora: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
         };
 
         setMensajes((prev) => [...prev, nuevoMensajeIA]);
         setRecargarKey((k) => k + 1);
-      } catch (err) {
-        setError("No pudimos guardar el ajuste. Vuelve a intentarlo.");
-      } finally {
+      })
+      .catch(() => {
+        // Fallback local
+        try {
+          const { respuestaIA, juegoActualizado } = aulaVirtual.refinarJuegoConIA(juego.id, texto);
+          setJuego(juegoActualizado);
+          if (onJuegoActualizado) onJuegoActualizado(juegoActualizado);
+
+          const nuevoMensajeIA: MensajeChat = {
+            id: `ia-${Date.now()}`,
+            remitente: "ia",
+            texto: respuestaIA,
+            hora: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
+          };
+
+          setMensajes((prev) => [...prev, nuevoMensajeIA]);
+          setRecargarKey((k) => k + 1);
+        } catch {
+          setError("No pudimos guardar el ajuste. Vuelve a intentarlo.");
+        }
+      })
+      .finally(() => {
         setEnviando(false);
-      }
-    }, 600);
+      });
   };
 
   // URL del simulador según la mecánica

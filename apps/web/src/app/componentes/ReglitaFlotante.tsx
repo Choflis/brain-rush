@@ -1,6 +1,7 @@
 import { useDialogo } from "../hooks/useDialogo";
 import { useState, useRef, useEffect } from "react";
 import { AvatarReglita } from "./AvatarReglita";
+import { api } from "../api";
 
 interface MensajeFlotante {
   id: string;
@@ -57,37 +58,55 @@ export function ReglitaFlotante() {
     setMensajeInput("");
     setEscribiendo(true);
 
-    timer.current = setTimeout(() => {
-      let respuesta = "";
-      const lower = texto.toLowerCase();
+    const historialEnvio = mensajes.map((m) => ({
+      remitente: m.remitente,
+      texto: m.texto,
+    }));
 
-      if (lower.includes("inicio") || lower.includes("proyección") || lower.includes("activación")) {
-        respuesta =
-          "Para los primeros 15 minutos, proyecta «La Tiendita» en la pizarra. Pide a 2 estudiantes voluntarios que salgan a la pantalla y al resto que indique con las manos cuántos productos faltan para llenar el camión. ¡Despierta la atención de inmediato y crea espíritu de equipo!";
-      } else if (lower.includes("cálculo") || lower.includes("sumar") || lower.includes("números")) {
-        respuesta =
-          "Te sugiero la dinámica «Carrera relámpago»: antes de iniciar el juego en tablets, lanza un reto oral en la pizarra como: '¿Cuántos centímetros hay en 2 metros?'. El estudiante que responda elige la velocidad del corredor en el simulador.";
-      } else if (lower.includes("ritmo") || lower.includes("apoyo") || lower.includes("refuerzo")) {
-        respuesta =
-          "En juegos individuales de complemento, activa 'Pistas visuales automáticas' tras el primer error. Así el estudiante no se frustra y asocia la cantidad con colores antes de pasar al siguiente nivel.";
-      } else if (lower.includes("cierre") || lower.includes("pregunt")) {
-        respuesta =
-          "Una excelente pregunta metacognitiva de cierre: «¿Qué estrategia usaron para no equivocarse al clasificar los productos? ¿Qué aprendimos que podamos usar en el mercado de verdad?». Con 3 participaciones cierras la sesión con broche de oro.";
-      } else {
-        respuesta =
-          `¡Excelente consulta, profe! Para «${texto}», te recomiendo vincularlo directamente con la evidencia del criterio C1. Puedes usar la actividad en proyector como motivación inicial y dejar el juego individual para afianzar en parejas.`;
-      }
+    api
+      .chat(texto, historialEnvio)
+      .then((res) => {
+        const nuevaRespuesta: MensajeFlotante = {
+          id: `reg-${Date.now()}`,
+          remitente: "reglita",
+          texto: res.respuesta,
+          hora: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
+        };
+        setMensajes((prev) => [...prev, nuevaRespuesta]);
+      })
+      .catch(() => {
+        // Fallback heurístico en caso de desconexión
+        let respuesta = "";
+        const lower = texto.toLowerCase();
 
-      const nuevaRespuesta: MensajeFlotante = {
-        id: `reg-${Date.now()}`,
-        remitente: "reglita",
-        texto: respuesta,
-        hora: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
-      };
+        if (lower.includes("inicio") || lower.includes("proyección") || lower.includes("activación")) {
+          respuesta =
+            "Para los primeros 15 minutos, proyecta «La Tiendita» en la pizarra. Pide a 2 estudiantes voluntarios que salgan a la pantalla y al resto que indique con las manos cuántos productos faltan para llenar el camión. ¡Despierta la atención de inmediato y crea espíritu de equipo!";
+        } else if (lower.includes("cálculo") || lower.includes("sumar") || lower.includes("números")) {
+          respuesta =
+            "Te sugiero la dinámica «Carrera relámpago»: antes de iniciar el juego en tablets, lanza un reto oral en la pizarra como: '¿Cuántos centímetros hay en 2 metros?'. El estudiante que responda elige la velocidad del corredor en el simulador.";
+        } else if (lower.includes("ritmo") || lower.includes("apoyo") || lower.includes("refuerzo")) {
+          respuesta =
+            "En juegos individuales de complemento, activa 'Pistas visuales automáticas' tras el primer error. Así el estudiante no se frustra y asocia la cantidad con colores antes de pasar al siguiente nivel.";
+        } else if (lower.includes("cierre") || lower.includes("pregunt")) {
+          respuesta =
+            "Una excelente pregunta metacognitiva de cierre: «¿Qué estrategia usaron para no equivocarse al clasificar los productos? ¿Qué aprendimos que podamos usar en el mercado de verdad?». Con 3 participaciones cierras la sesión con broche de oro.";
+        } else {
+          respuesta =
+            `¡Excelente consulta, profe! Para «${texto}», te recomiendo vincularlo directamente con la evidencia de aprendizaje de tu sesión. Puedes usar la actividad en proyector como motivación inicial y dejar el juego individual para afianzar en parejas.`;
+        }
 
-      setMensajes((prev) => [...prev, nuevaRespuesta]);
-      setEscribiendo(false);
-    }, 600);
+        const nuevaRespuesta: MensajeFlotante = {
+          id: `reg-${Date.now()}`,
+          remitente: "reglita",
+          texto: respuesta,
+          hora: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
+        };
+        setMensajes((prev) => [...prev, nuevaRespuesta]);
+      })
+      .finally(() => {
+        setEscribiendo(false);
+      });
   };
 
   return (
