@@ -127,10 +127,12 @@ Los scripts de prueba se ejecutan directamente con el motor de pruebas nativo de
 - Implementación de Fase 3 · Meta colectiva: avance visual de la barra del camión de reparto (`meta.tipo = "camion"`).
 - Emisión de `fin` con aciertos y total coherentes al completar todos los ítems o al cerrar la escena.
 
-### Pendiente para C3 (Mecánica Carrera - N2):
-- Subclase `EscenaCarrera extends EscenaBase`.
-- Dibujo interactivo de la escalera de unidades métricas (`km, hm, dam, m, dm, cm, mm`).
-- Botones interactivos de salto `×10` y `÷10` que actualizan el valor de la medida.
-- Selección o arrastre del resultado hacia la puerta del guardián.
-- Validación de acierto contra `opciones[correcta]`.
-- Animaciones de avance del personaje Reglita a través de la puerta guardián al acertar.
+### Implementado en C3 (Mecánica Carrera - N2, complemento):
+- Clase `MecanicaCarrera` (con alias `EscenaCarrera`) que extiende `EscenaBase`.
+- Representación interactiva de la escalera de unidades métricas (`km, hm, dam, m, dm, cm, mm`) y desplazamiento de Reglita.
+- Botones interactivos `×10` y `÷10` para construir el resultado y avanzar/retroceder en la escalera.
+- Arrastre del resultado y fichas de opciones hacia la puerta del guardián (`puerta-guardian`).
+- Validación de acierto contra `opciones[correcta]`, emitiendo `respuesta` con `correcto: true` y feedback `estrella` o `aplauso`.
+- Manejo de error emitiendo `respuesta` con `correcto: false` y feedback `pista`.
+- Conclusión automática al terminar todos los ítems llamando a `cerrarConFin()` (`completado: true`).
+- Pruebas unitarias en `src/carrera.test.ts` ejecutables en Node con el polyfill existente.
