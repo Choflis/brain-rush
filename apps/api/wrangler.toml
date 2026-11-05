@@ -6,7 +6,7 @@ compatibility_date = "2026-11-01"
 [[d1_databases]]
 binding = "DB"
 database_name = "brain-rush"
-database_id = "pendiente"
+database_id = "43044bf8-eb2f-4e7a-81dd-14e0d5daff24"
 migrations_dir = "migrations"
 
 # Almacenamiento de juegos, versiones, PDFs y escaneos.
