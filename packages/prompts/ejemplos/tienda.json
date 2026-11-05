@@ -1,0 +1,57 @@
+{
+  "specVersion": "1.0",
+  "titulo": "La tiendita",
+  "tipo": "activacion",
+  "nivel": "N1",
+  "grados": [1, 2],
+  "duracionMin": 10,
+  "mecanica": "tienda",
+  "origen": { "sesion": "ejemplo", "grado": 1, "area": "Matemática", "competencia": "Resuelve problemas de cantidad" },
+  "criterios": [{ "id": "C1", "texto": "Organiza productos según su categoría" }],
+  "personaje": { "id": "personaje-reglita", "nombre": "Reglita" },
+  "escenario": { "id": "escenario-tiendita", "tema": "tienda" },
+  "tutorial": { "animacion": "anim-tutorial-tienda" },
+  "meta": { "tipo": "camion", "objetivo": 10 },
+  "niveles": [
+    {
+      "dificultad": "facil",
+      "items": [
+        {
+          "id": "f1",
+          "criterio": "C1",
+          "accion": "clasificar",
+          "estanterias": [
+            { "id": "bebidas", "asset": "estanteria-bebidas" },
+            { "id": "galletas", "asset": "estanteria-galletas" }
+          ],
+          "productos": [
+            { "id": "p1", "asset": "producto-gaseosa", "categoria": "bebidas" },
+            { "id": "p2", "asset": "producto-galleta", "categoria": "galletas" },
+            { "id": "p3", "asset": "producto-agua", "categoria": "bebidas" },
+            { "id": "p4", "asset": "producto-galleta", "categoria": "galletas" }
+          ],
+          "retro": { "ok": "estrella", "error": "pista" }
+        },
+        {
+          "id": "f2",
+          "criterio": "C1",
+          "accion": "pedido",
+          "consigna": { "asset": "producto-agua", "texto": "2" },
+          "estanterias": [
+            { "id": "bebidas", "asset": "estanteria-bebidas" },
+            { "id": "galletas", "asset": "estanteria-galletas" }
+          ],
+          "productos": [
+            { "id": "p1", "asset": "producto-gaseosa", "categoria": "bebidas" },
+            { "id": "p2", "asset": "producto-agua", "categoria": "bebidas" },
+            { "id": "p3", "asset": "producto-galleta", "categoria": "galletas" },
+            { "id": "p4", "asset": "producto-galleta", "categoria": "galletas" }
+          ],
+          "pedido": { "categoria": "bebidas", "cantidad": 2 },
+          "retro": { "ok": "aplauso", "error": "pista" }
+        }
+      ]
+    }
+  ],
+  "evaluacion": { "minimoLogro": 0.6 }
+}

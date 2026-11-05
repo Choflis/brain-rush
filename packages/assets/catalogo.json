@@ -1,0 +1,38 @@
+{
+  "version": "2",
+  "descripcion": "Biblioteca de recursos visuales y animaciones. El modelo solo puede referenciar ids de esta lista. Reglita aparece en todos los juegos; las dinámicas se adaptan a la sesión.",
+  "assets": [
+    { "id": "personaje-reglita", "tipo": "personaje", "niveles": ["N1", "N2", "N3"], "descripcion": "Reglita, guía de todos los juegos: regla con ojos y brazos" },
+
+    { "id": "escenario-tiendita", "tipo": "escenario", "niveles": ["N1"], "descripcion": "Tiendita del aula con estanterías y caja registradora" },
+    { "id": "camion-reparto", "tipo": "imagen", "niveles": ["N1"], "descripcion": "Camión de reparto que se llena con los productos (meta colectiva)" },
+    { "id": "estanteria-bebidas", "tipo": "imagen", "niveles": ["N1"], "descripcion": "Estantería para bebidas" },
+    { "id": "estanteria-galletas", "tipo": "imagen", "niveles": ["N1"], "descripcion": "Estantería para galletas" },
+    { "id": "producto-gaseosa", "tipo": "imagen", "niveles": ["N1"], "descripcion": "Botella de gaseosa" },
+    { "id": "producto-jugo", "tipo": "imagen", "niveles": ["N1"], "descripcion": "Caja de jugo" },
+    { "id": "producto-agua", "tipo": "imagen", "niveles": ["N1"], "descripcion": "Botella de agua" },
+    { "id": "producto-galleta", "tipo": "imagen", "niveles": ["N1"], "descripcion": "Paquete de galletas" },
+    { "id": "producto-leche", "tipo": "imagen", "niveles": ["N1"], "descripcion": "Caja de leche" },
+    { "id": "anim-tutorial-tienda", "tipo": "animacion", "niveles": ["N1"], "descripcion": "Reglita acomoda un producto en su estantería; el producto cae en el lugar correcto" },
+    { "id": "anim-camion-lleno", "tipo": "animacion", "niveles": ["N1"], "descripcion": "El camión se llena y todos celebran" },
+    { "id": "anim-caja-registradora", "tipo": "animacion", "niveles": ["N1"], "descripcion": "La caja suena cuando el pedido está completo" },
+
+    { "id": "escenario-patio", "tipo": "escenario", "niveles": ["N2", "N3"], "descripcion": "Patio de la escuela con escalera de bloques" },
+    { "id": "objeto-lapiz", "tipo": "imagen", "niveles": ["N2"], "descripcion": "Lápiz" },
+    { "id": "objeto-cuerda", "tipo": "imagen", "niveles": ["N2"], "descripcion": "Cuerda enrollada" },
+    { "id": "objeto-puerta", "tipo": "imagen", "niveles": ["N2"], "descripcion": "Puerta del aula" },
+    { "id": "objeto-mesa", "tipo": "imagen", "niveles": ["N2"], "descripcion": "Mesa de aula" },
+    { "id": "objeto-cuaderno", "tipo": "imagen", "niveles": ["N2"], "descripcion": "Cuaderno" },
+    { "id": "objeto-pizarra", "tipo": "imagen", "niveles": ["N2"], "descripcion": "Pizarra" },
+    { "id": "puerta-guardian", "tipo": "imagen", "niveles": ["N2"], "descripcion": "Puerta del patio con un guardián que pide una medida" },
+    { "id": "icono-por-10", "tipo": "imagen", "niveles": ["N2"], "descripcion": "Botón ×10: la cifra sube un escalón" },
+    { "id": "icono-entre-10", "tipo": "imagen", "niveles": ["N2"], "descripcion": "Botón ÷10: la cifra baja un escalón" },
+    { "id": "icono-escalera-unidades", "tipo": "imagen", "niveles": ["N2"], "descripcion": "Escalera km, hm, dam, m, dm, cm, mm" },
+    { "id": "anim-tutorial-escalera", "tipo": "animacion", "niveles": ["N2"], "descripcion": "Reglita sube y baja la escalera de unidades, con ×10 y ÷10 en cada salto" },
+    { "id": "anim-salto-puerta", "tipo": "animacion", "niveles": ["N2"], "descripcion": "Reglita salta la puerta cuando la respuesta es correcta" },
+    { "id": "anim-pista-escalera", "tipo": "animacion", "niveles": ["N2"], "descripcion": "La escalera muestra el camino correcto" },
+
+    { "id": "anim-estrella", "tipo": "animacion", "niveles": ["N1", "N2", "N3"], "descripcion": "Estrella que aparece al acertar" },
+    { "id": "anim-aplauso", "tipo": "animacion", "niveles": ["N1", "N2", "N3"], "descripcion": "Personaje que aplaude al acertar" }
+  ]
+}

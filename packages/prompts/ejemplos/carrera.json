@@ -1,0 +1,33 @@
+{
+  "specVersion": "1.0",
+  "titulo": "Carrera del patio",
+  "tipo": "complemento",
+  "nivel": "N2",
+  "grados": [3, 4],
+  "duracionMin": 8,
+  "mecanica": "carrera",
+  "origen": { "sesion": "ejemplo", "grado": 3, "area": "Matemática", "competencia": "Resuelve problemas de forma, movimiento y localización" },
+  "criterios": [{ "id": "C3", "texto": "Realiza conversiones usando ×10 y ÷10" }],
+  "personaje": { "id": "personaje-reglita", "nombre": "Reglita" },
+  "escenario": { "id": "escenario-patio", "tema": "patio" },
+  "tutorial": { "animacion": "anim-tutorial-escalera" },
+  "niveles": [
+    {
+      "dificultad": "facil",
+      "items": [
+        {
+          "id": "f1",
+          "criterio": "C3",
+          "enunciado": { "asset": "puerta-guardian" },
+          "cantidad": 2,
+          "desde": "m",
+          "hasta": "dm",
+          "opciones": [20, 2, 0.2],
+          "correcta": 0,
+          "retro": { "ok": "estrella", "error": "pista" }
+        }
+      ]
+    }
+  ],
+  "evaluacion": { "minimoLogro": 0.6 }
+}
