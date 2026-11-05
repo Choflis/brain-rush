@@ -2,7 +2,7 @@ import type { GameSpec } from "@brain-rush/gamespec";
 import type { Hono } from "hono";
 import { alumnoActual, docenteOAlumno, soloAlumno, soloDocente } from "../auth.ts";
 import { ahora, codigoSala, itemsDeSpec, nuevoId } from "../db.ts";
-import { ErrorHttp, conflicto, leerCuerpo, noEncontrado, validacion } from "../errores.ts";
+import { ErrorHttp, leerCuerpo, noEncontrado, validacion } from "../errores.ts";
 import {
   EsquemaAvanzar,
   EsquemaRespuestaSala,
@@ -46,10 +46,63 @@ type FilaEvento = {
 };
 
 async function buscarSala(db: D1Database, codigo: string): Promise<FilaSala> {
-  const sala = await db
+  const codigoLimpio = codigo.trim().toUpperCase();
+  let sala = await db
     .prepare("SELECT * FROM rooms WHERE codigo = ?")
-    .bind(codigo.toUpperCase())
+    .bind(codigoLimpio)
     .first<FilaSala>();
+
+  if (!sala) {
+    // Si no es un código de sala exacto, buscar si corresponde al código o id de un juego publicado
+    const juego = await db
+      .prepare("SELECT * FROM games WHERE (codigo = ? OR id = ?) AND estado = 'publicado'")
+      .bind(codigoLimpio, codigo.trim())
+      .first<FilaJuego>();
+
+    if (juego) {
+      sala = await db
+        .prepare("SELECT * FROM rooms WHERE game_id = ? ORDER BY creada_en DESC LIMIT 1")
+        .bind(juego.id)
+        .first<FilaSala>();
+
+      if (!sala) {
+        const version = await db
+          .prepare(
+            "SELECT * FROM game_versions WHERE game_id = ? AND publicada = 1 ORDER BY numero DESC LIMIT 1",
+          )
+          .bind(juego.id)
+          .first<FilaVersion>();
+
+        if (version) {
+          const spec = JSON.parse(version.spec) as GameSpec;
+          const total = itemsDeSpec(spec).length;
+          const salaId = nuevoId();
+          const meta = spec.mecanica === "tienda" ? spec.meta : undefined;
+          const ahoraStr = ahora();
+
+          await db
+            .prepare(
+              `INSERT INTO rooms
+                (id, codigo, game_id, version_id, estado, ronda, total_rondas, progreso, meta_objetivo, max_alumnos, seq, creada_en)
+               VALUES (?, ?, ?, ?, 'esperando', 1, ?, 0, ?, 40, 0, ?)`,
+            )
+            .bind(
+              salaId,
+              juego.codigo,
+              juego.id,
+              version.id,
+              total,
+              meta?.objetivo ?? null,
+              ahoraStr,
+            )
+            .run();
+
+          sala = await db.prepare("SELECT * FROM rooms WHERE id = ?").bind(salaId).first<FilaSala>();
+        }
+      }
+    }
+  }
+
   if (!sala) noEncontrado("La sala no existe.");
   return sala;
 }
@@ -151,7 +204,15 @@ export function rutasSalas(app: Hono<AppEnv>) {
   app.post("/api/salas/:codigo/unirse", async (c) => {
     const { nombre } = await leerCuerpo(c, EsquemaUnirse);
     const sala = await buscarSala(c.env.DB, c.req.param("codigo"));
-    if (sala.estado === "terminada") conflicto("La sala ya terminó.");
+    if (sala.estado === "terminada") {
+      // Reabrir automáticamente la sala para una nueva sesión sin error 409
+      await c.env.DB.prepare(
+        "UPDATE rooms SET estado = 'esperando', ronda = 1, progreso = 0, cerrada_en = NULL WHERE id = ?",
+      )
+        .bind(sala.id)
+        .run();
+      sala.estado = "esperando";
+    }
 
     const cupo = await c.env.DB.prepare(
       "SELECT COUNT(*) AS total FROM room_participants WHERE room_id = ?",
@@ -235,7 +296,14 @@ export function rutasSalas(app: Hono<AppEnv>) {
     const sala = await buscarSala(c.env.DB, c.req.param("codigo"));
     const dentro = await participante(c.env.DB, sala.id, alumnoId);
     if (!dentro) throw new ErrorHttp(403, "SIN_PERMISO", "El alumno no pertenece a esta sala.");
-    if (sala.estado !== "jugando") conflicto("La sala todavía no está jugando.");
+
+    if (sala.estado !== "jugando") {
+      // Si la sala estaba esperando inicio, auto-transicionar a jugando para evitar 409
+      await c.env.DB.prepare("UPDATE rooms SET estado = 'jugando' WHERE id = ?")
+        .bind(sala.id)
+        .run();
+      sala.estado = "jugando";
+    }
 
     const datos = await leerCuerpo(c, EsquemaRespuestaSala);
     const spec = await specDeSala(c.env.DB, sala);

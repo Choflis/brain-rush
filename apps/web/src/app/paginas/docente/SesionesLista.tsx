@@ -250,11 +250,16 @@ export function SesionesLista() {
             competencia,
             proposito,
             archivoNombre: archivoNombre || "sesion-docente.pdf",
+            criterios: resultadoJuego.spec.criterios,
+            codigo: resultadoJuego.codigo,
+            juegoId: resultadoJuego.juegoId,
+            mecanica: resultadoJuego.spec.mecanica,
+            tipo: resultadoJuego.spec.tipo,
           },
           enfoqueDocente,
         );
 
-        setAviso(`¡Videojuego «${resultadoJuego.spec.titulo}» generado con Mistral AI! Código de juego: ${resultadoJuego.codigo}`);
+        setAviso(`¡Videojuego «${resultadoJuego.spec.titulo}» generado con éxito! Código: ${resultadoJuego.codigo}`);
         cerrarSubida();
         setTitulo("");
         setProposito("");
@@ -263,8 +268,9 @@ export function SesionesLista() {
         setSesionExtraida(null);
         return;
       }
-    } catch {
-      // Fallback local en aula virtual
+    } catch (err) {
+      console.warn("Fallo en generación por API, usando fallback local:", err);
+      const codigoFallback = `JUEGO-${Math.floor(1000 + Math.random() * 9000)}`;
       aulaVirtual.crearSesion(
         {
           titulo,
@@ -273,10 +279,12 @@ export function SesionesLista() {
           competencia,
           proposito,
           archivoNombre: archivoNombre || "sesion-docente.pdf",
+          codigo: codigoFallback,
+          mecanica: Number(grado) <= 2 ? "tienda" : "carrera",
         },
         enfoqueDocente,
       );
-      setAviso(`Sesión «${titulo}» guardada en tu aula virtual.`);
+      setAviso(`Sesión «${titulo}» guardada (Código: ${codigoFallback}).`);
       cerrarSubida();
       setTitulo("");
       setProposito("");

@@ -138,11 +138,11 @@ export function PrevisualizadorModal({ juego: juegoInicial, onCerrar, onJuegoAct
 
   // URL del simulador según la mecánica
   const obtenerUrlJuego = () => {
-    if (juego.codigo === "TIENDA" || juego.codigo === "TIENDA-C") {
-      return `/tiendita.html?preview=true&v=${juego.versionActual}&k=${recargarKey}`;
+    if (juego.mecanica === "tienda" || juego.codigo.includes("TIENDA")) {
+      return `/tiendita.html?preview=true&codigo=${encodeURIComponent(juego.codigo)}&v=${juego.versionActual}&k=${recargarKey}`;
     }
-    if (juego.codigo === "CARRERA") {
-      return `/j/CARRERA?preview=true&v=${juego.versionActual}&k=${recargarKey}`;
+    if (juego.mecanica === "carrera" || juego.codigo.includes("CARRERA")) {
+      return `/j/${encodeURIComponent(juego.codigo)}?preview=true&v=${juego.versionActual}&k=${recargarKey}`;
     }
     return `/docs/examples/EcoAventura_3D_Rescatemos_nuestro_Recreo.html?v=${juego.versionActual}&k=${recargarKey}`;
   };

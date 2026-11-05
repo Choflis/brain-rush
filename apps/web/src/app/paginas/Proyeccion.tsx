@@ -557,9 +557,19 @@ export function Proyeccion() {
                 )}
 
                 {estadoSala === "terminada" && (
-                  <Link to="/docente" className="boton boton-primario">
-                    Ver resultados en panel docente
-                  </Link>
+                  <>
+                    <button
+                      type="button"
+                      className="boton boton-primario"
+                      onClick={() => void manejarAvanzar(1)}
+                      disabled={accionEnCurso !== null}
+                    >
+                      {accionEnCurso === "avanzando" ? "Reiniciando…" : "🔄 Iniciar nueva partida"}
+                    </button>
+                    <Link to="/docente" className="boton boton-secundario">
+                      Ver resultados en panel docente
+                    </Link>
+                  </>
                 )}
               </div>
             </div>

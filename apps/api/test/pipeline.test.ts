@@ -276,3 +276,32 @@ test("generarGameSpecDesdeSesion - genera Tienda para 1.° grado y valida GameSp
   assert.equal(resultado.spec.mecanica, "tienda");
   assert.equal(resultado.spec.nivel, "N1");
 });
+
+test("extraerSesionPedagogica - fallback heuristico cuando no hay provider", async () => {
+  const texto = `
+    SESIÓN DE APRENDIZAJE: Medimos longitudes en el patio
+    Grado: 3.° de primaria
+    Área: Matemática
+    Competencia: Resuelve problemas de forma, movimiento y localización
+    Criterios:
+    - Convierte metros a centímetros usando la escalera métrica
+  `;
+  const sesion = await extraerSesionPedagogica(null, texto);
+  assert.equal(sesion.grado, 3);
+  assert.equal(sesion.area, "Matemática");
+  assert.equal(sesion.competencia, "Resuelve problemas de forma, movimiento y localización");
+  assert.ok(sesion.criterios.length > 0);
+});
+
+test("generarGameSpecDesdeSesion - fallback heuristico cuando no hay provider", async () => {
+  const sesion: SesionPedagogica = {
+    titulo: "Carrera de Longitud",
+    grado: 3,
+    area: "Matemática",
+    competencia: "Resuelve problemas de forma, movimiento y localización",
+    criterios: [{ id: "C1", texto: "Aplica conversiones" }],
+  };
+  const res = await generarGameSpecDesdeSesion(null, sesion);
+  assert.equal(res.spec.mecanica, "carrera");
+  assert.equal(res.spec.grados[0], 3);
+});

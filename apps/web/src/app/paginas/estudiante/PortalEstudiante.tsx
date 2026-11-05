@@ -50,10 +50,10 @@ export function PortalEstudiante() {
   };
 
   const handleLanzarJuego = (juego: JuegoAula) => {
-    if (juego.codigo === "TIENDA" || juego.codigo === "TIENDA-C") {
-      window.location.href = "/tiendita.html";
-    } else if (juego.codigo === "CARRERA") {
-      navegar(`/j/${juego.codigo}`);
+    if (juego.mecanica === "tienda" || juego.codigo.includes("TIENDA")) {
+      window.location.href = `/tiendita.html?codigo=${encodeURIComponent(juego.codigo)}`;
+    } else if (juego.mecanica === "carrera" || juego.codigo.includes("CARRERA")) {
+      navegar(`/j/${encodeURIComponent(juego.codigo)}`);
     } else {
       window.location.href = "/docs/examples/EcoAventura_3D_Rescatemos_nuestro_Recreo.html";
     }

@@ -640,12 +640,16 @@ export const aulaVirtual = {
       proposito?: string;
       archivoNombre?: string;
       criterios?: { id: string; texto: string }[];
+      codigo?: string;
+      juegoId?: string;
+      mecanica?: "tienda" | "carrera" | "ecosistemas";
+      tipo?: "activacion" | "complemento";
     },
     indicacionesIA?: string
   ): { sesion: SesionEstudio; juegosGenerados: JuegoAula[] } {
     const estado = cargarEstado();
     const nuevaSesionId = `ses-${Date.now()}`;
-    const codigoJuego = `JUEGO-${Math.floor(1000 + Math.random() * 9000)}`;
+    const codigoJuego = datos.codigo || `JUEGO-${Math.floor(1000 + Math.random() * 9000)}`;
 
     const criteriosFinales = datos.criterios && datos.criterios.length > 0
       ? datos.criterios
@@ -677,21 +681,23 @@ export const aulaVirtual = {
       creadoEn: new Date().toISOString(),
     };
 
+    const mecanicaJuego = datos.mecanica || (datos.grado <= 2 ? "tienda" : datos.grado <= 4 ? "carrera" : "ecosistemas");
+
     // Generar juego de activación y complemento orientados por la IA
     const juegoActivacion: JuegoAula = {
-      id: `juego-act-${Date.now()}`,
-      codigo: `${codigoJuego}-ACT`,
+      id: datos.juegoId || `juego-act-${Date.now()}`,
+      codigo: datos.codigo || `${codigoJuego}-ACT`,
       titulo: `${datos.titulo} · Activación`,
       subtitulo: "Juego colectivo para proyectar en el aula",
       tipo: "activacion",
-      mecanica: datos.grado <= 2 ? "tienda" : datos.grado <= 4 ? "carrera" : "ecosistemas",
+      mecanica: mecanicaJuego,
       nivel: datos.grado <= 2 ? "N1" : datos.grado <= 4 ? "N2" : "N3",
       grados: [datos.grado],
       sesionId: nuevaSesionId,
       archivoSesion: datos.archivoNombre || "sesion-subida.pdf",
       estado: "publicado",
       versionActual: 1,
-      icono: datos.grado <= 2 ? "🛒" : datos.grado <= 4 ? "🏃🏽‍♂️" : "🌱",
+      icono: mecanicaJuego === "tienda" ? "🛒" : mecanicaJuego === "carrera" ? "🏃🏽‍♂️" : "🌱",
       color: "#f26a3d",
       duracionEstimadaMin: 10,
       consignaDocente: "Proyecta en el aula con la pantalla de proyección. Cada alumno se une con su tablet.",
