@@ -63,8 +63,6 @@ jobs:
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID || vars.CLOUDFLARE_ACCOUNT_ID }}
           workingDirectory: apps/api
           command: deploy
-        env:
-          MISTRAL_API_KEY: ${{ secrets.MISTRAL_API_KEY }}
 
   # -------------------------------------------------------------
   # 2. Despliegue del Frontend Web (Cloudflare Workers Static Assets)

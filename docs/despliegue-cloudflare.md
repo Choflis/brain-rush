@@ -43,8 +43,10 @@ Haz clic en **New repository secret**:
 |---|---|---|---|
 | `CLOUDFLARE_API_TOKEN` | **Sí** | Token de API con permisos para desplegar Workers, aplicar migraciones D1 y gestionar R2. | Panel de Cloudflare ➔ **My Profile** ➔ **API Tokens** (ver instrucciones abajo). |
 | `CLOUDFLARE_ACCOUNT_ID` | **Sí** | ID de tu cuenta de Cloudflare. | Panel de Cloudflare (columna lateral derecha de la página principal de Workers). |
-| `MISTRAL_API_KEY` | **Sí** | Llave de API del modelo Mistral para la extracción pedagógica y generación de juegos. | [console.mistral.ai](https://console.mistral.ai/) ➔ API Keys. |
 | `CLOUDFLARE_D1_DATABASE_ID` | *Opcional* | ID (UUID) de la base de datos D1. *(Si prefieres, puedes colocarlo directamente en `apps/api/wrangler.toml`)*. | Al ejecutar `npx wrangler d1 create brain-rush` o en la consola D1 de Cloudflare. |
+
+> [!NOTE]
+> `MISTRAL_API_KEY` **NO** se coloca en los secretos de GitHub. Es un secreto del backend que reside exclusivamente cifrado en la infraestructura de Cloudflare Workers (ver Paso 5 abajo). De este modo nunca se expone a GitHub ni corre riesgo de filtrarse al frontend.
 
 ### B. Repository Variables (Variables Públicas de Entorno)
 En la pestaña **Variables** (junto a Secrets), haz clic en **New repository variable**:
@@ -92,8 +94,25 @@ Copia el valor de `database_id` en el secreto de GitHub `CLOUDFLARE_D1_DATABASE_
 npx wrangler r2 bucket create brain-rush-files
 ```
 
+### Paso 5: Configurar el Secreto `MISTRAL_API_KEY` en el Worker
+La API Key de Mistral es un secreto exclusivo del Worker de backend (`brain-rush-api`). Una vez desplegado el worker por primera vez (o antes con Wrangler):
+
+**Opción A (Terminal con Wrangler):**
+```bash
+cd apps/api
+npx wrangler secret put MISTRAL_API_KEY
+# Escribe o pega tu llave cuando la consola te lo solicite
+```
+
+**Opción B (Dashboard de Cloudflare):**
+1. En el panel de Cloudflare, ve a **Workers & Pages** ➔ Selecciona `brain-rush-api`.
+2. Ve a la pestaña **Settings** ➔ **Variables and Secrets**.
+3. Haz clic en **Add** bajo *Secrets*, ingresa el nombre `MISTRAL_API_KEY`, pega tu llave y pulsa **Deploy**.
+
+Cloudflare almacena el secreto de forma cifrada en sus centros de datos y lo inyecta directamente en `c.env.MISTRAL_API_KEY` en tiempo de ejecución. Cloudflare preserva este secreto de manera permanente a través de todos los despliegues posteriores de GitHub Actions.
+
 > [!NOTE]
-> No necesitas crear previamente los Workers ni proyectos de Pages en la consola web: Wrangler crea automáticamente los Workers (`brain-rush-api` y `brain-rush-web`) en el primer despliegue ejecutado por GitHub Actions.
+> No necesitas crear previamente los Workers en la consola web: Wrangler crea automáticamente los Workers (`brain-rush-api` y `brain-rush-web`) en el primer despliegue ejecutado por GitHub Actions.
 
 ---
 
