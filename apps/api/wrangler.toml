@@ -1,0 +1,19 @@
+name = "aula-conecta-api"
+main = "src/index.ts"
+compatibility_date = "2026-11-01"
+
+# Base de datos relacional (ver docs/especificacion/03-arquitectura-tecnica.md, sección 4).
+[[d1_databases]]
+binding = "DB"
+database_name = "aula-conecta"
+database_id = "pendiente"
+migrations_dir = "migrations"
+
+# Almacenamiento de juegos, versiones, PDFs y escaneos.
+[[r2_buckets]]
+binding = "FILES"
+bucket_name = "aula-conecta-files"
+
+# Secretos (no versionar): MISTRAL_API_KEY. Usar `wrangler secret put MISTRAL_API_KEY`.
+[vars]
+ENVIRONMENT = "dev"
